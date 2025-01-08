@@ -1,18 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/07 15:24:37 by quannguy          #+#    #+#             */
-/*   Updated: 2025/01/08 11:46:34 by pbuchter         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -29,6 +19,7 @@ typedef enum e_token_types
 	RD_IN,
 	RD_APP,
 	RD_ININ,
+	SEP,
 	SQUOTE,
 	DQUOTE,
 	LPAREN,
@@ -41,19 +32,25 @@ typedef enum e_token_types
 typedef struct s_token_structure
 {
 	t_token_type	type;
-	char			*content;
-	t_token			*previous;
-	t_token			*next;
+	char			*content;	//malloc
+	t_token			*previous;	//malloc
+	t_token			*next;		//malloc
 }	t_token;
+
+typedef struct s_command	t_command;
 
 typedef struct s_command
 {
 	char		*name;
 	char		**arguments;
-	t_command	*next;
 	int			*redir_in;
 	int			*redir_out;
 	char		*redir_file;
+	t_command	*next;
 }	t_command;
 
+//token handle
+t_token	*create_token(char *content);
+void	append_token_list(t_token **head, t_token *new_token);
+int	sep_handle(char *str, int index, t_token **head);
 #endif
