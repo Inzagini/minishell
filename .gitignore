@@ -1,2 +1,5 @@
 *.out
+test_paul.c
+test_paul.o
+parser.o
 
