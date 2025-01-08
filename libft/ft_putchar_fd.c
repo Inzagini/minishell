@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:33:33 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/01/08 11:49:30 by pbuchter         ###   ########.fr       */
+/*   Created: 2024/11/07 15:03:27 by pbuchter          #+#    #+#             */
+/*   Updated: 2024/11/15 19:08:48 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+//write character to spefified file descriptor
+//(eg. standard output (1), standard error (2))
+#include "libft.h"
 
-t_command	*parser(t_token *)
+void	ft_putchar_fd(char c, int fd)
 {
-	t_command	cmds;
-
-
-
+	write(fd, &c, 1);
 }
-
-void	init_parser(t_command *cmds)
-{
-
-	
-}
+// int	main(void)
+// {
+// 	ft_putchar_fd('C', 2);
+// 	ft_putchar_fd('\n', 2);
+// 	return (0);
+// }

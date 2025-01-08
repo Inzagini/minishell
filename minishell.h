@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:24:37 by quannguy          #+#    #+#             */
-/*   Updated: 2025/01/08 11:39:17 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/01/08 11:46:34 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_token_structure
 	t_token			*next;
 }	t_token;
 
-
 typedef struct s_command
 {
 	char		*name;
@@ -56,6 +55,5 @@ typedef struct s_command
 	int			*redir_out;
 	char		*redir_file;
 }	t_command;
-
 
 #endif

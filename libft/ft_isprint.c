@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:33:33 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/01/08 11:49:30 by pbuchter         ###   ########.fr       */
+/*   Created: 2024/11/05 15:32:47 by pbuchter          #+#    #+#             */
+/*   Updated: 2024/11/15 19:08:16 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-t_command	*parser(t_token *)
+int	ft_isprint(int c)
 {
-	t_command	cmds;
-
-
-
+	if (c >= 32 && c <= 126)
+		return (1);
+	else
+		return (0);
 }
-
-void	init_parser(t_command *cmds)
-{
-
-	
-}
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("~ %d\n", ft_isprint('~'));
+// 	printf("127 %d\n", ft_isprint(127));
+// 	return (0);
+// }

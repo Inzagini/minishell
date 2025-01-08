@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:33:33 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/01/08 11:49:30 by pbuchter         ###   ########.fr       */
+/*   Created: 2024/11/05 15:24:19 by pbuchter          #+#    #+#             */
+/*   Updated: 2024/11/15 19:08:04 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-t_command	*parser(t_token *)
+int	ft_isalnum(int c)
 {
-	t_command	cmds;
-
-
-
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	else if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
 }
-
-void	init_parser(t_command *cmds)
-{
-
-	
-}
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("A: %d\n", ft_isalnum('A'));
+// 	printf("-: %d\n", ft_isalnum('-'));
+// }

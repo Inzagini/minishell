@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:33:33 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/01/08 11:49:30 by pbuchter         ###   ########.fr       */
+/*   Created: 2024/11/05 15:31:11 by pbuchter          #+#    #+#             */
+/*   Updated: 2024/11/15 19:08:10 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-t_command	*parser(t_token *)
+int	ft_isascii(int c)
 {
-	t_command	cmds;
-
-
-
+	if (c >= 0 && c <= 127)
+		return (1);
+	else
+		return (0);
 }
-
-void	init_parser(t_command *cmds)
-{
-
-	
-}
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("a: %d\n", ft_isascii('a'));
+// 	printf("128: %d\n", ft_isascii(128));
+// 	return (0);
+// }

@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:33:33 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/01/08 11:49:30 by pbuchter         ###   ########.fr       */
+/*   Created: 2024/11/05 15:36:13 by pbuchter          #+#    #+#             */
+/*   Updated: 2024/11/15 18:27:05 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+//returns length of string
+#include "libft.h"
 
-t_command	*parser(t_token *)
+size_t	ft_strlen(const char *s)
 {
-	t_command	cmds;
+	size_t	i;
 
-
-
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
-
-void	init_parser(t_command *cmds)
-{
-
-	
-}
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("%zu\n", ft_strlen("ABCDEF"));
+// 	return (0);
+// }

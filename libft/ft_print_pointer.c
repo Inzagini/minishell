@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_print_pointer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:33:33 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/01/08 11:49:30 by pbuchter         ###   ########.fr       */
+/*   Created: 2024/11/11 14:40:22 by pbuchter          #+#    #+#             */
+/*   Updated: 2024/12/01 11:27:20 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-t_command	*parser(t_token *)
+int	ft_print_pointer(va_list *ap)
 {
-	t_command	cmds;
+	void			*ptr;
+	unsigned long	address;
 
-
-
-}
-
-void	init_parser(t_command *cmds)
-{
-
-	
+	ptr = va_arg(*ap, void *);
+	if (!ptr)
+	{
+		if (write(1, "(nil)", 5) == (-1))
+			return (-1);
+		return (5);
+	}
+	address = (unsigned long)ptr;
+	if (write(1, "0x", 2) == -1)
+		return (-1);
+	else
+		return (ft_putnbr_base(address, "0123456789abcdef") + 2);
 }

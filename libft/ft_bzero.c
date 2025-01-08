@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:33:33 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/01/08 11:49:30 by pbuchter         ###   ########.fr       */
+/*   Created: 2024/11/05 15:43:15 by pbuchter          #+#    #+#             */
+/*   Updated: 2024/11/15 18:46:35 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+//zeros n bytes of specified pointer s
+#include "libft.h"
 
-t_command	*parser(t_token *)
+void	ft_bzero(void *s, size_t n)
 {
-	t_command	cmds;
+	size_t			i;
+	unsigned char	*ptr;
 
-
-
+	i = 0;
+	ptr = (unsigned char *) s;
+	while (i < n)
+	{
+		ptr[i] = '\0';
+		i++;
+	}
 }
-
-void	init_parser(t_command *cmds)
+/*
+#include <stdio.h>
+int	main(void)
 {
+	char str[4] = {'A','B','C','D'} ;
 
-	
+	bzero(str, 3);
+	printf("%s", str);
+	printf("%s", str + 3);
+	return (0);
 }
+*/

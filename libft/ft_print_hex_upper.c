@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_print_hex_upper.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:33:33 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/01/08 11:49:30 by pbuchter         ###   ########.fr       */
+/*   Created: 2024/11/11 14:38:17 by pbuchter          #+#    #+#             */
+/*   Updated: 2024/12/01 11:27:10 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-t_command	*parser(t_token *)
+int	ft_print_hex_upper(va_list *ap)
 {
-	t_command	cmds;
-
-
-
-}
-
-void	init_parser(t_command *cmds)
-{
-
-	
+	return (ft_putnbr_base(va_arg(*ap, unsigned int), "0123456789ABCDEF"));
 }
