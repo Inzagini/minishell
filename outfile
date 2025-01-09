@@ -1,6 +1,0 @@
-t_command	*parser(t_token *token_list)
-t_command	*cmdnew(t_parser *parser)
-	t_command	*new_cmd;
-	new_cmd = malloc (sizeof(t_command));
-void	cmdadd_back(t_command **list, t_command *new)
-	t_command	*temp;
