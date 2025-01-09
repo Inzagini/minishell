@@ -16,7 +16,7 @@ t_token	*tokenizer(char *input_str, t_token **head)
 	while (input_str[++(data.index)])
 	{
 		if (input_str[data.index] == ' ')
-			sep_handle(&data, head);
+			sep_handle(input_str, &data, head);
 		if (input_str[data.index] == '\'')
 			squote_handle(input_str, &data, head);
 		else if (input_str[data.index] == '"')
