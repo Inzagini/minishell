@@ -162,6 +162,7 @@ t_command	*cmdnew(t_parser *parser)
 	new_cmd->redir_out = parser->redir_out;
 	new_cmd->redir_file_in = parser->redir_file_in;
 	new_cmd->redir_file_out = parser->redir_file_out;
+	new_cmd->size = parser->size;
 	i = -1;
 	while (++i < 100)
 		new_cmd->quote_identifier[i] = parser->quote_identifier[i];
