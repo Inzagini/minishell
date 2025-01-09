@@ -7,6 +7,7 @@ typedef struct s_command   //malloc
 	int			id;
 	char		*name;
 	char		**arguments;  //malloc (name is element of argument array, so no need to free separately)
+	int			quote_identifier[100]; //malloc
 	int			redir_in;
 	int			redir_out;
 	char		*redir_file_in;  //malloc
@@ -24,8 +25,11 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 	int			id;
 	int			redir_in;
 	int			redir_out;
-	char		*redir_file_in;
-	char		*redir_file_out;
+	char		*redir_file_in;	// no need to free as handed over to command (unless it fails before handing over to command)
+	char		*redir_file_out; // no need to free as handed over to command (unless it fails before handing over to command)
+	int			double_quotes;
+	int			single_quotes;
+	int			quote_identifier[100];
 }	t_parser;
 
 // parser.c functions
@@ -33,7 +37,8 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 t_command	*parser(t_token *token_list);
 t_command	*cmdnew(t_parser *parser);
 void		cmdadd_back(t_command **list, t_command *new);
-char		**add_argument(char **args, int *size, const char *arg);
+char		**add_argument(t_parser *parser);
+int		handle_quotes(t_token *curr_token, t_parser *parser);
 void		initialize_parser(t_parser *parser);
 void		reset_parser(t_parser *parser);
 
