@@ -46,7 +46,8 @@ typedef struct s_command   //malloc
 	t_command	*next;
 	int			redir_in;
 	int			redir_out;
-	char		*redir_file;  //malloc
+	char		*redir_file_in;  //malloc
+	char		*redir_file_out; //malloc
 }	t_command;
 
 typedef struct s_parser		// no need to free (no dynamic allocation)
@@ -59,7 +60,8 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 	int			id;
 	int			redir_in;
 	int			redir_out;
-	char		*redir_file;
+	char		*redir_file_in;
+	char		*redir_file_out;
 }	t_parser;
 
 // parser.c functions

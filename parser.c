@@ -13,21 +13,27 @@ t_command	*parser(t_token *token_list)
 		if (parser.curr_token->type == RD_OUT || parser.curr_token->type == RD_IN
 			|| parser.curr_token->type == RD_APP || parser.curr_token->type == RD_ININ)
 		{
-			if (parser.curr_token->next && parser.curr_token->next->next)
-				parser.curr_token = parser.curr_token->next->next;
+			if (!parser.curr_token->next || !parser.curr_token->next->next || parser.curr_token->next->next->type != ARG)
+				return (printf("syntax error: expected a file after redirection\n"), NULL); //needs error handling (free allocated memory)
 			else
-				return (printf("syntax error: expected a file after redirection\n"), NULL); //needs error handling (free allocated memory)
-			if (parser.curr_token->type != ARG)
-				return (printf("syntax error: expected a file after redirection\n"), NULL); //needs error handling (free allocated memory)
-			parser.redir_file = ft_strdup(parser.curr_token->content); //needs error handling (free allocated memory)
+				parser.curr_token = parser.curr_token->next->next;
 			if (parser.curr_token->previous->previous->type == RD_OUT)
+			{
+				parser.redir_file_out = ft_strdup(parser.curr_token->content); //needs error handling (free allocated memory)
 				parser.redir_out = 1;  // Output redirection
+			}
 			else if (parser.curr_token->previous->previous->type == RD_IN)
+			{
 				parser.redir_in = 1;   // Input redirection
+				parser.redir_file_in = ft_strdup(parser.curr_token->content); //needs error handling (free allocated memory)
+			}
 			else if (parser.curr_token->previous->previous->type == RD_APP)
+			{
+				parser.redir_file_out = ft_strdup(parser.curr_token->content); //needs error handling (free allocated memory)
 				parser.redir_out = 2;  // Append redirection
+			}
 			else if (parser.curr_token->previous->previous->type == RD_ININ)
-				parser.redir_in = 2;   // Here-document redirection
+				parser.redir_in = 2;	// Here-document redirection
 		}
 		if (parser.curr_token->type == PIPE || parser.curr_token->type == NEW_LINE)
 		{
@@ -75,7 +81,8 @@ void	initialize_parser(t_parser *parser)
 	parser->size = 0;
 	parser->redir_in = 0;
 	parser->redir_out = 0;
-	parser->redir_file = NULL;
+	parser->redir_file_in = NULL;
+	parser->redir_file_out = NULL;
 }
 
 void	reset_parser(t_parser *parser)
@@ -85,7 +92,8 @@ void	reset_parser(t_parser *parser)
 	parser->size = 0;
 	parser->redir_in = 0;
 	parser->redir_out = 0;
-	parser->redir_file = NULL;
+	parser->redir_file_in = NULL;
+	parser->redir_file_out = NULL;
 }
 
 t_command	*cmdnew(t_parser *parser)
@@ -100,7 +108,8 @@ t_command	*cmdnew(t_parser *parser)
 	new_cmd->arguments = parser->args;
 	new_cmd->redir_in = parser->redir_in;
 	new_cmd->redir_out = parser->redir_out;
-	new_cmd->redir_file = parser->redir_file;
+	new_cmd->redir_file_in = parser->redir_file_in;
+	new_cmd->redir_file_out = parser->redir_file_out;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
