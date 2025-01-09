@@ -24,6 +24,7 @@ int	rd_out_handle(t_data *data, t_token **head)
 		return (1);
 	append_token_lst(head, new_token);
 	data->start = data->index;
+	data->rd_flag = 1;
 	return (0);
 }
 
@@ -37,6 +38,7 @@ int	rd_in_handle(t_data *data, t_token **head)
 		return (1);
 	append_token_lst(head, new_token);
 	data->start = data->index;
+	data->rd_flag = 1;
 	return (0);
 }
 int	rd_app_handle(t_data *data, t_token **head)
@@ -49,6 +51,7 @@ int	rd_app_handle(t_data *data, t_token **head)
 		return (1);
 	append_token_lst(head, new_token);
 	data->start = data->index;
+	data->rd_flag = 1;
 	return (0);
 }
 int	rd_inin_handle(t_data *data, t_token **head)
@@ -61,5 +64,6 @@ int	rd_inin_handle(t_data *data, t_token **head)
 		return (1);
 	append_token_lst(head, new_token);
 	data->start = data->index;
+	data->rd_flag = 1;
 	return (0);
 }

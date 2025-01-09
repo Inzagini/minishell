@@ -8,7 +8,6 @@ int	main(void)
 
 	head = NULL;
 	test = readline("Test prompt:");
-	printf("%s\n", test);
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 

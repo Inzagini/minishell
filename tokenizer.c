@@ -13,6 +13,7 @@ t_token	*tokenizer(char *input_str, t_token **head)
 	data.index = -1;
 	data.start = 0;
 	data.cmd_flag = 0;
+	data.rd_flag = 0;
 	while (input_str[++(data.index)])
 	{
 		if (input_str[data.index] == ' ')
@@ -27,12 +28,19 @@ t_token	*tokenizer(char *input_str, t_token **head)
 		{
 			if (input_str[data.index + 1] == '>')
 				rd_app_handle(&data, head);
-			else if (input_str[data.index + 1] == ' ')
+			else
 				rd_out_handle(&data, head);
+		}
+		else if (input_str[data.index] == '<')
+		{
+			if (input_str[data.index + 1] == '<')
+				rd_inin_handle(&data, head);
+			else
+				rd_in_handle(&data, head);
 		}
 		else if (input_str[data.index + 1] == ' ' || input_str[data.index + 1] == 0)
 		{
-			if (data.cmd_flag == 0)
+			if (data.cmd_flag == 0 && !data.rd_flag)
 				cmd_handle(input_str, &data, head);
 			else
 				arg_handle(input_str, &data, head);

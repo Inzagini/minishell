@@ -30,6 +30,7 @@ int	arg_handle(char *input_str, t_data *data, t_token **head)
 		return (free(str), 1);
 	append_token_lst(head, new_token);
 	data->start = data->index;
+	data->rd_flag = 0;
 	printf("[ARG]%s\n", str);
 	return (0);
 }

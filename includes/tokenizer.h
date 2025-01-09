@@ -35,6 +35,7 @@ typedef struct s_token_data
 	int	index;
 	int	start;
 	int	cmd_flag;
+	int	rd_flag;
 }	t_data;
 
 
@@ -48,9 +49,9 @@ int		squote_handle(char *str, t_data *data, t_token **head);
 int		dquote_handle(char *str, t_data *data, t_token **head);
 int		arg_handle(char *input_str, t_data *data, t_token **head);
 int		cmd_handle(char *input_str, t_data *data, t_token **head);
-int	rd_out_handle(t_data *data, t_token **head);
-int	rd_in_handle(t_data *data, t_token **head);
-int	rd_app_handle(t_data *data, t_token **head);
-int	rd_inin_handle(t_data *data, t_token **head);
+int		rd_out_handle(t_data *data, t_token **head);
+int		rd_in_handle(t_data *data, t_token **head);
+int		rd_app_handle(t_data *data, t_token **head);
+int		rd_inin_handle(t_data *data, t_token **head);
 
 #endif
