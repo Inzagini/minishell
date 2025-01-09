@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-INCLUDES = -I.
+INCLUDES = includes
 
 NAME = minishell
 LIBFT_DIR = libft
@@ -34,4 +34,4 @@ re: fclean all
 .PHONY: clean fclean re all
 
 test:
-	cc *.c -I. -Ilibft -Llibft -lft -lreadline && ./a.out
+	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline && ./a.out
