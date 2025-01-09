@@ -32,14 +32,11 @@ t_token	*tokenizer(char *input_str, t_token **head)
 		if (input_str[index] == ' ')
 		{
 			sep_handle(str, index, head);
-			while (input_str[index] == ' ')
-				index++;
 			start = index;
 		}
 		if (input_str[index] == '|')
 		{
-			printf("[PIPE]\n");
-			pipe_handle(str, index, head);
+			pipe_handle(str, &index, head);
 			start = index;
 			cmd_flag = 0;
 		}
