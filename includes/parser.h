@@ -12,6 +12,7 @@ typedef struct s_command   //malloc
 	int			redir_out;
 	char		*redir_file_in;  //malloc
 	char		*redir_file_out; //malloc
+	int			size;
 	t_command	*next;
 }	t_command;
 

@@ -5,7 +5,8 @@
 
 void print_command(t_command *cmd)
 {
-    if (!cmd)
+    int i;
+	if (!cmd)
         return;
     printf("Command ID: %d\n", cmd->id);
     printf("Command Name: %s\n", cmd->name);
@@ -18,6 +19,9 @@ void print_command(t_command *cmd)
 		printf("Redirection File: %s\n", cmd->redir_file_in);
 	if (cmd->redir_file_out)
 		printf("Redirection File: %s\n", cmd->redir_file_out);
+	i = -1;
+	while (++i < cmd->size)
+		printf("Quote identifier[%d]: %d\n", i, cmd->quote_identifier[i]);
     printf("---------------\n");
 }
 
