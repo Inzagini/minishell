@@ -1,11 +1,14 @@
 /*
 	to do
 		SQUOTE, DQUOTE
-		LPAREN, RPAREN
-		ENV_VAR
 		INVAL
 		HEREDOC
 		ERROR Handling (Malloc fails, input checks)
+
+		i track open and close single, double quotes (dquote open, squote open)
+		when i add i check of the next non-separator token
+
+
 */
 
 #include "minishell.h"
@@ -19,7 +22,7 @@ t_command	*parser(t_token *token_list)
 	while (parser.curr_token)
 	{
 		if (parser.curr_token->type == CMD || parser.curr_token->type == ARG)
-			parser.args = add_argument(parser.args, &parser.size, parser.curr_token->content); //needs error handling
+			parser.args = add_argument(&parser); //needs error handling
 		if (parser.curr_token->type == RD_OUT || parser.curr_token->type == RD_IN
 			|| parser.curr_token->type == RD_APP || parser.curr_token->type == RD_ININ)
 		{
@@ -51,6 +54,8 @@ t_command	*parser(t_token *token_list)
 			cmdadd_back(&parser.cmd_list, parser.new_cmd);
 			reset_parser(&parser);
 		}
+		if (parser.curr_token->type == SQUOTE || parser.curr_token->type == DQUOTE)
+			handle_quotes(parser.curr_token, &parser); // needs error handling
 		parser.curr_token = parser.curr_token->next;
 	}
 	if (parser.size > 0)
@@ -61,29 +66,53 @@ t_command	*parser(t_token *token_list)
 	return (parser.cmd_list);
 }
 
-char	**add_argument(char **args, int *size, const char *arg)
+int	handle_quotes(t_token *curr_token, t_parser *parser)
+{
+	if (curr_token->type == DQUOTE)
+	{
+		if (parser->double_quotes == 0)
+			parser->double_quotes = 1;
+		else
+		{
+			parser->quote_identifier[parser->size - 1] = 2;
+			parser->double_quotes = 0;
+		}
+	}
+	else if (curr_token->type == SQUOTE)
+	{
+		if (parser->single_quotes == 0)
+			parser->single_quotes = 1;
+		else
+		{
+			parser->quote_identifier[parser->size - 1] = 1;
+			parser->single_quotes = 0;
+		}
+	}
+	return (0);
+}
+
+char	**add_argument(t_parser *parser)
 {
 	char	**new_args;
 	int		i;
 
-	new_args = malloc(sizeof(char *) * (*size + 2));
+	new_args = malloc(sizeof(char *) * (parser->size + 2));
 	if (!new_args)
 		return (NULL);
-	i = 0;
-	while (i < *size)
-	{
-		new_args[i] = args[i];
-		i++;
-	}
-	new_args[i] = ft_strdup(arg);
+	i = -1;
+	while (++i < parser->size)
+		new_args[i] = parser->args[i];
+	new_args[i] = ft_strdup(parser->curr_token->content);
 	new_args[i + 1] = NULL;
-	free(args);
-	(*size)++;
+	free(parser->args);
+	(parser->size)++;
 	return (new_args);
 }
 
 void	initialize_parser(t_parser *parser)
 {
+	int	i;
+
 	parser->curr_token = NULL;
 	parser->cmd_list = NULL;
 	parser->args = NULL;
@@ -93,10 +122,17 @@ void	initialize_parser(t_parser *parser)
 	parser->redir_out = 0;
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
+	parser->single_quotes = 0;
+	parser->double_quotes = 0;
+	i = -1;
+	while (++i < 100)
+		parser->quote_identifier[i] = 0;
 }
 
 void	reset_parser(t_parser *parser)
 {
+	int	i;
+
 	parser->id++;
 	parser->args = NULL;
 	parser->size = 0;
@@ -104,11 +140,17 @@ void	reset_parser(t_parser *parser)
 	parser->redir_out = 0;
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
+	parser->single_quotes = 0;
+	parser->double_quotes = 0;
+	i = -1;
+	while (++i < 100)
+		parser->quote_identifier[i] = 0;
 }
 
 t_command	*cmdnew(t_parser *parser)
 {
 	t_command	*new_cmd;
+	int			i;
 
 	new_cmd = malloc (sizeof(t_command));
 	if (!new_cmd)
@@ -120,6 +162,9 @@ t_command	*cmdnew(t_parser *parser)
 	new_cmd->redir_out = parser->redir_out;
 	new_cmd->redir_file_in = parser->redir_file_in;
 	new_cmd->redir_file_out = parser->redir_file_out;
+	i = -1;
+	while (++i < 100)
+		new_cmd->quote_identifier[i] = parser->quote_identifier[i];
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
