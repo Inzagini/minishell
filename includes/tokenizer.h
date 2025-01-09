@@ -36,6 +36,7 @@ t_token	*create_token(char *content, t_token_type token_type);
 void	append_token_lst(t_token **head, t_token *new_token);
 int		sep_handle(char *str, int *index, t_token **head);
 int		pipe_handle(char *str, int *index, t_token **head);
-int		squote_handle(char *str, int index, t_token **head);
-
+int		squote_handle(char *str, int *index, t_token **head);
+int	arg_handle(char *input_str, int start, int index, t_token **head);
+int	cmd_handle(char *input_str, int start, int index, t_token **head);
 #endif

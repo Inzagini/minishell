@@ -4,6 +4,7 @@ t_token	*tokenizer(char *input_str, t_token **head);
 int	meta_char(char *str, int *index, t_token **head);
 void	print_lst(t_token *lst);
 
+
 t_token	*tokenizer(char *input_str, t_token **head)
 {
 	int	index;
@@ -19,54 +20,26 @@ t_token	*tokenizer(char *input_str, t_token **head)
 	{
 		if (input_str[index] == ' ')
 		{
-			sep_handle(str, index, head);
-			while (input_str[index] == ' ')
-				index++;
+			sep_handle(str, &index, head);
 			start = index;
 		}
-		if (input_str[index] == '|')
+		if (input_str[index] == '\'')
 		{
-			printf("[PIPE]\n");
-			pipe_handle(str, index, head);
+			squote_handle(input_str, &index, head);
+			start = index;
+		}
+		else if (input_str[index] == '|')
+		{
+			pipe_handle(str, &index, head);
 			start = index;
 			cmd_flag = 0;
 		}
-		if (input_str[index] == 39)
-		{
-			// squote_handle(str, index, head);
-			printf("[SQUOTES]\n");
-			token = create_token(NULL, SQUOTE);
-			append_token_lst(head, token);
-			start = ++index;
-			while (input_str[index] && input_str[index] != 39)
-				index++;
-			str = ft_substr(input_str, start, index - start);
-			token = create_token(NULL, ARG);
-			append_token_lst(head, token);
-			printf("[ARG]%s\n", str);
-			if (input_str[index] == 39)
-			{
-				printf("[SQUOTES]\n");
-				token = create_token(NULL, SQUOTE);
-				append_token_lst(head, token);
-			}
-			start = index;
-		}
 		else if (input_str[index + 1] == ' ' || input_str[index + 1] == 0)
 		{
-			str = ft_substr(input_str, start, index + 1 - start);
 			if (cmd_flag == 0)
-			{
-				printf("[CMD]%s\n", str);
-				token = create_token(str, CMD);
-				append_token_lst(head, token);
-			}
+				cmd_handle(input_str, start, index, head);
 			else
-			{
-				printf("[ARG]%s\n", str);
-				token = create_token(str, ARG);
-				append_token_lst(head, token);
-			}
+				arg_handle(input_str, start, index, head);
 			start = index;
 			cmd_flag = 1;
 		}
@@ -74,18 +47,18 @@ t_token	*tokenizer(char *input_str, t_token **head)
 	return (NULL);
 }
 
-int	meta_char(char *str, int *index, t_token **head)
-{
-	if (str[(*index)] == ' ')
-		sep_handle(str, (*index), head);
-	// else if (str[(*index)] == '|')
-	// 	pipe_handle(str, (*index), head);
-	// else if (str[(*index)] == 39)
-	// 	squote_handle(str, (*index), head);
-	else
-		return (1);
-	return (0);
-}
+// int	meta_char(char *str, int *index, t_token **head)
+// {
+// 	if (str[(*index)] == ' ')
+// 		sep_handle(str, index, head);
+// 	if (str[(*index)] == '|')
+// 		pipe_handle(str, index, head);
+// 	else if (str[(*index)] == '\'')
+// 		squote_handle(str, index, head);
+// 	else
+// 		return (1);
+// 	return (0);
+// }
 
 t_token	*create_token(char *content, t_token_type token_type)
 {
