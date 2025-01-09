@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	sep_handle(char *str, int *index, t_token **head)
+int	sep_handle(char *str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
@@ -9,24 +9,52 @@ int	sep_handle(char *str, int *index, t_token **head)
 	if (!new_token)
 		return (1);
 	append_token_lst(head, new_token);
-	while (str[(*index)] == ' ')
-		(*index)++;
+	while (str[(data->index)] == ' ')
+		(data->index)++;
+	data->start = data->index;
 	return (0);
 }
 
-int	pipe_handle(char *str, int *index, t_token **head)
+int	arg_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
+	char	*str;
 
-	printf("[PIPE]\n");
-	new_token = create_token(NULL, PIPE);
-	if (!new_token)
+	if (input_str[data->start] == ' ')
+		(data->start)++;
+	str = ft_substr(input_str, data->start, data->index + 1 - data->start);
+	if (!str)
 		return (1);
+	new_token = create_token(str, ARG);
+	if (!new_token)
+		return (free(str), 1);
 	append_token_lst(head, new_token);
+	data->start = data->index;
+	printf("[ARG]%s\n", str);
 	return (0);
 }
 
-int	squote_handle(char *str, int *index, t_token **head)
+int	cmd_handle(char *input_str, t_data *data, t_token **head)
+{
+	t_token	*new_token;
+	char	*str;
+
+	if (input_str[data->start] == ' ')
+		(data->start)++;
+	str = ft_substr(input_str, data->start, data->index + 1 - data->start);
+	if (!str)
+		return (1);
+	new_token = create_token(str, CMD);
+	if (!new_token)
+		return (free(str), 1);
+	append_token_lst(head, new_token);
+	data->start = data->index;
+	data->cmd_flag = 1;
+	printf("[CMD]%s\n", str);
+	return (0);
+}
+
+int	squote_handle(char *str, t_data *data, t_token **head)
 {
 	t_token	*token;
 	int		start;
@@ -35,50 +63,45 @@ int	squote_handle(char *str, int *index, t_token **head)
 	printf("[SQUOTES]\n");
 	token = create_token(NULL, SQUOTE);
 	append_token_lst(head, token);
-	start = ++(*index);
-	while (str[(*index)] && str[(*index)] != '\'')
-		(*index)++;
-	sub_str = ft_substr(str, start, (*index) - start);
+	start = ++(data->index);
+	while (str[data->index] && str[data->index] != '\'')
+		(data->index)++;
+	sub_str = ft_substr(str, start, data->index - start);
 	token = create_token(sub_str, ARG);
 	append_token_lst(head, token);
 	printf("[ARG]%s\n", sub_str);
-	if (str[(*index)] == '\'')
+	if (str[data->index] == '\'')
 	{
 		printf("[SQUOTES]\n");
 		token = create_token(NULL, SQUOTE);
 		append_token_lst(head, token);
 	}
+	data->start = data->index;
 	return (0);
 }
 
-int	arg_handle(char *input_str, int start, int index, t_token **head)
+int	dquote_handle(char *str, t_data *data, t_token **head)
 {
-	t_token	*new_token;
-	char	*str;
+	t_token	*token;
+	int		start;
+	char	*sub_str;
 
-	str = ft_substr(input_str, start, index + 1 - start);
-	if (!str)
-		return (1);
-	printf("[ARG]%s\n", str);
-	new_token = create_token(str, ARG);
-	if (!new_token)
-		return (free(str), 1);
-	append_token_lst(head, new_token);
-	return (0);
-}
-
-int	cmd_handle(char *input_str, int start, int index, t_token **head)
-{
-	t_token	*new_token;
-	char	*str;
-
-	str = ft_substr(input_str, start, index + 1 - start);
-	if (!str)
-		return (1);
-	printf("[CMD]%s\n", str);
-	new_token = create_token(str, CMD);
-	if (!new_token)
-		return (free(str), 1);
-	append_token_lst(head, new_token);
+	printf("[DQUOTES]\n");
+	token = create_token(NULL, DQUOTE);
+	append_token_lst(head, token);
+	start = ++(data->index);
+	while (str[data->index] && str[data->index] != '"')
+		(data->index)++;
+	sub_str = ft_substr(str, start, data->index - start);
+	token = create_token(sub_str, ARG);
+	append_token_lst(head, token);
+	printf("[ARG]%s\n", sub_str);
+	if (str[data->index] == '"')
+	{
+		printf("[DQUOTES]\n");
+		token = create_token(NULL, DQUOTE);
+		append_token_lst(head, token);
+	}
+	data->start = data->index;
 	return (0);
 }

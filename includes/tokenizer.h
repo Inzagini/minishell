@@ -30,13 +30,22 @@ typedef struct s_token_structure
 	t_token			*next;		//malloc
 }	t_token;
 
+typedef struct s_token_data
+{
+	int	index;
+	int	start;
+	int	cmd_flag;
+}	t_data;
+
+
 //token handle
 t_token	*tokenizer(char *input_str, t_token **head);
 t_token	*create_token(char *content, t_token_type token_type);
 void	append_token_lst(t_token **head, t_token *new_token);
-int		sep_handle(char *str, int *index, t_token **head);
-int		pipe_handle(char *str, int *index, t_token **head);
-int		squote_handle(char *str, int *index, t_token **head);
-int	arg_handle(char *input_str, int start, int index, t_token **head);
-int	cmd_handle(char *input_str, int start, int index, t_token **head);
+int		sep_handle(t_data *data, t_token **head);
+int		pipe_handle(t_data *data, t_token **head);
+int		squote_handle(char *str, t_data *data, t_token **head);
+int		dquote_handle(char *str, t_data *data, t_token **head);
+int		arg_handle(char *input_str, t_data *data, t_token **head);
+int		cmd_handle(char *input_str, t_data *data, t_token **head);
 #endif

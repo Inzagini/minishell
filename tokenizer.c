@@ -7,41 +7,28 @@ void	print_lst(t_token *lst);
 
 t_token	*tokenizer(char *input_str, t_token **head)
 {
-	int	index;
-	int	start;
-	int	cmd_flag;
-	char	*str;
+	t_data	data;
 	t_token	*token;
 
-	index = -1;
-	start = 0;
-	cmd_flag = 0;
-	while (input_str[++index])
+	data.index = -1;
+	data.start = 0;
+	data.cmd_flag = 0;
+	while (input_str[++(data.index)])
 	{
-		if (input_str[index] == ' ')
+		if (input_str[data.index] == ' ')
+			sep_handle(&data, head);
+		if (input_str[data.index] == '\'')
+			squote_handle(input_str, &data, head);
+		else if (input_str[data.index] == '"')
+			dquote_handle(input_str, &data, head);
+		else if (input_str[data.index] == '|')
+			pipe_handle( &data, head);
+		else if (input_str[data.index + 1] == ' ' || input_str[data.index + 1] == 0)
 		{
-			sep_handle(str, &index, head);
-			start = index;
-		}
-		if (input_str[index] == '\'')
-		{
-			squote_handle(input_str, &index, head);
-			start = index;
-		}
-		else if (input_str[index] == '|')
-		{
-			pipe_handle(str, &index, head);
-			start = index;
-			cmd_flag = 0;
-		}
-		else if (input_str[index + 1] == ' ' || input_str[index + 1] == 0)
-		{
-			if (cmd_flag == 0)
-				cmd_handle(input_str, start, index, head);
+			if (data.cmd_flag == 0)
+				cmd_handle(input_str, &data, head);
 			else
-				arg_handle(input_str, start, index, head);
-			start = index;
-			cmd_flag = 1;
+				arg_handle(input_str, &data, head);
 		}
 	}
 	return (NULL);
