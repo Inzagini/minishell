@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	sep_handle(char *str, int index, t_token **head)
+int	sep_handle(char *str, int *index, t_token **head)
 {
 	t_token	*new_token;
 
@@ -9,10 +9,12 @@ int	sep_handle(char *str, int index, t_token **head)
 	if (!new_token)
 		return (1);
 	append_token_lst(head, new_token);
+	while (str[(*index)] == ' ')
+		(*index)++;
 	return (0);
 }
 
-int	pipe_handle(char *str, int index, t_token **head)
+int	pipe_handle(char *str, int *index, t_token **head)
 {
 	t_token	*new_token;
 
