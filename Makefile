@@ -33,5 +33,5 @@ re: fclean all
 
 .PHONY: clean fclean re all
 
-test:
+test: $(LIBFT)
 	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline && ./a.out
