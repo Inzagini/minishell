@@ -19,6 +19,7 @@ int	pipe_handle(char *str, int *index, t_token **head)
 	t_token	*new_token;
 
 	printf("[PIPE]\n");
+	(*index)++;
 	new_token = create_token(NULL, PIPE);
 	if (!new_token)
 		return (1);
@@ -56,3 +57,4 @@ int	squote_handle(char *str, int index, t_token **head)
 	start = index;
 	return (0);
 }
+

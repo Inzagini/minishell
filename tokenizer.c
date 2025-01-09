@@ -4,18 +4,6 @@ t_token	*tokenizer(char *input_str, t_token **head);
 int	meta_char(char *str, int *index, t_token **head);
 void	print_lst(t_token *lst);
 
-int	main(void)
-{
-	char	*test;
-	t_token	*head;
-
-	head = NULL;
-	test = readline("Test prompt:");
-	printf("%s\n", test);
-	tokenizer(test, &head);
-	// print_lst(head);
-}
-
 t_token	*tokenizer(char *input_str, t_token **head)
 {
 	int	index;
