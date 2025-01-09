@@ -1,15 +1,5 @@
+#include "minishell.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include "libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "tokenizer.h"
-
-//define type of the tokens
 typedef struct s_command	t_command;
 
 typedef struct s_command   //malloc
@@ -47,4 +37,7 @@ char		**add_argument(char **args, int *size, const char *arg);
 void		initialize_parser(t_parser *parser);
 void		reset_parser(t_parser *parser);
 
-#endif
+// test functions only. delete later
+void print_command(t_command *cmd);
+void free_tokens(t_token *token_list);
+void free_commands(t_command *cmd_list);

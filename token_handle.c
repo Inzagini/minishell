@@ -9,7 +9,7 @@ int	sep_handle(char *str, int *index, t_token **head)
 	if (!new_token)
 		return (1);
 	append_token_lst(head, new_token);
-	while (input_str[(*index)] == ' ')
+	while (str[(*index)] == ' ')
 		(*index)++;
 	return (0);
 }

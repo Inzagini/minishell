@@ -6,7 +6,7 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS =	parser.c
+SRCS =	parser.c tokenizer.c token_handle.c test_paul.c main.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -19,7 +19,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) -I. -Ilibft -L$(LIBFT_DIR) -lft -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -Ilibft -c $< -o $@
+		$(CC) $(CFLAGS) -I$(INCLUDES) -Ilibft -c $< -o $@
 
 clean:
 	$(MAKE) clean -C $(LIBFT_DIR)
