@@ -1,3 +1,13 @@
+/*
+	to do
+		SQUOTE, DQUOTE
+		LPAREN, RPAREN
+		ENV_VAR
+		INVAL
+		HEREDOC
+		ERROR Handling (Malloc fails, input checks)
+*/
+
 #include "minishell.h"
 
 t_command	*parser(t_token *token_list)
