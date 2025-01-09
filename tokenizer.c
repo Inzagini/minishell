@@ -23,6 +23,13 @@ t_token	*tokenizer(char *input_str, t_token **head)
 			dquote_handle(input_str, &data, head);
 		else if (input_str[data.index] == '|')
 			pipe_handle( &data, head);
+		else if (input_str[data.index] == '>')
+		{
+			if (input_str[data.index + 1] == '>')
+				rd_app_handle(&data, head);
+			else if (input_str[data.index + 1] == ' ')
+				rd_out_handle(&data, head);
+		}
 		else if (input_str[data.index + 1] == ' ' || input_str[data.index + 1] == 0)
 		{
 			if (data.cmd_flag == 0)
