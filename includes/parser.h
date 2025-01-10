@@ -36,11 +36,12 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 // parser.c functions
 
 t_command	*parser(t_token *token_list);
-t_command	*cmdnew(t_parser *parser);
+int			cmdnew(t_parser *parser);
 void		cmdadd_back(t_command **list, t_command *new);
 char		**add_argument(t_parser *parser);
-int		handle_quotes(t_token *curr_token, t_parser *parser);
-void		initialize_parser(t_parser *parser);
+int			handle_redirects(t_parser *parser);
+int			handle_quotes(t_token *curr_token, t_parser *parser);
+void		initialize_parser(t_parser *parser, t_token *token_list);
 void		reset_parser(t_parser *parser);
 
 // test functions only. delete later
