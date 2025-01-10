@@ -36,8 +36,10 @@ re: fclean all
 .PHONY: clean fclean re all
 
 test: $(LIBFT)
+	clear
 	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g && ./a.out ${TEST_PROMPT}
 
 leak: $(LIBFT)
+	clear
 	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g
 	valgrind --leak-check=full ./a.out ${TEST_PROMPT}
