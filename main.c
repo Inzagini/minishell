@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	char	*test;
-	t_token	*head;
-	t_command *cmd_list;
+	char		*test;
+	t_token		*head;
+	// t_command	*cmd_list;
 
 	head = NULL;
 //	test = readline("Test prompt:");

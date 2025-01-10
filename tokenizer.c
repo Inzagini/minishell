@@ -1,43 +1,20 @@
 #include "minishell.h"
 
-t_token	*tokenizer(char *input_str, t_token **head);
-int	meta_char(char *str, int *index, t_token **head);
-void	print_lst(t_token *lst);
+int	meta_char(char *str, t_data *data, t_token **head);
 
-
-t_token	*tokenizer(char *input_str, t_token **head)
+int	tokenizer(char *input_str, t_token **head)
 {
 	t_data	data;
-	t_token	*token;
 
 	data.index = -1;
 	data.start = 0;
 	data.cmd_flag = 0;
 	data.rd_flag = 0;
+	data.exit_flag = 0;
 	while (input_str[++(data.index)])
 	{
-		if (input_str[data.index] == ' ')
-			sep_handle(input_str, &data, head);
-		if (input_str[data.index] == '\'')
-			squote_handle(input_str, &data, head);
-		else if (input_str[data.index] == '"')
-			dquote_handle(input_str, &data, head);
-		else if (input_str[data.index] == '|')
-			pipe_handle( &data, head);
-		else if (input_str[data.index] == '>')
-		{
-			if (input_str[data.index + 1] == '>')
-				rd_app_handle(&data, head);
-			else
-				rd_out_handle(&data, head);
-		}
-		else if (input_str[data.index] == '<')
-		{
-			if (input_str[data.index + 1] == '<')
-				rd_inin_handle(&data, head);
-			else
-				rd_in_handle(&data, head);
-		}
+		if (!meta_char(input_str, &data, head))
+			continue ;
 		else if (input_str[data.index + 1] == ' ' || input_str[data.index + 1] == 0)
 		{
 			if (data.cmd_flag == 0 && !data.rd_flag)
@@ -45,22 +22,31 @@ t_token	*tokenizer(char *input_str, t_token **head)
 			else
 				arg_handle(input_str, &data, head);
 		}
+		if (data.exit_flag)
+			return (1);
 	}
-	return (NULL);
+	return (0);
 }
 
-// int	meta_char(char *str, int *index, t_token **head)
-// {
-// 	if (str[(*index)] == ' ')
-// 		sep_handle(str, index, head);
-// 	if (str[(*index)] == '|')
-// 		pipe_handle(str, index, head);
-// 	else if (str[(*index)] == '\'')
-// 		squote_handle(str, index, head);
-// 	else
-// 		return (1);
-// 	return (0);
-// }
+int	meta_char(char *input_str, t_data *data, t_token **head)
+{
+	if (input_str[data->index] == ' ')
+		sep_handle(input_str, data, head);
+	if (input_str[data->index] == '|')
+		pipe_handle(input_str, data, head);
+	else if (input_str[data->index] == '\'')
+		squote_handle(input_str, data, head);
+	else if (input_str[data->index] == '"')
+		dquote_handle(input_str, data, head);
+	else if (input_str[data->index] == '\n')
+		new_line_handle(data, head);
+	else if (input_str[data->index] == '>'
+		|| input_str[data->index] == '<')
+		rd_handle(input_str, data, head);
+	else
+		return (1);
+	return (0);
+}
 
 t_token	*create_token(char *content, t_token_type token_type)
 {
@@ -94,16 +80,3 @@ void	append_token_lst(t_token **head, t_token *new_token)
 	new_token->previous = tmp;
 }
 
-void	print_lst(t_token *lst)
-{
-	if (!lst)
-	{
-		printf("empty list\n");
-		return ;
-	}
-	while (lst)
-	{
-		printf("token type: %d\tcontent %s\n", lst->type, lst->content);
-		lst = lst->next;
-	}
-}

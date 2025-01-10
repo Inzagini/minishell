@@ -36,22 +36,30 @@ typedef struct s_token_data
 	int	start;
 	int	cmd_flag;
 	int	rd_flag;
+	int	exit_flag;
 }	t_data;
 
 
 //token handle
-t_token	*tokenizer(char *input_str, t_token **head);
+int	tokenizer(char *input_str, t_token **head);
+
 t_token	*create_token(char *content, t_token_type token_type);
 void	append_token_lst(t_token **head, t_token *new_token);
-int		sep_handle(char *str, t_data *data, t_token **head);
-int		pipe_handle(t_data *data, t_token **head);
-int		squote_handle(char *str, t_data *data, t_token **head);
-int		dquote_handle(char *str, t_data *data, t_token **head);
-int		arg_handle(char *input_str, t_data *data, t_token **head);
+
 int		cmd_handle(char *input_str, t_data *data, t_token **head);
+int		arg_handle(char *input_str, t_data *data, t_token **head);
+int		sep_handle(char *input_str, t_data *data, t_token **head);
+int		pipe_handle(char *input_str, t_data *data, t_token **head);
+
+int		rd_handle(char *input_str, t_data *data, t_token **head);
 int		rd_out_handle(t_data *data, t_token **head);
 int		rd_in_handle(t_data *data, t_token **head);
 int		rd_app_handle(t_data *data, t_token **head);
 int		rd_inin_handle(t_data *data, t_token **head);
 
+int		squote_handle(char *input_str, t_data *data, t_token **head);
+int		dquote_handle(char *input_str, t_data *data, t_token **head);
+int		new_line_handle (t_data *data, t_token **head);
+
+void	token_cleaner(t_token *head);
 #endif
