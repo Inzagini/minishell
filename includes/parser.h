@@ -20,7 +20,7 @@ typedef struct s_command   //malloc
 typedef struct s_parser		// no need to free (no dynamic allocation)
 {
 	t_command	*cmd_list;
-	t_token		*curr_token;
+	t_token		*token;
 	t_command	*new_cmd;
 	char		**args;		// no need to free as handed over to command (unless it fails before handing over to command)
 	int			size;
@@ -39,10 +39,13 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 
 t_command	*parser(t_token *token_list);
 int			cmdnew(t_parser *parser);
-void		cmdadd_back(t_command **list, t_command *new);
+void		cmdadd(t_command **list, t_command *new);
 char		**add_argument(t_parser *parser);
 int			handle_redirects(t_parser *parser);
-int			set_redirects(t_parser *parser, t_token_type type);
+int			set_redirects_single(t_parser *parser, t_token_type type);
+int			set_redirects_double(t_parser *parser, t_token_type type);
+
+
 void		handle_quotes(t_token *curr_token, t_parser *parser);
 void		initialize_parser(t_parser *parser, t_token *token_list);
 void		reset_parser(t_parser *parser);
