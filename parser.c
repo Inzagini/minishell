@@ -21,9 +21,7 @@ t_command	*parser(t_token *token_list)
 			if (!parser.args)
 				return (NULL);
 		}
-		if (parser.curr_token->type == RD_OUT || parser.curr_token->type == RD_IN
-			|| parser.curr_token->type == RD_APP || parser.curr_token->type == RD_ININ)
-			if (handle_redirects(&parser) == 1)
+		if (handle_redirects(&parser) == 1)
 				return (NULL);
 		if (parser.curr_token->type == PIPE || parser.curr_token->type == NEW_LINE)
 		{
@@ -43,34 +41,48 @@ t_command	*parser(t_token *token_list)
 
 int	handle_redirects(t_parser *parser)
 {
-	if (!parser->curr_token->next || !parser->curr_token->next->next
-			|| parser->curr_token->next->next->type != ARG)
-		return (printf("syntax error: expected a file after redirection\n"), clean_parser(parser), 1);
-	else
-		parser->curr_token = parser->curr_token->next->next;
-	if (parser->curr_token->previous->previous->type == RD_OUT)
+	t_token_type	type;
+
+	type = parser->curr_token->type;
+	if (type == RD_OUT || type == RD_IN || type == RD_APP || type == RD_ININ)
+	{
+		if (parser->curr_token->next && parser->curr_token->next->type == SEP)
+			parser->curr_token = parser->curr_token->next;
+		if (parser->curr_token->next && parser->curr_token->next->type == ARG)
+			parser->curr_token = parser->curr_token->next;
+		else
+			return (printf("syntax error: expected a file after redirection\n"), clean_parser(parser), 1);
+		if (set_redirects(parser, type) == 1)
+			return (1);
+	}
+	return (0);
+}
+
+int	set_redirects(t_parser *parser, t_token_type type)
+{
+	if (type == RD_OUT)
 	{
 		parser->redir_file_out = ft_strdup(parser->curr_token->content);
 		if (!parser->redir_file_out)
 			return (clean_parser(parser), 1);
-		parser->redir_out = 1;  // Output redirection
+		parser->redir_out = 1;
 	}
-	else if (parser->curr_token->previous->previous->type == RD_IN)
+	else if (type == RD_IN)
 	{
 		parser->redir_file_in = ft_strdup(parser->curr_token->content);
 		if (!parser->redir_file_in)
 			return (clean_parser(parser), 1);
-		parser->redir_in = 1;   // Input redirection
+		parser->redir_in = 1;
 	}
-	else if (parser->curr_token->previous->previous->type == RD_APP)
+	else if (type == RD_APP)
 	{
 		parser->redir_file_out = ft_strdup(parser->curr_token->content);
 		if (!parser->redir_file_out)
 			return (clean_parser(parser), 1);
-		parser->redir_out = 2;  // Append redirection
+		parser->redir_out = 2;
 	}
-	else if (parser->curr_token->previous->previous->type == RD_ININ)
-		parser->redir_in = 2;	// Here-document redirection
+	else if (type == RD_ININ)
+		parser->redir_in = 2;
 	return (0);
 }
 

@@ -36,24 +36,3 @@ void free_tokens(t_token *token_list)
         free(temp);
     }
 }
-
-void free_commands(t_command *cmd_list)
-{
-    t_command *temp;
-    while (cmd_list)
-    {
-        temp = cmd_list;
-        cmd_list = cmd_list->next;
-        if (temp->arguments)
-        {
-            for (int i = 0; temp->arguments[i]; i++)
-                free(temp->arguments[i]);
-            free(temp->arguments);
-        }
-        if (temp->redir_file_in)
-            free(temp->redir_file_in);
-		if (temp->redir_file_out)
-            free(temp->redir_file_out);
-        free(temp);
-    }
-}
