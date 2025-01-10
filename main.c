@@ -4,7 +4,7 @@ int	main(int argc, char **argv)
 {
 	char		*test;
 	t_token		*head;
-	// t_command	*cmd_list;
+	t_command	*cmd_list;
 
 	head = NULL;
 //	test = readline("Test prompt:");
@@ -25,6 +25,6 @@ int	main(int argc, char **argv)
     }
     // Free memory
     clean_commands(cmd_list);
-	free_tokens(head);
+	token_cleaner(head);
     return 0;
 }
