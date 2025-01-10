@@ -44,7 +44,7 @@ int	handle_redirects(t_parser *parser)
 	t_token_type	type;
 
 	type = parser->curr_token->type;
-	if (type == RD_OUT || type == RD_IN || type == RD_APP || type == RD_ININ)
+	if (type == RD_OUT || type == RD_IN || type == RD_APP || type == RD_HEREDOC)
 	{
 		if (parser->curr_token->next && parser->curr_token->next->type == SEP)
 			parser->curr_token = parser->curr_token->next;
@@ -82,7 +82,7 @@ int	set_redirects(t_parser *parser, t_token_type type)
 			return (clean_parser(parser), 1);
 		parser->redir_out = 2;
 	}
-	else if (type == RD_ININ)
+	else if (type == RD_HEREDOC)
 	{
 		parser->heredoc_separator = ft_strdup(parser->curr_token->content);
 		if (!parser->heredoc_separator)
