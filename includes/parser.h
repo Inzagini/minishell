@@ -7,7 +7,7 @@ typedef struct s_command   //malloc
 	int			id;
 	char		*name;
 	char		**arguments;  //malloc (name is element of argument array, so no need to free separately)
-	int			quote_identifier[100]; //malloc
+	int			quote_identifier[100];
 	int			redir_in;
 	int			redir_out;
 	char		*redir_file_in;  //malloc
@@ -44,7 +44,12 @@ int			handle_quotes(t_token *curr_token, t_parser *parser);
 void		initialize_parser(t_parser *parser, t_token *token_list);
 void		reset_parser(t_parser *parser);
 
+// parser_cleaning.c functions
+
+void		clean_parser(t_parser *parser);
+void		clean_commands(t_command *cmd_list);
+void		clean_cmd_list(t_command **cmd_list);
+
 // test functions only. delete later
 void print_command(t_command *cmd);
 void free_tokens(t_token *token_list);
-void free_commands(t_command *cmd_list);

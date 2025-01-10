@@ -158,10 +158,13 @@ int	cmdnew(t_parser *parser)
 	new_cmd->id = parser->id;
 	new_cmd->name = parser->args[0];
 	new_cmd->arguments = parser->args;
+	parser->args = NULL;
 	new_cmd->redir_in = parser->redir_in;
 	new_cmd->redir_out = parser->redir_out;
 	new_cmd->redir_file_in = parser->redir_file_in;
+	parser->redir_file_in = NULL;
 	new_cmd->redir_file_out = parser->redir_file_out;
+	parser->redir_file_out = NULL;
 	new_cmd->size = parser->size;
 	i = -1;
 	while (++i < 100)

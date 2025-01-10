@@ -19,7 +19,7 @@ int	main(void)
         temp = temp->next;
     }
     // Free memory
-    free_commands(cmd_list);
+    clean_commands(cmd_list);
 	free_tokens(head);
     return 0;
 }
