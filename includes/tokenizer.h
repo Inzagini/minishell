@@ -52,10 +52,10 @@ int		sep_handle(char *input_str, t_data *data, t_token **head);
 int		pipe_handle(char *input_str, t_data *data, t_token **head);
 
 int		rd_handle(char *input_str, t_data *data, t_token **head);
-int		rd_out_handle(t_data *data, t_token **head);
-int		rd_in_handle(t_data *data, t_token **head);
-int		rd_app_handle(t_data *data, t_token **head);
-int		rd_inin_handle(t_data *data, t_token **head);
+int		rd_out_handle(char *input_str, t_data *data, t_token **head);
+int		rd_in_handle(char *input_str, t_data *data, t_token **head);
+int		rd_app_handle(char *input_str, t_data *data, t_token **head);
+int		rd_inin_handle(char *input_str, t_data *data, t_token **head);
 
 int		squote_handle(char *input_str, t_data *data, t_token **head);
 int		dquote_handle(char *input_str, t_data *data, t_token **head);
