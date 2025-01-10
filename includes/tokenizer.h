@@ -11,7 +11,7 @@ typedef enum e_token_types
 	RD_OUT,
 	RD_IN,
 	RD_APP,
-	RD_ININ,
+	RD_HEREDOC,
 	SEP,
 	SQUOTE,
 	DQUOTE,
@@ -41,7 +41,7 @@ typedef struct s_token_data
 
 
 //token handle
-int	tokenizer(char *input_str, t_token **head);
+int		tokenizer(char *input_str, t_token **head);
 
 t_token	*create_token(char *content, t_token_type token_type);
 void	append_token_lst(t_token **head, t_token *new_token);
@@ -55,7 +55,7 @@ int		rd_handle(char *input_str, t_data *data, t_token **head);
 int		rd_out_handle(char *input_str, t_data *data, t_token **head);
 int		rd_in_handle(char *input_str, t_data *data, t_token **head);
 int		rd_app_handle(char *input_str, t_data *data, t_token **head);
-int		rd_inin_handle(char *input_str, t_data *data, t_token **head);
+int		rd_heredoc_handle(char *input_str, t_data *data, t_token **head);
 
 int		squote_handle(char *input_str, t_data *data, t_token **head);
 int		dquote_handle(char *input_str, t_data *data, t_token **head);

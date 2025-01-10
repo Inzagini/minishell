@@ -22,7 +22,7 @@ t_command	*parser(t_token *token_list)
 				return (NULL);
 		}
 		if (parser.curr_token->type == RD_OUT || parser.curr_token->type == RD_IN
-			|| parser.curr_token->type == RD_APP || parser.curr_token->type == RD_ININ)
+			|| parser.curr_token->type == RD_APP || parser.curr_token->type == RD_HEREDOC)
 			if (handle_redirects(&parser) == 1)
 				return (NULL);
 		if (parser.curr_token->type == PIPE || parser.curr_token->type == NEW_LINE)
@@ -69,7 +69,7 @@ int	handle_redirects(t_parser *parser)
 			return (clean_parser(parser), 1);
 		parser->redir_out = 2;  // Append redirection
 	}
-	else if (parser->curr_token->previous->previous->type == RD_ININ)
+	else if (parser->curr_token->previous->previous->type == RD_HEREDOC)
 		parser->redir_in = 2;	// Here-document redirection
 	return (0);
 }
