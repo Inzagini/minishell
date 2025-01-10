@@ -6,7 +6,7 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS =	parser.c tokenizer.c token_handle.c parser_helpers.c main.c
+SRCS =	parser.c tokenizer.c token_handle.c parser_helpers.c parser_cleaning.c main.c
 
 OBJS = $(SRCS:.c=.o)
 

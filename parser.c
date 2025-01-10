@@ -1,13 +1,8 @@
 /*
 	to do
-		SQUOTE, DQUOTE
 		INVAL
 		HEREDOC
 		ERROR Handling (Malloc fails, input checks)
-
-		i track open and close single, double quotes (dquote open, squote open)
-		when i add i check of the next non-separator token
-
 
 */
 
@@ -21,21 +16,28 @@ t_command	*parser(t_token *token_list)
 	while (parser.curr_token)
 	{
 		if (parser.curr_token->type == CMD || parser.curr_token->type == ARG)
-			parser.args = add_argument(&parser); //needs error handling
+		{
+			parser.args = add_argument(&parser);
+			if (!parser.args)
+				return (NULL);
+		}
 		if (parser.curr_token->type == RD_OUT || parser.curr_token->type == RD_IN
 			|| parser.curr_token->type == RD_APP || parser.curr_token->type == RD_ININ)
-			handle_redirects(&parser);
+			if (handle_redirects(&parser) == 1)
+				return (NULL);
 		if (parser.curr_token->type == PIPE || parser.curr_token->type == NEW_LINE)
 		{
-			cmdnew(&parser); //needs error handling (free allocated memory)
+			if (cmdnew(&parser) == 1)
+				return (NULL);
 			reset_parser(&parser);
 		}
 		if (parser.curr_token->type == SQUOTE || parser.curr_token->type == DQUOTE)
-			handle_quotes(parser.curr_token, &parser); // needs error handling
+			handle_quotes(parser.curr_token, &parser);
 		parser.curr_token = parser.curr_token->next;
 	}
 	if (parser.size > 0)
-		cmdnew(&parser); //needs error handling (free allocated memory)
+		if (cmdnew(&parser) == 1)
+			return (NULL);
 	return (parser.cmd_list);
 }
 
@@ -43,22 +45,28 @@ int	handle_redirects(t_parser *parser)
 {
 	if (!parser->curr_token->next || !parser->curr_token->next->next
 			|| parser->curr_token->next->next->type != ARG)
-		return (printf("syntax error: expected a file after redirection\n"), 1); //needs error handling (free allocated memory)
+		return (printf("syntax error: expected a file after redirection\n"), clean_parser(parser), 1);
 	else
 		parser->curr_token = parser->curr_token->next->next;
 	if (parser->curr_token->previous->previous->type == RD_OUT)
 	{
-		parser->redir_file_out = ft_strdup(parser->curr_token->content); //needs error handling (free allocated memory)
+		parser->redir_file_out = ft_strdup(parser->curr_token->content);
+		if (!parser->redir_file_out)
+			return (clean_parser(parser), 1);
 		parser->redir_out = 1;  // Output redirection
 	}
 	else if (parser->curr_token->previous->previous->type == RD_IN)
 	{
+		parser->redir_file_in = ft_strdup(parser->curr_token->content);
+		if (!parser->redir_file_in)
+			return (clean_parser(parser), 1);
 		parser->redir_in = 1;   // Input redirection
-		parser->redir_file_in = ft_strdup(parser->curr_token->content); //needs error handling (free allocated memory)
 	}
 	else if (parser->curr_token->previous->previous->type == RD_APP)
 	{
-		parser->redir_file_out = ft_strdup(parser->curr_token->content); //needs error handling (free allocated memory)
+		parser->redir_file_out = ft_strdup(parser->curr_token->content);
+		if (!parser->redir_file_out)
+			return (clean_parser(parser), 1);
 		parser->redir_out = 2;  // Append redirection
 	}
 	else if (parser->curr_token->previous->previous->type == RD_ININ)
@@ -66,7 +74,7 @@ int	handle_redirects(t_parser *parser)
 	return (0);
 }
 
-int	handle_quotes(t_token *curr_token, t_parser *parser)
+void	handle_quotes(t_token *curr_token, t_parser *parser)
 {
 	if (curr_token->type == DQUOTE)
 	{
@@ -88,7 +96,6 @@ int	handle_quotes(t_token *curr_token, t_parser *parser)
 			parser->single_quotes = 0;
 		}
 	}
-	return (0);
 }
 
 char	**add_argument(t_parser *parser)
@@ -98,11 +105,13 @@ char	**add_argument(t_parser *parser)
 
 	new_args = malloc(sizeof(char *) * (parser->size + 2));
 	if (!new_args)
-		return (NULL);
+		return (clean_parser(parser), NULL);
 	i = -1;
 	while (++i < parser->size)
 		new_args[i] = parser->args[i];
 	new_args[i] = ft_strdup(parser->curr_token->content);
+	if (!new_args[i])
+		return (clean_parser(parser), NULL);
 	new_args[i + 1] = NULL;
 	free(parser->args);
 	(parser->size)++;
@@ -154,7 +163,7 @@ int	cmdnew(t_parser *parser)
 
 	new_cmd = malloc (sizeof(t_command));
 	if (!new_cmd)
-		return (1);
+		return (clean_parser(parser), 1);
 	new_cmd->id = parser->id;
 	new_cmd->name = parser->args[0];
 	new_cmd->arguments = parser->args;

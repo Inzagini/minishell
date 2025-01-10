@@ -4,17 +4,28 @@ void	clean_parser(t_parser *parser)
 {
 	int	i;
 
-	clean_commands(parser->cmd_list);
+	if (parser->cmd_list)
+	{
+		clean_commands(parser->cmd_list);
+		parser->cmd_list = NULL;
+	}
 	if (parser->redir_file_in)
+	{
 		free (parser->redir_file_in);
+		parser->redir_file_in = NULL;
+	}
 	if (parser->redir_file_out)
+	{
 		free (parser->redir_file_out);
+		parser->redir_file_out = NULL;
+	}
 	if (parser->args)
 	{
 		i = -1;
 		while (parser->args[++i])
 			free (parser->args[i]);
 		free (parser->args);
+		parser->args = NULL;
 	}
 }
 
