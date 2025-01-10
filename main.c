@@ -1,14 +1,18 @@
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	char	*test;
-	t_token	*head;
-	t_command *cmd_list;
+	char		*test;
+	t_token		*head;
+	// t_command	*cmd_list;
 
 	head = NULL;
-	test = readline("Test prompt:");
-	tokenizer(test, &head);
+	// test = readline("Test prompt:");
+	test = argv[1];
+	argc = 0;
+	if (!tokenizer(test, &head))
+		printf("Token error\n");
+	token_cleaner(head);
 	// cmd_list = parser(head);
 
 	// // Print the commands
