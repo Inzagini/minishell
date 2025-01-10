@@ -52,6 +52,7 @@ int	rd_in_handle(char *input_str, t_data *data, t_token **head)
 	data->exit_flag = 0;
 	return (0);
 }
+
 int	rd_app_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
@@ -69,6 +70,7 @@ int	rd_app_handle(char *input_str, t_data *data, t_token **head)
 	data->rd_flag = 1;
 	return (0);
 }
+
 int	rd_heredoc_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;

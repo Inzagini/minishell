@@ -15,7 +15,8 @@ int	tokenizer(char *input_str, t_token **head)
 	{
 		if (!meta_char(input_str, &data, head))
 			continue ;
-		else if (input_str[data.index + 1] == ' ' || input_str[data.index + 1] == 0)
+		else if (input_str[data.index + 1] == ' '
+			|| input_str[data.index + 1] == 0)
 		{
 			if (data.cmd_flag == 0 && !data.rd_flag)
 				cmd_handle(input_str, &data, head);
@@ -79,4 +80,3 @@ void	append_token_lst(t_token **head, t_token *new_token)
 	tmp->next = new_token;
 	new_token->previous = tmp;
 }
-

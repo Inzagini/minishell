@@ -2,7 +2,7 @@
 
 int	quotes_helper(char *input_str, t_data *data, t_token **head);
 
-int	new_line_handle (t_data *data, t_token **head)
+int	new_line_handle(t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
