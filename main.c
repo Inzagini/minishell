@@ -8,7 +8,7 @@ int	main(void)
 
 	head = NULL;
 //	test = readline("Test prompt:");
-	test = "grep 123 | ls '-l' < abc";
+	test = "grep 123 | ls '-l' <abc";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
