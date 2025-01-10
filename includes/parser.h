@@ -12,6 +12,7 @@ typedef struct s_command   //malloc
 	int			redir_out;
 	char		*redir_file_in;  //malloc
 	char		*redir_file_out; //malloc
+	char		*heredoc_separator; //malloc
 	int			size;
 	t_command	*next;
 }	t_command;
@@ -28,6 +29,7 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 	int			redir_out;
 	char		*redir_file_in;	// no need to free as handed over to command (unless it fails before handing over to command)
 	char		*redir_file_out; // no need to free as handed over to command (unless it fails before handing over to command)
+	char		*heredoc_separator; // no need to free as handed over to command (unless it fails before handing over to command)
 	int			double_quotes;
 	int			single_quotes;
 	int			quote_identifier[100];

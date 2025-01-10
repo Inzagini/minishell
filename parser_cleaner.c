@@ -5,27 +5,19 @@ void	clean_parser(t_parser *parser)
 	int	i;
 
 	if (parser->cmd_list)
-	{
 		clean_commands(parser->cmd_list);
-		parser->cmd_list = NULL;
-	}
 	if (parser->redir_file_in)
-	{
 		free (parser->redir_file_in);
-		parser->redir_file_in = NULL;
-	}
 	if (parser->redir_file_out)
-	{
 		free (parser->redir_file_out);
-		parser->redir_file_out = NULL;
-	}
+	if (parser->heredoc_separator)
+		free (parser->heredoc_separator);
 	if (parser->args)
 	{
 		i = -1;
 		while (parser->args[++i])
 			free (parser->args[i]);
 		free (parser->args);
-		parser->args = NULL;
 	}
 }
 
@@ -41,6 +33,8 @@ void	clean_commands(t_command *cmd_list)
 			free (curr_cmd->redir_file_in);
 		if (curr_cmd->redir_file_out)
 			free (curr_cmd->redir_file_out);
+		if (curr_cmd->heredoc_separator)
+			free (curr_cmd->heredoc_separator);
 		if (curr_cmd->arguments)
 		{
 			i = -1;

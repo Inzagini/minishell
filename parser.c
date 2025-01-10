@@ -51,7 +51,8 @@ int	handle_redirects(t_parser *parser)
 		if (parser->curr_token->next && parser->curr_token->next->type == ARG)
 			parser->curr_token = parser->curr_token->next;
 		else
-			return (printf("syntax error: expected a file after redirection\n"), clean_parser(parser), 1);
+			return (printf("syntax error: expected a argument after redirection\n")
+				, clean_parser(parser), 1);
 		if (set_redirects(parser, type) == 1)
 			return (1);
 	}
@@ -82,7 +83,12 @@ int	set_redirects(t_parser *parser, t_token_type type)
 		parser->redir_out = 2;
 	}
 	else if (type == RD_ININ)
+	{
+		parser->heredoc_separator = ft_strdup(parser->curr_token->content);
+		if (!parser->heredoc_separator)
+			return (clean_parser(parser), 1);
 		parser->redir_in = 2;
+	}
 	return (0);
 }
 
@@ -143,6 +149,7 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	parser->redir_out = 0;
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
+	parser->heredoc_separator = NULL;
 	parser->single_quotes = 0;
 	parser->double_quotes = 0;
 	i = -1;
@@ -161,6 +168,7 @@ void	reset_parser(t_parser *parser)
 	parser->redir_out = 0;
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
+	parser->heredoc_separator = NULL;
 	parser->single_quotes = 0;
 	parser->double_quotes = 0;
 	i = -1;
@@ -186,6 +194,8 @@ int	cmdnew(t_parser *parser)
 	parser->redir_file_in = NULL;
 	new_cmd->redir_file_out = parser->redir_file_out;
 	parser->redir_file_out = NULL;
+	new_cmd->heredoc_separator = parser->heredoc_separator;
+	parser->heredoc_separator = NULL;
 	new_cmd->size = parser->size;
 	i = -1;
 	while (++i < 100)

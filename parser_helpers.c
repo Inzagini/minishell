@@ -19,20 +19,10 @@ void print_command(t_command *cmd)
 		printf("Redirection File: %s\n", cmd->redir_file_in);
 	if (cmd->redir_file_out)
 		printf("Redirection File: %s\n", cmd->redir_file_out);
+	if (cmd->heredoc_separator)
+		printf("Heredoc separator: %s\n", cmd->heredoc_separator);
 	i = -1;
 	while (++i < cmd->size)
 		printf("Quote identifier[%d]: %d\n", i, cmd->quote_identifier[i]);
     printf("---------------\n");
-}
-
-void free_tokens(t_token *token_list)
-{
-    t_token *temp;
-    while (token_list)
-    {
-        temp = token_list;
-        token_list = token_list->next;
-        free(temp->content);
-        free(temp);
-    }
 }
