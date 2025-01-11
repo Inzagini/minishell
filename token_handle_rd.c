@@ -23,7 +23,7 @@ int	rd_out_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	printf("[RD_OUT]\n");
+	// printf("[RD_OUT]\n");
 	if (input_str[data->index + 1] != ' ')
 		data->index++;
 	new_token = create_token(NULL, RD_OUT);
@@ -40,7 +40,7 @@ int	rd_in_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	printf("[RD_IN]\n");
+	// printf("[RD_IN]\n");
 	if (input_str[data->index + 1] != ' ')
 		data->index++;
 	new_token = create_token(NULL, RD_IN);
@@ -57,7 +57,7 @@ int	rd_app_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	printf("[RD_APP]\n");
+	// printf("[RD_APP]\n");
 	if (input_str[data->index + 2] != ' ')
 		data->index += 2;
 	else
@@ -75,7 +75,7 @@ int	rd_heredoc_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	printf("[RD_ININ]\n");
+	// printf("[RD_ININ]\n");
 	if (input_str[data->index + 2] != ' ')
 		data->index += 2;
 	else

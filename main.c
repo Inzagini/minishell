@@ -23,6 +23,7 @@ int	main(int argc, char **argv)
         print_command(temp);
         temp = temp->next;
     }
+	executor(cmd_list);
     // Free memory
     clean_commands(cmd_list);
 	token_cleaner(head);

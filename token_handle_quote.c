@@ -13,7 +13,7 @@ int	new_line_handle(t_data *data, t_token **head)
 	data->cmd_flag = 0;
 	(data->index)++;
 	data->start = data->index;
-	printf("[NEW_LINE]\n");
+	// printf("[NEW_LINE]\n");
 	return (0);
 }
 
@@ -21,7 +21,7 @@ int	squote_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	printf("[SQUOTES]\n");
+	// printf("[SQUOTES]\n");
 	new_token = create_token(NULL, SQUOTE);
 	if (!new_token)
 		return (data->exit_flag = 1, 1);
@@ -33,7 +33,7 @@ int	squote_handle(char *input_str, t_data *data, t_token **head)
 		return (data->exit_flag = 1, 1);
 	if (input_str[data->index] == '\'')
 	{
-		printf("[SQUOTES]\n");
+		// printf("[SQUOTES]\n");
 		new_token = create_token(NULL, SQUOTE);
 		if (!new_token)
 			return (data->exit_flag = 1, 1);
@@ -47,7 +47,7 @@ int	dquote_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	printf("[DQUOTES]\n");
+	// printf("[DQUOTES]\n");
 	new_token = create_token(NULL, DQUOTE);
 	if (!new_token)
 		return (data->exit_flag = 1, 1);
@@ -59,7 +59,7 @@ int	dquote_handle(char *input_str, t_data *data, t_token **head)
 		return (data->exit_flag = 1, 1);
 	if (input_str[data->index] == '"')
 	{
-		printf("[DQUOTES]\n");
+		// printf("[DQUOTES]\n");
 		new_token = create_token(NULL, DQUOTE);
 		if (!new_token)
 			return (data->exit_flag = 1, 1);
@@ -73,7 +73,7 @@ int	quotes_helper(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 	char	*str;
-	
+
 	str = ft_substr(input_str, data->start, data->index - data->start);
 	if (!str)
 		return (1);
@@ -81,6 +81,6 @@ int	quotes_helper(char *input_str, t_data *data, t_token **head)
 	if (!new_token)
 		return (1);
 	append_token_lst(head, new_token);
-	printf("[ARG]%s\n", str);
+	// printf("[ARG]%s\n", str);
 	return (0);
 }

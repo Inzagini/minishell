@@ -9,6 +9,7 @@
 		"initializer_list": "c",
 		"ranges": "c",
 		"span": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"executor": "c"
 	}
 }
