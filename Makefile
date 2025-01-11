@@ -10,7 +10,7 @@ SRCS =	parser.c tokenizer.c token_handle.c parser_helpers.c parser_cleaning.c ma
 
 OBJS = $(SRCS:.c=.o)
 
-TEST_PROMPT = "< IN ls 's' | grep "asd" |cat -e > OUT"
+TEST_PROMPT = "ls | cat > OUT < IN"
 
 all: $(LIBFT) $(NAME)
 
@@ -36,10 +36,8 @@ re: fclean all
 .PHONY: clean fclean re all
 
 test: $(LIBFT)
-	clear
 	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g && ./a.out ${TEST_PROMPT}
 
 leak: $(LIBFT)
-	clear
 	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g
 	valgrind --leak-check=full ./a.out ${TEST_PROMPT}
