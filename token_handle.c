@@ -7,7 +7,8 @@ int	cmd_handle(char *input_str, t_data *data, t_token **head)
 
 	if (input_str[data->start] == ' ')
 		(data->start)++;
-	str = ft_substr((const char*)input_str, data->start, data->index + 1 - data->start);
+	str = ft_substr((const char *)input_str, data->start,
+			data->index + 1 - data->start);
 	if (!str)
 		return (data->exit_flag = 1, 1);
 	new_token = create_token(str, CMD);
@@ -30,7 +31,8 @@ int	arg_handle(char *input_str, t_data *data, t_token **head)
 
 	if (input_str[data->start] == ' ')
 		(data->start)++;
-	str = ft_substr((const char*)input_str, data->start, data->index + 1 - data->start);
+	str = ft_substr((const char *)input_str, data->start,
+			data->index + 1 - data->start);
 	if (!str)
 		return (data->exit_flag = 1, 1);
 	new_token = create_token(str, ARG);
