@@ -1,11 +1,15 @@
 #include "minishell.h"
 
+#ifndef PARSER_H
+# define PARSER_H
+
+
 typedef struct s_command	t_command;
+typedef struct s_env		t_env;
 
 typedef struct s_command   //malloc
 {
 	int			id;
-	char		*name;
 	char		**arguments;  //malloc (name is element of argument array, so no need to free separately)
 	int			quote_identifier[100];
 	int			redir_in;
@@ -15,6 +19,7 @@ typedef struct s_command   //malloc
 	char		*heredoc_separator; //malloc
 	int			pipe_flag;
 	int			size;
+	t_env		*env;
 	t_command	*next;
 }	t_command;
 
@@ -64,3 +69,5 @@ void		clean_cmd_list(t_command **cmd_list);
 // test functions only. delete later
 void print_command(t_command *cmd);
 void free_tokens(t_token *token_list);
+
+#endif

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*test;
 	t_token		*head;
@@ -8,7 +8,7 @@ int	main(int argc, char **argv)
 
 	head = NULL;
 	// test = readline("Test prompt:");
-	test = "grep 123 > testfile | < test ls -l << abc";
+	test = "grep 123 > testfile | < test git -l << abc";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
@@ -17,13 +17,15 @@ int	main(int argc, char **argv)
 		return 1;
 	}
 	// Print the commands
-    t_command *temp = cmd_list;
+    expander(cmd_list, envp);
+	t_command *temp = cmd_list;
     while (temp)
     {
         print_command(temp);
         temp = temp->next;
     }
-    // Free memory
+    
+	// Free memory
     clean_commands(cmd_list);
 	token_cleaner(head);
     return 0;

@@ -10,7 +10,6 @@ int	cmdnew(t_parser *parser)
 	if (!new_cmd)
 		return (clean_parser(parser), 1);
 	new_cmd->id = parser->id;
-	new_cmd->name = parser->args[0];
 	new_cmd->arguments = parser->args;
 	new_cmd->redir_in = parser->redir_in;
 	new_cmd->redir_out = parser->redir_out;
@@ -21,6 +20,7 @@ int	cmdnew(t_parser *parser)
 	i = -1;
 	while (++i < 100)
 		new_cmd->quote_identifier[i] = parser->quote_identifier[i];
+	new_cmd->env = NULL;
 	new_cmd->next = NULL;
 	parser->new_cmd = new_cmd;
 	cmdadd(&parser->cmd_list, parser->new_cmd);

@@ -9,7 +9,7 @@ void print_command(t_command *cmd)
 	if (!cmd)
 		return;
 	printf("Command ID: %d\n", cmd->id);
-	printf("Command Name: %s\n", cmd->name);
+	printf("Command Name: %s\n", cmd->arguments[0]);
 	printf("Arguments:\n");
 	for (int i = 0; cmd->arguments[i]; i++)
 		printf("  %s\n", cmd->arguments[i]);

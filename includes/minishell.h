@@ -9,6 +9,7 @@
 # include <readline/history.h>
 # include "tokenizer.h"
 # include "parser.h"
+# include "expander.h"
 
 
 
