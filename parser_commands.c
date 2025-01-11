@@ -5,6 +5,7 @@ int	cmdnew(t_parser *parser)
 	t_command	*new_cmd;
 	int			i;
 
+	handle_pipe_flags(parser);
 	new_cmd = malloc (sizeof(t_command));
 	if (!new_cmd)
 		return (clean_parser(parser), 1);
@@ -41,4 +42,48 @@ void	cmdadd(t_command **list, t_command *new)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new;
+}
+
+void handle_pipe_flags(t_parser *parser)
+{
+	if (parser->pipe_flag_in == 1)
+	{
+		if (parser->redir_in == 0)
+		{
+			parser->redir_in = 3;
+			free(parser->redir_file_in);
+			parser->redir_file_in = NULL;
+		}
+	}
+	if (parser->pipe_found == 1)
+	{
+		if (parser->redir_out == 0)
+		{
+			parser->redir_out = 3;
+			free(parser->redir_file_out);
+			parser->redir_file_out = NULL;
+			parser->pipe_flag_in = 1;
+		}
+	}
+	else if (parser->pipe_flag_out == 1)
+	{
+		if (parser->redir_out == 0)
+		{
+			parser->redir_out = 3;
+			free(parser->redir_file_out);
+			parser->redir_file_out = NULL;
+		}
+	}
+	parser->pipe_found = 0;
+}
+
+int	handle_pipes (t_parser *parser)
+{
+	if (parser->token->type == PIPE)
+	{
+		parser->pipe_found = 1;
+	}
+	if (cmdnew(parser) == 1)
+		return (1);
+	return (0);
 }

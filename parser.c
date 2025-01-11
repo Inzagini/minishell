@@ -17,7 +17,7 @@ t_command	*parser(t_token *token_list)
 			return (NULL);
 		else if (parser.token->type == PIPE || parser.token->type == NEW_LINE)
 		{
-			if (cmdnew(&parser) == 1)
+			if (handle_pipes(&parser) == 1)
 				return (NULL);
 		}
 		else if (parser.token->type == SQUOTE || parser.token->type == DQUOTE)
@@ -48,6 +48,8 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	i = -1;
 	while (++i < 100)
 		parser->quote_identifier[i] = 0;
+	parser->pipe_flag_in = 0;
+	parser->pipe_flag_out = 0;
 }
 
 void	reset_parser(t_parser *parser)

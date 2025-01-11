@@ -10,8 +10,6 @@ SRCS =	parser.c tokenizer.c token_handle.c parser_helpers.c parser_cleaning.c ma
 
 OBJS = $(SRCS:.c=.o)
 
-TEST_PROMPT = "< IN ls 's' | grep "asd" |cat -e > OUT"
-
 all: $(LIBFT) $(NAME)
 
 $(LIBFT):
