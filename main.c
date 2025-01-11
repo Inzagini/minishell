@@ -8,7 +8,7 @@ int	main(int argc, char **argv)
 
 	head = NULL;
 	// test = readline("Test prompt:");
-	test = "< file grep 123 > test | ls -l | abcd <<t";
+	test = "grep 123 | ls -l <<abc";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
