@@ -31,7 +31,7 @@ char	*get_cmd(char **paths, char *cmd)
 	while (paths[i])
 	{
 		if (access(cmd, X_OK) == 0)
-			return (cmd);
+			return (NULL);
 		tmp = ft_strjoin(paths[i], "/");
 		if (!tmp)
 			return (NULL);
@@ -41,7 +41,7 @@ char	*get_cmd(char **paths, char *cmd)
 		free(tmp);
 		if (access(command, X_OK) == 0)
 			return (command);
-		free(command);
+        free (command);
 		i++;
 	}
 	return (NULL);
@@ -49,7 +49,7 @@ char	*get_cmd(char **paths, char *cmd)
 
 void	expand_commands(t_env *env, t_command *cmd_list)
 {
-    char *command;
+    char    *command;
 
 	while (cmd_list)
     {
@@ -58,7 +58,7 @@ void	expand_commands(t_env *env, t_command *cmd_list)
 			command = get_cmd(env->cmd_paths, cmd_list->arguments[0]);
 			if (command)
 			{
-				free (cmd_list->arguments[0]);
+                free (cmd_list->arguments[0]);
 				cmd_list->arguments[0] = command;
 			} 
 		}

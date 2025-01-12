@@ -14,19 +14,18 @@
     - check if ~ is found -> replace with home directory
 */
 
-t_command   *expander(t_command *cmd_list, char **envp)
+t_command   *expander(t_command *cmd_list, char **envp, t_env *env)
 {
-    t_env       env;
     t_command   *curr_cmd;
 
-    if (copy_envp(&env, envp) == 1)
+    if (copy_envp(env, envp) == 1)
         return (NULL);
-    env.full_path = find_path(env.env_current);
-    env.cmd_paths = ft_split(env.full_path, ':');
-    if (!env.cmd_paths)
+    env->full_path = find_path(env->env_current);
+    env->cmd_paths = ft_split(env->full_path, ':');
+    if (!env->cmd_paths)
         return (NULL);
     check_builtins(cmd_list);
-    expand_commands(&env, cmd_list);
+    expand_commands(env, cmd_list);
 
     return (NULL);
 }
@@ -39,6 +38,7 @@ void    check_builtins(t_command *cmd_list)
         size_t  len;
 
         arg = cmd_list->arguments[0];
+        len = ft_strlen(arg);
         if (ft_strncmp(arg, "echo", len) == 0)
             cmd_list->builtin_flag = 1;
         if (ft_strncmp(arg, "cd", len) == 0)
@@ -56,32 +56,3 @@ void    check_builtins(t_command *cmd_list)
         cmd_list = cmd_list->next;
     }
 }
-
-int    copy_envp(t_env *env, char **envp)
-{
-    int     i;
-    int     j;
-    char    **copy;
-
-    i = 0;
-    while (envp[i])
-        i++;
-    copy = malloc ((i + 1) * sizeof(char *));
-    if (!copy)
-        return (1);
-    envp[i] = 0;
-    j = -1;
-    while (envp[++j])
-    {
-        copy[j] = ft_strdup(envp[j]);
-        if (!copy[j])
-        {
-            while (--j >= 0)
-                free (copy[j]);
-            return (free (copy[i]), free (copy), 1);
-        }
-    }
-    env->env_current = copy;
-    return (0);
-}
-
