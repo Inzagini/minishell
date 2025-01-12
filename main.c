@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+// To properly handle cases like $HOME'$ABC', 
+// your parser needs to accommodate multiple tokens being 
+// combined into a single argument, while also preserving the quotation 
+// context for each individual token. This ensures that the expander c
+// an accurately decide which parts of the argument to expand and which to treat as literal.
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*test;
@@ -9,7 +15,7 @@ int	main(int argc, char **argv, char **envp)
 
 	head = NULL;
 	// test = readline("Test prompt:");
-	test = "grep abc$USER$USER > outfile | < infile ls -l -$SHELL";
+	test = "grep abc$USER'$USER' > outfile | < infile ls -l -$SHELL";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
