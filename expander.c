@@ -7,11 +7,21 @@
     - DONE test with access stand_alone
     - DONE test with access and all available commands
     - DONE save working command in args[0] or input if none found
-    - hanlde built-ins -> do nothing
+    - DONE hanlde built-ins -> do nothing
     - check if $ found 
-        -> if no brackets -> expand variable and replace (depending on SQuotes and DQuotes)
+        -> if no brackets after dollar sign -> expand variable and replace (depending on SQuotes and DQuotes)
+            if no_quotes -> split at Whitespaces and into separate arguemnts
+            if SQOTES -> do not expand
+            if DQUOTES -> expand into single argument 
         -> if brackets -> command substitution process
     - check if ~ is found -> replace with home directory
+
+   if no quotes at all
+     find $ -> split here
+     find next non-alphnumeric/non_underscore ->split here
+     take middle section and replace with env variable (none if not found)
+     take back together as single argument
+     for all
 */
 
 t_command   *expander(t_command *cmd_list, char **envp, t_env *env)
@@ -26,6 +36,7 @@ t_command   *expander(t_command *cmd_list, char **envp, t_env *env)
         return (NULL);
     check_builtins(cmd_list);
     expand_commands(env, cmd_list);
+    expand_arguments(env, cmd_list);
 
     return (NULL);
 }

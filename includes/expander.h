@@ -22,6 +22,17 @@ void        clean_env(t_env *env);
 int         copy_envp(t_env *env, char **envp);
 t_env       init_env();
 
+int         expand_arguments(t_env *env, t_command *cmd_list);
+char        *expand_argument(char *arg, char **env);
+char        *find_var(char **env, char *var);
+int         is_valid_var_char(char c);
+char	    *find_var(char **envp, char *var);
+char        *ft_strndup(const char *src, size_t n);
+size_t      ft_strspn(const char *str, const char *accept);
+
+
+
+
 
 
 #endif

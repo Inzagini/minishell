@@ -9,7 +9,7 @@ int	main(int argc, char **argv, char **envp)
 
 	head = NULL;
 	// test = readline("Test prompt:");
-	test = "grep 123 > testfile | < test /usr/bin/grep SHELLSHELL << abc";
+	test = "grep abc$USER$USER > outfile | < infile ls -l -$SHELL";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
