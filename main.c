@@ -8,7 +8,7 @@ int	main(int argc, char **argv, char **envp)
 
 	head = NULL;
 	// test = readline("Test prompt:");
-	test = "grep 123 > testfile | < test git -l << abc";
+	test = "grep 123 > testfile | < test echo SHELLSHELL << abc";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)

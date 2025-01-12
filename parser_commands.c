@@ -21,6 +21,7 @@ int	cmdnew(t_parser *parser)
 	while (++i < 100)
 		new_cmd->quote_identifier[i] = parser->quote_identifier[i];
 	new_cmd->env = NULL;
+	new_cmd->builtin_flag = 0;
 	new_cmd->next = NULL;
 	parser->new_cmd = new_cmd;
 	cmdadd(&parser->cmd_list, parser->new_cmd);

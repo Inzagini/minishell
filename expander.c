@@ -18,7 +18,6 @@ t_command   *expander(t_command *cmd_list, char **envp)
 {
     t_env       env;
     t_command   *curr_cmd;
-    char        *command;
 
     if (copy_envp(&env, envp) == 1)
         return (NULL);
@@ -26,18 +25,36 @@ t_command   *expander(t_command *cmd_list, char **envp)
     env.cmd_paths = ft_split(env.full_path, ':');
     if (!env.cmd_paths)
         return (NULL);
-    curr_cmd = cmd_list;
-    while (curr_cmd)
-    {
-        command = get_cmd(env.cmd_paths, curr_cmd->arguments[0]);
-        if (command)
-        {
-            free (curr_cmd->arguments[0]);
-            curr_cmd->arguments[0] = command;
-        } 
-        curr_cmd = curr_cmd->next;
-    }
+    check_builtins(cmd_list);
+    expand_commands(&env, cmd_list);
+
     return (NULL);
+}
+
+void    check_builtins(t_command *cmd_list)
+{
+    while (cmd_list)
+    {
+        char    *arg;
+        size_t  len;
+
+        arg = cmd_list->arguments[0];
+        if (ft_strncmp(arg, "echo", len) == 0)
+            cmd_list->builtin_flag = 1;
+        if (ft_strncmp(arg, "cd", len) == 0)
+            cmd_list->builtin_flag = 1;
+        if (ft_strncmp(arg, "pwd", len) == 0)
+            cmd_list->builtin_flag = 1;
+        if (ft_strncmp(arg, "export", len) == 0)
+            cmd_list->builtin_flag = 1;
+        if (ft_strncmp(arg, "unset", len) == 0)
+            cmd_list->builtin_flag = 1;
+        if (ft_strncmp(arg, "env", len) == 0)
+            cmd_list->builtin_flag = 1;
+        if (ft_strncmp(arg, "exit", len) == 0)
+            cmd_list->builtin_flag = 1;
+        cmd_list = cmd_list->next;
+    }
 }
 
 int    copy_envp(t_env *env, char **envp)

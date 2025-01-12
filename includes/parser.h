@@ -19,6 +19,7 @@ typedef struct s_command   //malloc
 	char		*heredoc_separator; //malloc
 	int			pipe_flag;
 	int			size;
+	int			builtin_flag;
 	t_env		*env;
 	t_command	*next;
 }	t_command;
