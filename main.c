@@ -14,8 +14,8 @@ int	main(int argc, char **argv, char **envp)
     t_env       env;
 
 	head = NULL;
-	// test = readline("Test prompt:");
-	test = "< main.c ls -l | cat -e > test_OUT_FILE";
+	test = readline("Test prompt:");
+	// test = "mkdir abc";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
