@@ -6,9 +6,9 @@
 # include <errno.h>
 
 
-int	executor(t_command *lst_cmd);
+int		executor(t_command *lst_cmd);
 
-int	lst_len(t_command *lst);
+int		lst_len(t_command *lst);
 void	print_error(char *prefix, char *msg, char *name);
 
 #endif

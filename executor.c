@@ -70,15 +70,15 @@ void	call_execve(t_command *data)
 {
 	int	status;
 
-	if (!data->arguments || !data->arguments[0])
+	if (!data->args || !data->args[0])
 		print_error(getenv("SHELL"), "command not found", NULL);
 	else
 	{
-		status = execve(data->arguments[0], data->arguments, NULL);
+		status = execve(data->args[0], data->args, NULL);
 		if (status == -1)
 		{
 			print_error(getenv("SHELL"),
-				"command not found", data->arguments[0]);
+				"command not found", data->args[0]);
 			exit(127);
 		}
 		else
