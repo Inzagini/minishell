@@ -15,7 +15,7 @@ int	main(int argc, char **argv, char **envp)
 
 	head = NULL;
 	// test = readline("Test prompt:");
-	test = "grep abc$USER'$USER' > outfile | < infile ls -l -$SHELL";
+	test = "grep abc'$USER'  | ls -l | cat -e ";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
@@ -33,10 +33,12 @@ int	main(int argc, char **argv, char **envp)
         temp = temp->next;
     }
 
+	// executor(cmd_list);
+
 	// Free memory
-    clean_env(&env);
-    clean_commands(cmd_list);
-	token_cleaner(head);
+    // clean_env(&env);
+    // clean_commands(cmd_list);
+	// token_cleaner(head);
     return 0;
 }
 
