@@ -1,23 +1,22 @@
 #include "minishell.h"
 
 int	meta_char(char *str, t_data *data, t_token **head);
+static void	token_init(t_data *data);
 
 int	tokenizer(char *input_str, t_token **head)
 {
 	t_data	data;
 
-	data.index = -1;
-	data.start = 0;
-	data.cmd_flag = 0;
-	data.rd_flag = 0;
-	data.exit_flag = 0;
+	token_init(&data);
 	while (input_str[++(data.index)])
 	{
 		if (!meta_char(input_str, &data, head))
 			continue ;
 		else if (input_str[data.index + 1] == ' '
 			|| input_str[data.index + 1] == 0
-			|| input_str[data.index + 1] == '\n')
+			|| input_str[data.index + 1] == '\n'
+			|| input_str[data.index + 1] == '\''
+			|| input_str[data.index + 1] == '"')
 		{
 			if (data.cmd_flag == 0 && !data.rd_flag)
 				cmd_handle(input_str, &data, head);
@@ -28,6 +27,15 @@ int	tokenizer(char *input_str, t_token **head)
 			return (1);
 	}
 	return (0);
+}
+
+static void	token_init(t_data *data)
+{
+	data->index = -1;
+	data->start = 0;
+	data->cmd_flag = 0;
+	data->rd_flag = 0;
+	data->exit_flag = 0;
 }
 
 int	meta_char(char *input_str, t_data *data, t_token **head)
