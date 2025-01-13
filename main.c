@@ -15,7 +15,7 @@ int	main(int argc, char **argv, char **envp)
 
 	head = NULL;
 	// test = readline("Test prompt:");
-	test = "grep abc'$USER'  | ls -l | cat -e ";
+	test = "< test_IN_FILE cat -e | grep test ";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
@@ -26,14 +26,14 @@ int	main(int argc, char **argv, char **envp)
 	// Print the commands
     env = init_env();
     expander(cmd_list, envp, &env);
-	t_command *temp = cmd_list;
-    while (temp)
-    {
-        print_command(temp);
-        temp = temp->next;
-    }
+	// t_command *temp = cmd_list;
+    // while (temp)
+    // {
+    //     print_command(temp);
+    //     temp = temp->next;
+    // }
 
-	// executor(cmd_list);
+	executor(cmd_list);
 
 	// Free memory
     // clean_env(&env);

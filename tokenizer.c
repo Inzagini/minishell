@@ -8,7 +8,7 @@ int	tokenizer(char *input_str, t_token **head)
 	t_data	data;
 
 	token_init(&data);
-	while (input_str[++(data.index)])
+	while (input_str[++(data.index)] != '\0')
 	{
 		if (!meta_char(input_str, &data, head))
 			continue ;

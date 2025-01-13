@@ -23,7 +23,6 @@ int	rd_out_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	// printf("[RD_OUT]\n");
 	if (input_str[data->index + 1] != ' ')
 		data->index++;
 	new_token = create_token(NULL, RD_OUT);
@@ -33,6 +32,7 @@ int	rd_out_handle(char *input_str, t_data *data, t_token **head)
 	data->start = data->index;
 	data->rd_flag = 1;
 	data->exit_flag = 0;
+	// printf("[RD_OUT]\n");
 	return (0);
 }
 
@@ -40,7 +40,6 @@ int	rd_in_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	// printf("[RD_IN]\n");
 	if (input_str[data->index + 1] != ' ')
 		data->index++;
 	new_token = create_token(NULL, RD_IN);
@@ -50,6 +49,7 @@ int	rd_in_handle(char *input_str, t_data *data, t_token **head)
 	data->start = data->index;
 	data->rd_flag = 1;
 	data->exit_flag = 0;
+	// printf("[RD_IN]\n");
 	return (0);
 }
 
@@ -57,7 +57,6 @@ int	rd_app_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	// printf("[RD_APP]\n");
 	if (input_str[data->index + 2] != ' ')
 		data->index += 2;
 	else
@@ -68,6 +67,7 @@ int	rd_app_handle(char *input_str, t_data *data, t_token **head)
 	append_token_lst(head, new_token);
 	data->start = data->index;
 	data->rd_flag = 1;
+	// printf("[RD_APP]\n");
 	return (0);
 }
 
@@ -75,7 +75,6 @@ int	rd_heredoc_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
-	// printf("[RD_ININ]\n");
 	if (input_str[data->index + 2] != ' ')
 		data->index += 2;
 	else
@@ -86,5 +85,6 @@ int	rd_heredoc_handle(char *input_str, t_data *data, t_token **head)
 	append_token_lst(head, new_token);
 	data->start = data->index;
 	data->rd_flag = 1;
+	// printf("[RD_ININ]\n");
 	return (0);
 }
