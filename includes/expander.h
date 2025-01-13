@@ -6,8 +6,8 @@
 typedef struct s_env
 {
 	char    **env_current;
-    char    *full_path;
-    char    **cmd_paths;
+	char    *full_path;
+	char    **cmd_paths;
 }	t_env;
 
 t_command   *expander(t_command *cmd_list, char **envp, t_env *env);
