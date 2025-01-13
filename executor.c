@@ -2,6 +2,7 @@
 
 int	redirect_in_handle(t_command *cmd_node, int **pipefd);
 int	redirect_out_handle(t_command *cmd_node, int **pipefd);
+void	call_execve(t_command *data);
 
 int	executor(t_command *lst_cmd)
 {
@@ -15,15 +16,12 @@ int	executor(t_command *lst_cmd)
 
 	while (++n < len)
 	{
-		//open appropiate pipe
 		if (n != 0)
 		{
-			printf("OPEN NEW PIPE for STDOUT %d\n", (lst_cmd->id + 1) % 2);
+			// printf("OPEN NEW PIPE for STDOUT %d\n", (lst_cmd->id + 1) % 2);
 			pipe(pipefd[(lst_cmd->id + 1) % 2]);
 		}
-		//fork the process
 		pid = fork();
-		//child process
 		if (pid == 0)
 		{
 			// redirect STDIN to appropiate fd
@@ -42,15 +40,21 @@ int	executor(t_command *lst_cmd)
 			}
 
 			//close the pipe
-			printf("child close IN PIPE %d\n", 1 - ((lst_cmd->id + 1) % 2));
+			// printf("child close IN PIPE %d\n", 1 - ((lst_cmd->id + 1) % 2));
+			if (lst_cmd->redir_in)
+				close(IN_FD);
 			close(pipefd[1 - ((lst_cmd->id + 1) % 2)][0]);
-			printf("\nexecute\n");
-			printf("\n\n----------------");
-			execve(lst_cmd->arguments[0], lst_cmd->arguments, NULL);
+			close(pipefd[((lst_cmd->id + 1) % 2)][1]);
+			close(pipefd[((lst_cmd->id + 1) % 2)][0]);
+			// printf("\nexecute\n");
+			// printf("\n\n----------------\n");
+			call_execve(lst_cmd);
 		}
-		printf("Parent close pipe %d \n", 1 - (lst_cmd->id + 1) % 2);
+		// printf("Parent close pipe %d \n", 1 - (lst_cmd->id + 1) % 2);
 		close (pipefd[1 - (lst_cmd->id + 1) % 2][0]);
-		printf("------------\n\n");
+		close (pipefd[1 - (lst_cmd->id + 1) % 2][1]);
+		close (pipefd[(lst_cmd->id + 1) % 2][1]);
+		// printf("------------\n\n");
 		lst_cmd = lst_cmd->next;
 	}
 
@@ -62,25 +66,25 @@ int	executor(t_command *lst_cmd)
 	return (0);
 }
 
-// void	call_execve(t_command data, int n)
-// {
-// 	int	status;
+void	call_execve(t_command *data)
+{
+	int	status;
 
-// 	if (!data.arguments || !data.arguments[n][0])
-// 		print_error(my_getenv("SHELL"), "command not found", NULL);
-// 	else
-// 	{
-// 		status = execve(data.arguments[n][0], data.arguments[n], NULL);
-// 		if (status == -1)
-// 		{
-// 			print_error(my_getenv("SHELL"),
-// 				"command not found", data.arguments[n][0]);
-// 			exit(127);
-// 		}
-// 		else
-// 			exit(errno);
-// 	}
-// }
+	if (!data->arguments || !data->arguments[0])
+		print_error(getenv("SHELL"), "command not found", NULL);
+	else
+	{
+		status = execve(data->arguments[0], data->arguments, NULL);
+		if (status == -1)
+		{
+			print_error(getenv("SHELL"),
+				"command not found", data->arguments[0]);
+			exit(127);
+		}
+		else
+			exit(errno);
+	}
+}
 
 int	redirect_in_handle(t_command *cmd_node, int **pipefd)
 {
@@ -88,7 +92,7 @@ int	redirect_in_handle(t_command *cmd_node, int **pipefd)
 
 	if (cmd_node->redir_in == 1)
 	{
-		printf("read from %s\n", cmd_node->redir_file_in);
+		// printf("read from %s\n", cmd_node->redir_file_in);
 		//check if file exist
 		fd = open(cmd_node->redir_file_in, O_RDONLY);
 		if (fd < 0)
@@ -107,13 +111,13 @@ int	redirect_in_handle(t_command *cmd_node, int **pipefd)
 	}
 	else if (cmd_node->redir_in == 3)
 	{
-		printf("redirect STDIN to pipes %d\n", 1 - ((cmd_node->id + 1) % 2));
+		// printf("redirect STDIN to pipes %d\n", 1 - ((cmd_node->id + 1) % 2));
 		fd = pipefd[1 - ((cmd_node->id + 1) % 2)][0];
 		return (fd);
 	}
 	else
 	{
-		printf("read STDIN\n");
+		// printf("read STDIN\n");
 		return (STDIN_FILENO);
 	}
 }
@@ -133,13 +137,17 @@ int	redirect_out_handle(t_command *cmd_node, int **pipefd)
 		{
 			if (cmd_node->redir_out == 1)
 			{
-				printf("open truncate\n");
+				// ft_putstr_fd("open truncate\n", 1);
 				fd = open(cmd_node->redir_file_out, O_WRONLY | O_TRUNC);
+				if (fd < 0)
+					perror("Error write\n");
 			}
 			else if (cmd_node->redir_out == 2)
 			{
-				printf("open append\n");
-				fd = open(cmd_node->redir_file_out, O_APPEND);
+				// ft_putstr_fd("open append\n", 1);
+				fd = open(cmd_node->redir_file_out, O_WRONLY | O_APPEND);
+				if (fd < 0)
+					perror("Error append\n");
 			}
 		}
 		else
@@ -149,13 +157,13 @@ int	redirect_out_handle(t_command *cmd_node, int **pipefd)
 	else if (cmd_node->redir_out == 3)
 	{
 		//pipe
-		printf("redirect STDOUT to pipes %d\n", (cmd_node->id + 1) % 2);
+		// printf("redirect STDOUT to pipes %d\n", (cmd_node->id + 1) % 2);
 		fd = pipefd[(cmd_node->id + 1) % 2][1];
 		return (fd);
 	}
 	else
 	{
-		printf("write STDOUT\n");
+		// printf("write STDOUT\n");
 		return (STDOUT_FILENO);
 	}
 }
