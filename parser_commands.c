@@ -9,7 +9,6 @@ int	cmdnew(t_parser *parser)
 	if (!new_cmd)
 		return (clean_parser(parser), 1);
 	new_cmd->id = parser->id;
-	new_cmd->arguments = parser->args;
 	new_cmd->redir_in = parser->redir_in;
 	new_cmd->redir_out = parser->redir_out;
 	new_cmd->redir_file_in = parser->redir_file_in;

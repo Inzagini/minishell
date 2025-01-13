@@ -24,8 +24,8 @@ int	main(int argc, char **argv, char **envp)
 		return 1;
 	}
 	// Print the commands
-//    env = init_env();
-//    expander(cmd_list, envp, &env);
+    env = init_env();
+    expander(cmd_list, envp, &env);
 	t_command *temp = cmd_list;
     while (temp)
     {
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
     }
 
 	// Free memory
-//    clean_env(&env);
+    clean_env(&env);
     clean_commands(cmd_list);
 	token_cleaner(head);
     return 0;

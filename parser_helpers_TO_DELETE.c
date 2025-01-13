@@ -16,7 +16,8 @@ void print_command(t_command *cmd)
 	args = cmd->arg_tokens;
 	while (args)
 	{
-		printf("\t%s\n", args->content);
+		printf("\t%s\t", args->content);
+		printf("Arg ID: %d\n", args->arg_group_id);
 		args = args->next;
 	}
 	printf("Redirection In: %d\n", cmd->redir_in);

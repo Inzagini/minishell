@@ -10,7 +10,6 @@ typedef struct s_env		t_env;
 typedef struct s_command   //malloc
 {
 	int			id;
-	char		**arguments;  //malloc (name is element of argument array, so no need to free separately)
 	t_token		*arg_tokens;  //malloc
 	int			redir_in;
 	int			redir_out;
@@ -29,8 +28,8 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 	t_command	*cmd_list;
 	t_token		*token;
 	t_command	*new_cmd;
-	char		**args;		// no need to free as handed over to command (unless it fails before handing over to command)
 	t_token		*arg_tokens; //malloc
+	int			arg_group_id;
 	int			size;
 	int			id;
 	int			redir_in;	// 0 no redirection || 1 redirect to file || 2 heredoc || 3 redirect to pipe
