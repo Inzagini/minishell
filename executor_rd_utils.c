@@ -25,13 +25,11 @@ int	redirect_in_handle(t_command *cmd_node, int pipefd[2][2])
 	}
 	else if (cmd_node->redir_in == 3)
 	{
-		// printf("redirect STDIN to pipes %d\n", 1 - ((cmd_node->id + 1) % 2));
 		fd = pipefd[1 - ((cmd_node->id + 1) % 2)][0];
 		return (fd);
 	}
 	else
 	{
-		// printf("read STDIN\n");
 		return (STDIN_FILENO);
 	}
 }

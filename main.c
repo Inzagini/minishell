@@ -15,7 +15,7 @@ int	main(int argc, char **argv, char **envp)
 
 	head = NULL;
 	// test = readline("Test prompt:");
-	test = "< main.c ls -l | cat -e > test_OUT_FILE";
+	test = "echo -a abds";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
@@ -27,12 +27,13 @@ int	main(int argc, char **argv, char **envp)
     env = init_env();
     expander(cmd_list, envp, &env);
 	t_command *temp = cmd_list;
-    // while (temp)
-    // {
-    //     print_command(temp);
-    //     temp = temp->next;
-    // }
-	executor(cmd_list);
+    while (temp)
+    {
+        print_command(temp);
+        temp = temp->next;
+    }
+	ft_echo(cmd_list);
+	// executor(cmd_list);
 	// Free memory
     // clean_env(&env);
     // clean_commands(cmd_list);
