@@ -3,21 +3,25 @@
 
 int expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **env, int *next_arg_id)
 {
-    char *expanded = expand_argument_dquote(arg->content, env); // Use expand_argument_noquote
+    // Step 1: Expand the content of the argument
+    char *expanded = expand_argument_dquote(arg->content, env);
     if (!expanded)
         return (1);
 
-    char **split_tokens = ft_split(expanded, ' '); // Split by whitespace
+    // Step 2: Split the expanded string by spaces
+    char **split_tokens = ft_split(expanded, ' ');
     free(expanded);
     if (!split_tokens)
         return (1);
 
     t_token *prev = find_previous_token(*arg_list, arg);
     t_token *next = arg->next;
+    t_token *last_added = NULL;  // Keep track of the last added token
 
-    t_token *last_added = NULL; // Track the last token added for proper insertion
+    // Step 3: Create tokens from the split parts and assign IDs
     for (int i = 0; split_tokens[i]; i++)
     {
+        // Create a new token from the current split token
         t_token *new_token = create_token2(split_tokens[i], (*next_arg_id)++);
         if (!new_token)
         {
@@ -25,19 +29,17 @@ int expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **e
             return (1);
         }
 
-        // If we're at the first split token, merge with the previous token
-        if (i == 0 && prev)
+        // Step 4: Insert the token into the list properly based on its position
+        if (i == 0 && prev) // If it's the first token, we merge with the previous token
         {
             merge_tokens(prev, new_token);
-            last_added = prev; // Update the last added token to prev
+            last_added = prev; // Update last added token to prev
         }
-        // If we're at the last token, merge with the next token
-        else if (!split_tokens[i + 1] && next)
+        else if (!split_tokens[i + 1] && next) // If it's the last token, we merge with the next
         {
             merge_tokens(new_token, next);
         }
-        // Otherwise, insert as a new token in the list
-        else
+        else // Otherwise, insert it as a standalone token
         {
             if (last_added)
                 insert_token_after(arg_list, last_added, new_token);
@@ -52,8 +54,6 @@ int expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **e
 
     return (0);
 }
-
-
 
 int expand_arguments_noquote(t_env *env, t_command *cmd_list)
 {
@@ -104,7 +104,6 @@ void remove_token(t_token **arg_list, t_token *token)
         if (prev)
             prev->next = token->next;
     }
-
     free(token->content); // Free the token content
     free(token);          // Free the token itself
 }
@@ -152,8 +151,9 @@ t_token *find_previous_token(t_token *arg_list, t_token *token)
     t_token *current = arg_list;
     while (current && current->next != token)
         current = current->next;
-
-    return (current);
+    if (current->arg_group_id == token->arg_group_id)
+        return (current);
+    return (NULL);
 }
 
 void merge_tokens(t_token *first, t_token *second)
