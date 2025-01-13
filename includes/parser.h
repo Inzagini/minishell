@@ -11,6 +11,7 @@ typedef struct s_command   //malloc
 {
 	int			id;
 	t_token		*arg_tokens;  //malloc
+	char		**args;
 	int			redir_in;
 	int			redir_out;
 	char		*redir_file_in;  //malloc
