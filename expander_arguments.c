@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+// i split the expanded variable at spaces
+// i merge with pre and merge with post
+
 int	is_valid_var_char(char c)
 {
 	return (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')

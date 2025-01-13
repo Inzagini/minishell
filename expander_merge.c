@@ -33,9 +33,8 @@ int	merge_arguments(t_command *cmd_list)
 			}
 			else
 			{
-				cmd->args[i] = content;
+				cmd->args[i++] = content;
 				max = arg->arg_group_id;
-				i++;
 			}
 			arg = arg->next;
 		}
