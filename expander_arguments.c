@@ -58,7 +58,7 @@ char	*expand_argument(char *arg, char **env)
 	result[0] = '\0';
 	len = 0;
 	dollar = ft_strchr(start, '$');
-	while ((dollar = ft_strchr(start, '$')))
+	while (dollar)
 	{
 		result = append_to_result(result, ft_strndup(start, dollar - start), &len);
 		if (!result)
@@ -78,22 +78,22 @@ char	*expand_argument(char *arg, char **env)
 int	expand_arguments(t_env *env, t_command *cmd_list)
 {
 	char	*expanded;
-	t_token	*cmd;
+	t_token	*arg;
 
 	while (cmd_list)
 	{
-		cmd = cmd_list->arg_tokens;
-		while (cmd)
+		arg = cmd_list->arg_tokens;
+		while (arg)
 		{
-			if (cmd->quote_identifier != 1)
+			if (arg->quote_identifier != 1)
 			{
-				expanded = expand_argument(cmd->content, env->env_current);
+				expanded = expand_argument(arg->content, env->env_current);
 				if (!expanded)
 					return (1);
-				free(cmd->content);
-				cmd->content = expanded;
+				free(arg->content);
+				arg->content = expanded;
 			}
-			cmd = cmd->next;
+			arg = arg->next;
 		}
 		cmd_list = cmd_list->next;
 	}

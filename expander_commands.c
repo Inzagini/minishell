@@ -41,7 +41,7 @@ char	*get_cmd(char **paths, char *cmd)
 		free(tmp);
 		if (access(command, X_OK) == 0)
 			return (command);
-        free (command);
+		free (command);
 		i++;
 	}
 	return (NULL);
