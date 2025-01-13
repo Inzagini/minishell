@@ -9,8 +9,7 @@ t_command	*parser(t_token *token_list)
 	{
 		if (parser.token->type == CMD || parser.token->type == ARG)
 		{
-			parser.args = add_argument(&parser);
-			if (!parser.args)
+			if (!add_argument_token(&parser))
 				return (NULL);
 		}
 		else if (handle_redirects(&parser) == 1)
@@ -31,8 +30,6 @@ t_command	*parser(t_token *token_list)
 
 void	initialize_parser(t_parser *parser, t_token *token_list)
 {
-	int	i;
-
 	parser->token = token_list;
 	parser->cmd_list = NULL;
 	parser->args = NULL;
@@ -43,19 +40,15 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
 	parser->heredoc_separator = NULL;
+	parser->args = NULL;
 	parser->single_quotes = 0;
 	parser->double_quotes = 0;
-	i = -1;
-	while (++i < 100)
-		parser->quote_identifier[i] = 0;
 	parser->pipe_flag_in = 0;
 	parser->pipe_flag_out = 0;
 }
 
 void	reset_parser(t_parser *parser)
 {
-	int	i;
-
 	parser->id++;
 	parser->args = NULL;
 	parser->size = 0;
@@ -66,27 +59,34 @@ void	reset_parser(t_parser *parser)
 	parser->heredoc_separator = NULL;
 	parser->single_quotes = 0;
 	parser->double_quotes = 0;
-	i = -1;
-	while (++i < 100)
-		parser->quote_identifier[i] = 0;
 }
 
-char	**add_argument(t_parser *parser)
+int	add_argument_token(t_parser *parser)
 {
-	char	**new_args;
-	int		i;
+	t_token	*new_token;
 
-	new_args = malloc(sizeof(char *) * (parser->size + 2));
-	if (!new_args)
-		return (clean_parser(parser), NULL);
-	i = -1;
-	while (++i < parser->size)
-		new_args[i] = parser->args[i];
-	new_args[i] = ft_strdup(parser->token->content);
-	if (!new_args[i])
-		return (clean_parser(parser), NULL);
-	new_args[i + 1] = NULL;
-	free(parser->args);
-	(parser->size)++;
-	return (new_args);
+	new_token = malloc(sizeof(t_token));
+	if (!new_token)
+		return (clean_parser(parser), 0);
+	new_token->content = ft_strdup(parser->token->content);
+	if (!new_token->content)
+		return (clean_parser(parser), free(new_token), 0);
+	// Set flags for quotes
+	new_token->quote_identifier = (parser->token->previous &&
+		(parser->token->previous->type == SQUOTE || parser->token->previous->type == DQUOTE)) ||
+		(parser->token->next &&
+		(parser->token->next->type == SQUOTE || parser->token->next->type == DQUOTE));
+	new_token->next = NULL;
+	// Add to argument token list
+	if (!parser->arg_tokens)
+		parser->arg_tokens = new_token;
+	else
+	{
+		t_token	*last = parser->arg_tokens;
+		while (last->next)
+			last = last->next;
+		last->next = new_token;
+	}
+	parser->size++;
+	return (1);
 }

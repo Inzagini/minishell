@@ -67,6 +67,7 @@ t_token	*create_token(char *content, t_token_type token_type)
 		return (NULL);
 	new_token->type = token_type;
 	new_token->content = content;
+	new_token->quote_identifier = 0;
 	new_token->previous = NULL;
 	new_token->next = NULL;
 	return (new_token);

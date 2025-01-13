@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-// To properly handle cases like $HOME'$ABC', 
-// your parser needs to accommodate multiple tokens being 
-// combined into a single argument, while also preserving the quotation 
+// To properly handle cases like $HOME'$ABC',
+// your parser needs to accommodate multiple tokens being
+// combined into a single argument, while also preserving the quotation
 // context for each individual token. This ensures that the expander c
 // an accurately decide which parts of the argument to expand and which to treat as literal.
 
@@ -24,17 +24,17 @@ int	main(int argc, char **argv, char **envp)
 		return 1;
 	}
 	// Print the commands
-    env = init_env();
-    expander(cmd_list, envp, &env);
+//    env = init_env();
+//    expander(cmd_list, envp, &env);
 	t_command *temp = cmd_list;
     while (temp)
     {
         print_command(temp);
         temp = temp->next;
     }
-    
+
 	// Free memory
-    clean_env(&env);
+//    clean_env(&env);
     clean_commands(cmd_list);
 	token_cleaner(head);
     return 0;
