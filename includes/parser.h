@@ -10,8 +10,8 @@ typedef struct s_env		t_env;
 typedef struct s_command   //malloc
 {
 	int			id;
-	char		**arguments;  //malloc (name is element of argument array, so no need to free separately)
-	int			quote_identifier[100];
+	t_token		*arg_tokens;  //malloc
+	char		**args;
 	int			redir_in;
 	int			redir_out;
 	char		*redir_file_in;  //malloc
@@ -29,7 +29,8 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 	t_command	*cmd_list;
 	t_token		*token;
 	t_command	*new_cmd;
-	char		**args;		// no need to free as handed over to command (unless it fails before handing over to command)
+	t_token		*arg_tokens; //malloc
+	int			arg_group_id;
 	int			size;
 	int			id;
 	int			redir_in;	// 0 no redirection || 1 redirect to file || 2 heredoc || 3 redirect to pipe
@@ -39,7 +40,6 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 	char		*heredoc_separator; // no need to free as handed over to command (unless it fails before handing over to command)
 	int			double_quotes;
 	int			single_quotes;
-	int			quote_identifier[100];
 	int			pipe_flag_in;
 	int			pipe_flag_out;
 	int			pipe_found;
@@ -49,7 +49,8 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 t_command	*parser(t_token *token_list);
 int			cmdnew(t_parser *parser);
 void		cmdadd(t_command **list, t_command *new);
-char		**add_argument(t_parser *parser);
+int			add_argument_token(t_parser *parser);
+void		set_quote_identifier(t_token *new_token, t_token *current);
 int			handle_redirects(t_parser *parser);
 int			handle_pipes (t_parser *parser);
 void		handle_pipe_flags(t_parser *parser);
@@ -57,7 +58,6 @@ int			set_redirects_single(t_parser *parser, t_token_type type);
 int			set_redirects_double(t_parser *parser, t_token_type type);
 
 
-void		handle_quotes(t_token *curr_token, t_parser *parser);
 void		initialize_parser(t_parser *parser, t_token *token_list);
 void		reset_parser(t_parser *parser);
 

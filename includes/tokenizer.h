@@ -28,6 +28,8 @@ typedef struct s_token_structure
 	char			*content;	//malloc
 	t_token			*previous;	//malloc
 	t_token			*next;		//malloc
+	int				quote_identifier;
+	int				arg_group_id;
 }	t_token;
 
 typedef struct s_token_data

@@ -60,27 +60,3 @@ int	set_redirects_double(t_parser *parser, t_token_type type)
 	}
 	return (0);
 }
-
-void	handle_quotes(t_token *token, t_parser *parser)
-{
-	if (token->type == DQUOTE)
-	{
-		if (parser->double_quotes == 0)
-			parser->double_quotes = 1;
-		else
-		{
-			parser->quote_identifier[parser->size - 1] = 2;
-			parser->double_quotes = 0;
-		}
-	}
-	else if (token->type == SQUOTE)
-	{
-		if (parser->single_quotes == 0)
-			parser->single_quotes = 1;
-		else
-		{
-			parser->quote_identifier[parser->size - 1] = 1;
-			parser->single_quotes = 0;
-		}
-	}
-}

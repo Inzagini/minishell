@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-// if the VAR cannot be found, it expands to 0
-// can rely on the identified quotes
-// if in double quotes -> expands into single argument (no word splitting)
-// if in single quotes -> expands into multiple arguments (word splitting)
-
 int	is_valid_var_char(char c)
 {
 	return (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
@@ -62,8 +57,8 @@ char	*expand_argument(char *arg, char **env)
 		return (NULL);
 	result[0] = '\0';
 	len = 0;
-    dollar = ft_strchr(start, '$');
-	while ((dollar = ft_strchr(start, '$')))
+	dollar = ft_strchr(start, '$');
+	while (dollar)
 	{
 		result = append_to_result(result, ft_strndup(start, dollar - start), &len);
 		if (!result)
@@ -74,7 +69,7 @@ char	*expand_argument(char *arg, char **env)
 		if (!result)
 			return (NULL);
 		start += ft_strspn(start, "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        dollar = ft_strchr(start, '$');
+		dollar = ft_strchr(start, '$');
 	}
 	result = append_to_result(result, start, &len);
 	return (result);
@@ -83,22 +78,22 @@ char	*expand_argument(char *arg, char **env)
 int	expand_arguments(t_env *env, t_command *cmd_list)
 {
 	char	*expanded;
-	int		i;
+	t_token	*arg;
 
 	while (cmd_list)
 	{
-		i = 0;
-		while (cmd_list->arguments[i])
+		arg = cmd_list->arg_tokens;
+		while (arg)
 		{
-			if (cmd_list->quote_identifier[i] != 1)
-            {
-                expanded = expand_argument(cmd_list->arguments[i], env->env_current);
-                if (!expanded)
-                    return (1);
-                free(cmd_list->arguments[i]);
-                cmd_list->arguments[i] = expanded;
-            }
-            i++;
+			if (arg->quote_identifier != 1)
+			{
+				expanded = expand_argument(arg->content, env->env_current);
+				if (!expanded)
+					return (1);
+				free(arg->content);
+				arg->content = expanded;
+			}
+			arg = arg->next;
 		}
 		cmd_list = cmd_list->next;
 	}

@@ -4,7 +4,7 @@
 # define EXPANDER_H
 
 typedef struct s_env
-{ 
+{
 	char    **env_current;
     char    *full_path;
     char    **cmd_paths;
@@ -29,6 +29,10 @@ int         is_valid_var_char(char c);
 char	    *find_var(char **envp, char *var);
 char        *ft_strndup(const char *src, size_t n);
 size_t      ft_strspn(const char *str, const char *accept);
+
+int			merge_arguments(t_command *cmd_list);
+int			calculate_size(t_token *token);
+
 
 
 

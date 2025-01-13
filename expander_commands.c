@@ -41,7 +41,7 @@ char	*get_cmd(char **paths, char *cmd)
 		free(tmp);
 		if (access(command, X_OK) == 0)
 			return (command);
-        free (command);
+		free (command);
 		i++;
 	}
 	return (NULL);
@@ -55,12 +55,12 @@ void	expand_commands(t_env *env, t_command *cmd_list)
     {
         if (cmd_list->builtin_flag == 0)
 		{
-			command = get_cmd(env->cmd_paths, cmd_list->arguments[0]);
+			command = get_cmd(env->cmd_paths, cmd_list->arg_tokens->content);
 			if (command)
 			{
-                free (cmd_list->arguments[0]);
-				cmd_list->arguments[0] = command;
-			} 
+                free (cmd_list->arg_tokens->content);
+				cmd_list->arg_tokens->content = command;
+			}
 		}
 		cmd_list = cmd_list->next;
     }

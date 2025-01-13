@@ -9,10 +9,11 @@ t_command	*parser(t_token *token_list)
 	{
 		if (parser.token->type == CMD || parser.token->type == ARG)
 		{
-			parser.args = add_argument(&parser);
-			if (!parser.args)
+			if (!add_argument_token(&parser))
 				return (NULL);
 		}
+		else if (parser.token->type == SEP)
+			parser.arg_group_id++;
 		else if (handle_redirects(&parser) == 1)
 			return (NULL);
 		else if (parser.token->type == PIPE || parser.token->type == NEW_LINE)
@@ -20,8 +21,6 @@ t_command	*parser(t_token *token_list)
 			if (handle_pipes(&parser) == 1)
 				return (NULL);
 		}
-		else if (parser.token->type == SQUOTE || parser.token->type == DQUOTE)
-			handle_quotes(parser.token, &parser);
 		parser.token = parser.token->next;
 	}
 	if (parser.size > 0 && cmdnew(&parser) == 1)
@@ -31,11 +30,10 @@ t_command	*parser(t_token *token_list)
 
 void	initialize_parser(t_parser *parser, t_token *token_list)
 {
-	int	i;
-
 	parser->token = token_list;
 	parser->cmd_list = NULL;
-	parser->args = NULL;
+	parser->arg_tokens = NULL;
+	parser->arg_group_id = 0;
 	parser->id = 0;
 	parser->size = 0;
 	parser->redir_in = 0;
@@ -43,50 +41,61 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
 	parser->heredoc_separator = NULL;
-	parser->single_quotes = 0;
-	parser->double_quotes = 0;
-	i = -1;
-	while (++i < 100)
-		parser->quote_identifier[i] = 0;
 	parser->pipe_flag_in = 0;
 	parser->pipe_flag_out = 0;
 }
 
 void	reset_parser(t_parser *parser)
 {
-	int	i;
-
 	parser->id++;
-	parser->args = NULL;
+	parser->arg_tokens = NULL;
+	parser->arg_group_id = 0;
 	parser->size = 0;
 	parser->redir_in = 0;
 	parser->redir_out = 0;
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
 	parser->heredoc_separator = NULL;
-	parser->single_quotes = 0;
-	parser->double_quotes = 0;
-	i = -1;
-	while (++i < 100)
-		parser->quote_identifier[i] = 0;
 }
 
-char	**add_argument(t_parser *parser)
+int	add_argument_token(t_parser *parser)
 {
-	char	**new_args;
-	int		i;
+	t_token	*new_token;
+	t_token	*last;
 
-	new_args = malloc(sizeof(char *) * (parser->size + 2));
-	if (!new_args)
-		return (clean_parser(parser), NULL);
-	i = -1;
-	while (++i < parser->size)
-		new_args[i] = parser->args[i];
-	new_args[i] = ft_strdup(parser->token->content);
-	if (!new_args[i])
-		return (clean_parser(parser), NULL);
-	new_args[i + 1] = NULL;
-	free(parser->args);
-	(parser->size)++;
-	return (new_args);
+	new_token = malloc(sizeof(t_token));
+	if (!new_token)
+		return (clean_parser(parser), 0);
+	new_token->content = ft_strdup(parser->token->content);
+	if (!new_token->content)
+		return (clean_parser(parser), free(new_token), 0);
+	set_quote_identifier(new_token, parser->token);
+	new_token->next = NULL;
+	new_token->arg_group_id = parser->arg_group_id;
+	if (!parser->arg_tokens)
+		parser->arg_tokens = new_token;
+	else
+	{
+		last = parser->arg_tokens;
+		while (last->next)
+			last = last->next;
+		last->next = new_token;
+	}
+	parser->size++;
+	return (1);
+}
+
+void	set_quote_identifier(t_token *new_token, t_token *current)
+{
+		if (current->previous && current->next)
+	{
+		if (current->previous->type == SQUOTE && current->next->type == SQUOTE)
+			new_token->quote_identifier = 1; // Single quotes
+		else if (current->previous->type == DQUOTE && current->next->type == DQUOTE)
+			new_token->quote_identifier = 2; // Double quotes
+		else
+			new_token->quote_identifier = 0; // No valid enclosing quotes
+	}
+	else
+		new_token->quote_identifier = 0; // No valid enclosing quotes
 }
