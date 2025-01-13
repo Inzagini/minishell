@@ -50,6 +50,7 @@ t_command	*parser(t_token *token_list);
 int			cmdnew(t_parser *parser);
 void		cmdadd(t_command **list, t_command *new);
 int			add_argument_token(t_parser *parser);
+void		set_quote_identifier(t_token *new_token, t_token *current);
 int			handle_redirects(t_parser *parser);
 int			handle_pipes (t_parser *parser);
 void		handle_pipe_flags(t_parser *parser);

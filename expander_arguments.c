@@ -57,7 +57,7 @@ char	*expand_argument(char *arg, char **env)
 		return (NULL);
 	result[0] = '\0';
 	len = 0;
-    dollar = ft_strchr(start, '$');
+	dollar = ft_strchr(start, '$');
 	while ((dollar = ft_strchr(start, '$')))
 	{
 		result = append_to_result(result, ft_strndup(start, dollar - start), &len);
@@ -69,7 +69,7 @@ char	*expand_argument(char *arg, char **env)
 		if (!result)
 			return (NULL);
 		start += ft_strspn(start, "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        dollar = ft_strchr(start, '$');
+		dollar = ft_strchr(start, '$');
 	}
 	result = append_to_result(result, start, &len);
 	return (result);
@@ -86,14 +86,14 @@ int	expand_arguments(t_env *env, t_command *cmd_list)
 		while (cmd)
 		{
 			if (cmd->quote_identifier != 1)
-            {
-                expanded = expand_argument(cmd->content, env->env_current);
-                if (!expanded)
-                    return (1);
-                free(cmd->content);
-                cmd->content = expanded;
-            }
-            cmd = cmd->next;
+			{
+				expanded = expand_argument(cmd->content, env->env_current);
+				if (!expanded)
+					return (1);
+				free(cmd->content);
+				cmd->content = expanded;
+			}
+			cmd = cmd->next;
 		}
 		cmd_list = cmd_list->next;
 	}

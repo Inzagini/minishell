@@ -7,6 +7,7 @@ int	merge_arguments(t_command *cmd_list)
 	int			i;
 	int			max;
 	char		*content;
+	char		*temp;
 
 	cmd = cmd_list;
 	while (cmd)
@@ -25,7 +26,11 @@ int	merge_arguments(t_command *cmd_list)
 			if (!content)	//clean up
 				return (1);
 			if (arg->arg_group_id == max)
+			{
+				i--;
 				cmd->args[i] = ft_strjoin(cmd->args[i], content); //needs protection
+				i++;
+			}
 			else
 			{
 				cmd->args[i] = content;

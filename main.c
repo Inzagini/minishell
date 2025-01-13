@@ -15,7 +15,7 @@ int	main(int argc, char **argv, char **envp)
 
 	head = NULL;
 	// test = readline("Test prompt:");
-	test = "grep abc$USER'$USER' > outfile | < infile ls -l -$SHELL";
+	test = "grep $SHELL'$SHELL'";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)

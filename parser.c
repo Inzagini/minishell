@@ -41,8 +41,6 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
 	parser->heredoc_separator = NULL;
-	parser->single_quotes = 0;
-	parser->double_quotes = 0;
 	parser->pipe_flag_in = 0;
 	parser->pipe_flag_out = 0;
 }
@@ -58,8 +56,6 @@ void	reset_parser(t_parser *parser)
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
 	parser->heredoc_separator = NULL;
-	parser->single_quotes = 0;
-	parser->double_quotes = 0;
 }
 
 int	add_argument_token(t_parser *parser)
@@ -73,10 +69,7 @@ int	add_argument_token(t_parser *parser)
 	new_token->content = ft_strdup(parser->token->content);
 	if (!new_token->content)
 		return (clean_parser(parser), free(new_token), 0);
-	new_token->quote_identifier = (parser->token->previous
-		&& (parser->token->previous->type == SQUOTE || parser->token->previous->type == DQUOTE))
-		|| (parser->token->next && (parser->token->next->type == SQUOTE
-		|| parser->token->next->type == DQUOTE));
+	set_quote_identifier(new_token, parser->token);
 	new_token->next = NULL;
 	new_token->arg_group_id = parser->arg_group_id;
 	if (!parser->arg_tokens)
@@ -90,4 +83,19 @@ int	add_argument_token(t_parser *parser)
 	}
 	parser->size++;
 	return (1);
+}
+
+void	set_quote_identifier(t_token *new_token, t_token *current)
+{
+		if (current->previous && current->next)
+	{
+		if (current->previous->type == SQUOTE && current->next->type == SQUOTE)
+			new_token->quote_identifier = 1; // Single quotes
+		else if (current->previous->type == DQUOTE && current->next->type == DQUOTE)
+			new_token->quote_identifier = 2; // Double quotes
+		else
+			new_token->quote_identifier = 0; // No valid enclosing quotes
+	}
+	else
+		new_token->quote_identifier = 0; // No valid enclosing quotes
 }

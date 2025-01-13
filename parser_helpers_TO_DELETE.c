@@ -19,6 +19,7 @@ void print_command(t_command *cmd)
 	while (args)
 	{
 		printf("\t%s\t", args->content);
+		printf("Quote ID: %d\t", args->quote_identifier);
 		printf("Arg ID: %d\n", args->arg_group_id);
 		args = args->next;
 	}
