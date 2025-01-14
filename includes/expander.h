@@ -14,6 +14,7 @@ typedef struct s_split
 {
 	char	*expanded;
 	char	**split_tokens;
+	int		count_token;
 	t_token	*prev;
 	t_token	*next;
 	t_token	*last_added;
@@ -48,6 +49,7 @@ char		*append_to_result(char *result, char *to_add, size_t *len);
 int			merge_arguments(t_command *cmd_list);
 int			calculate_size(t_token *token);
 
+int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg);
 int			expand_arguments_noquote(t_env *env, t_command *cmd_list);
 int			split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id);
 char		*expand_argument_noquote(char *arg, char **env);

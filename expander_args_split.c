@@ -1,43 +1,47 @@
 #include "minishell.h"
 #include <string.h>
 
+int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
+{
+	split->count_token = 0;
+		split->expanded = expand_argument(arg->content, env);
+	if (!split->expanded)
+		return (1);
+	split->split_tokens = ft_split(split->expanded, ' ');
+	free(split->expanded);
+	if (!split->split_tokens)
+		return (1);
+	while (split->split_tokens[split->count_token])
+		split->count_token++;
+	split->prev = find_previous_token(*arg_list, arg);
+	split->next = arg->next;
+	split->last_added = NULL;
+	split->merge_prev = 0;
+	if (split->prev)
+		split->merge_prev = 1;
+	split->merge_next = 0;
+	if (split->next && arg->arg_group_id == split->next->arg_group_id)
+		split->merge_next = 1;
+	split->update = split->next;
+	while (split->update)
+	{
+		if (split->update->next && split->update->arg_group_id == split->update->next->arg_group_id)
+			split->update->arg_group_id = arg->arg_group_id + split->count_token - split->merge_next - split->merge_prev;
+		else
+		{
+			split->update->arg_group_id = arg->arg_group_id + split->count_token - split->merge_next - split->merge_prev;
+			split->count_token++;
+		}
+		split->update = split->update->next;
+	}
+}
+
 int	split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id)
 {
 	t_split	split;
 	int		i;
-	int		k;
 
-	split.expanded = expand_argument(arg->content, env);
-	if (!split.expanded)
-		return (1);
-	split.split_tokens = ft_split(split.expanded, ' ');
-	free(split.expanded);
-	if (!split.split_tokens)
-		return (1);
-	k = 0;
-	while (split.split_tokens[k])
-		k++;
-	split.prev = find_previous_token(*arg_list, arg);
-	split.next = arg->next;
-	split.last_added = NULL;
-	split.merge_prev = 0;
-	if (split.prev)
-		split.merge_prev = 1;
-	split.merge_next = 0;
-	if (split.next && arg->arg_group_id == split.next->arg_group_id)
-		split.merge_next = 1;
-	split.update = split.next;
-	while (split.update)
-	{
-		if (split.update->next && split.update->arg_group_id == split.update->next->arg_group_id)
-			split.update->arg_group_id = arg->arg_group_id + k - split.merge_next - split.merge_prev;
-		else
-		{
-			split.update->arg_group_id = arg->arg_group_id + k - split.merge_next - split.merge_prev;
-			k++;
-		}
-		split.update = split.update->next;
-	}
+	init_split(&split, env, arg_list, arg);
 	i = -1;
 	while (split.split_tokens[++i])
 	{
