@@ -23,7 +23,7 @@ int			copy_envp(t_env *env, char **envp);
 t_env		init_env();
 
 int			expand_arguments_dquote(t_env *env, t_command *cmd_list);
-char		*expand_argument_dquote(char *arg, char **env);
+char		*expand_argument(char *arg, char **env);
 char		*find_var(char **env, char *var);
 int			is_valid_var_char(char c);
 char		*find_var(char **envp, char *var);
@@ -36,7 +36,7 @@ int			merge_arguments(t_command *cmd_list);
 int			calculate_size(t_token *token);
 
 int			expand_arguments_noquote(t_env *env, t_command *cmd_list);
-int			expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **env, int next_arg_id);
+int			split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id);
 char		*expand_argument_noquote(char *arg, char **env);
 
 void		free_split(char **split_tokens);
