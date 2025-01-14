@@ -42,8 +42,13 @@ int expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **e
     t_token *update = next;
     while (update)
     {
-        update->arg_group_id = arg->arg_group_id + k - merge_with_next - merge_with_prev;
-        k++;
+        if (update->next && update->arg_group_id == update->next->arg_group_id)
+            update->arg_group_id = arg->arg_group_id + k - merge_with_next - merge_with_prev;
+        else
+        {
+            update->arg_group_id = arg->arg_group_id + k - merge_with_next - merge_with_prev;
+            k++;
+        }
         update = update->next;
     }    
 
