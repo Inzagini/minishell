@@ -22,6 +22,11 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 	split->merge_next = 0;
 	if (split->next && arg->arg_group_id == split->next->arg_group_id)
 		split->merge_next = 1;
+	update_arg_ids(split, arg);
+}
+
+void	update_arg_ids(t_split *split, t_token *arg)
+{
 	split->update = split->next;
 	while (split->update)
 	{
