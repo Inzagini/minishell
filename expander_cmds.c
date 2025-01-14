@@ -49,19 +49,19 @@ char	*get_cmd(char **paths, char *cmd)
 
 void	expand_commands(t_env *env, t_command *cmd_list)
 {
-    char    *command;
+	char	*command;
 
 	while (cmd_list)
-    {
-        if (cmd_list->builtin_flag == 0)
+	{
+		if (cmd_list->builtin_flag == 0)
 		{
 			command = get_cmd(env->cmd_paths, cmd_list->arg_tokens->content);
 			if (command)
 			{
-                free (cmd_list->arg_tokens->content);
+				free (cmd_list->arg_tokens->content);
 				cmd_list->arg_tokens->content = command;
 			}
 		}
 		cmd_list = cmd_list->next;
-    }
+	}
 }

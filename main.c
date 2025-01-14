@@ -15,7 +15,7 @@ int	main(int argc, char **argv, char **envp)
 
 	head = NULL;
 	test = readline("Test prompt:");
-	// test = "echo ";
+//	test = "echo $VAR\"$VAR\"";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
     //     print_command(temp);
     //     temp = temp->next;
     // }
-	// ft_echo(cmd_list);
+	ft_echo(cmd_list);
 	// executor(cmd_list);
 	//// Free memory
     // clean_env(&env);

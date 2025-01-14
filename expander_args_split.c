@@ -12,6 +12,8 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 		return (1);
 	while (split->split_tokens[split->count_token])
 		split->count_token++;
+	if (split->count_token == 1)
+		return (0);
 	split->prev = find_previous_token(*arg_list, arg);
 	split->next = arg->next;
 	split->last_added = NULL;
@@ -50,6 +52,11 @@ int	split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id)
 	int		i;
 
 	init_split(&split, env, arg_list, arg);
+	if (split.count_token == 1)
+	{
+		arg->content = ft_strdup(split.split_tokens[0]);
+		return (free_split(split.split_tokens), 0);
+	}
 	i = -1;
 	while (split.split_tokens[++i])
 	{
@@ -88,7 +95,7 @@ int	split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id)
 	return (0);
 }
 
-int expand_arguments_noquote(t_env *env, t_command *cmd_list)
+int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 {
 	t_token *arg;
 
@@ -97,7 +104,7 @@ int expand_arguments_noquote(t_env *env, t_command *cmd_list)
 		arg = cmd_list->arg_tokens;
 		while (arg)
 		{
-			if (arg->quote_identifier == 0 && ft_strchr(arg->content, '$') != NULL) // Unquoted
+			if (arg->quote_identifier == 0 && ft_strchr(arg->content, '$') != NULL)
 			{
 				if (split_argument(&cmd_list->arg_tokens, arg, env->env_current, arg->arg_group_id))
 					return (1);
@@ -109,14 +116,14 @@ int expand_arguments_noquote(t_env *env, t_command *cmd_list)
 	return (0);
 }
 
-	void free_split(char **split_tokens)
-	{
-	if (!split_tokens)
-		return;
-	for (int i = 0; split_tokens[i]; i++)
-		free(split_tokens[i]);
-	free(split_tokens);
-	}
+void	free_split(char **split_tokens)
+{
+if (!split_tokens)
+	return;
+for (int i = 0; split_tokens[i]; i++)
+	free(split_tokens[i]);
+free(split_tokens);
+}
 
 void	remove_token(t_token **arg_list, t_token *token)
 {
@@ -189,7 +196,7 @@ t_token *find_previous_token(t_token *arg_list, t_token *token)
 	return (NULL);
 }
 
-void merge_tokens(t_token *first, t_token *second)
+void	merge_tokens(t_token *first, t_token *second)
 {
 	size_t	new_len;
 	char	*merged_content;

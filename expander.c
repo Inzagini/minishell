@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-t_command   *expander(t_command *cmd_list, char **envp, t_env *env)
+t_command	*expander(t_command *cmd_list, char **envp, t_env *env)
 {
-	t_command   *curr_cmd;
+	t_command	*curr_cmd;
 
 	if (copy_envp(env, envp) == 1)
 		return (NULL);
