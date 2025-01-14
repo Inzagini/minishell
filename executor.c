@@ -15,12 +15,8 @@ int	executor(t_command *lst_cmd)
 		data.pid = fork();
 		if (data.pid == 0)
 		{
-			data.in_fd = redirect_in_handle(lst_cmd, data.pipefd);
-			if (dup2(data.in_fd, STDIN_FILENO) == -1)
-				return (1);
-			data.out_fd = redirect_out_handle(lst_cmd, data.pipefd);
-			if (dup2(data.out_fd, STDOUT_FILENO) == -1)
-				return (1);
+			redirect_in_handle(lst_cmd, &data);
+			redirect_out_handle(lst_cmd, &data);
 			close_child_pipes(lst_cmd, data.pipefd);
 			call_execve(lst_cmd);
 		}
@@ -56,4 +52,6 @@ void	executor_init(t_exdat *data)
 {
 	pipe(data->pipefd[0]);
 	pipe(data->pipefd[1]);
+	data->in_fd = 0;
+	data->out_fd = 1;
 }

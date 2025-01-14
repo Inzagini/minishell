@@ -25,8 +25,8 @@ int		lst_len(t_command *lst);
 void	print_error(char *prefix, char *msg, char *name);
 
 //redirect funcs
-int	redirect_in_handle(t_command *cmd_node, int pipefd[2][2]);
-int	redirect_out_handle(t_command *cmd_node, int pipefd[2][2]);
+int	redirect_in_handle(t_command *cmd_node, t_exdat *data);
+int	redirect_out_handle(t_command *cmd_node, t_exdat *data);
 
 //pipes
 void	close_all_pipes(int pipefd[2][2]);

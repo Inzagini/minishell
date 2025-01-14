@@ -37,8 +37,8 @@ re: fclean all
 
 t: $(LIBFT)
 	clear
-	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g && ./a.out ${TEST_PROMPT}
+	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g && ./a.out
 
 leak: $(LIBFT)
 	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g
-	valgrind --leak-check=full ./a.out ${TEST_PROMPT}
+	valgrind --leak-check=full ./a.out
