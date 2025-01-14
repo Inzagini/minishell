@@ -11,6 +11,7 @@ t_command   *expander(t_command *cmd_list, char **envp, t_env *env)
 	if (!env->cmd_paths)
 		return (NULL);
 	check_builtins(cmd_list);
+	expand_tilde(env, cmd_list);
 	expand_arguments_dquote(env, cmd_list);
 	expand_arguments_noquote(env, cmd_list);
 	expand_commands(env, cmd_list);

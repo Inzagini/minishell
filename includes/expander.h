@@ -42,9 +42,8 @@ char		*find_var(char **env, char *var);
 int			is_valid_var_char(char c);
 char		*find_var(char **envp, char *var);
 char		*ft_strndup(const char *src, size_t n);
-size_t		ft_strspn(const char *str, const char *accept);
+size_t		ft_strspn(const char *str);
 char		*append_to_result(char *result, char *to_add, size_t *len);
-
 
 int			merge_arguments(t_command *cmd_list);
 int			calculate_size(t_token *token);
@@ -59,9 +58,15 @@ char		*expand_argument_noquote(char *arg, char **env);
 void		free_split(char **split_tokens);
 void		remove_token(t_token **arg_list, t_token *token);
 void		insert_token_after(t_token **arg_list, t_token *after, t_token *new_token);
-t_token		*create_token2(char *content, int arg_id);
+t_token		*create_token_split(char *content, int arg_id);
 t_token		*find_previous_token(t_token *arg_list, t_token *token);
 void		merge_tokens(t_token *first, t_token *second);
+
+int			expand_tilde(t_env *env, t_command *cmd_list);
+char		*replace_tilde(const char *content, char **env);
+
+
+
 
 
 

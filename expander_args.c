@@ -1,8 +1,5 @@
 #include "minishell.h"
 
-// i split the expanded variable at spaces
-// i merge with pre and merge with post
-
 int	is_valid_var_char(char c)
 {
 	return (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
@@ -67,11 +64,10 @@ char	*expand_argument(char *arg, char **env)
 		if (!result)
 			return (NULL);
 		start = dollar + 1;
-		result = append_to_result(result, find_var(env, ft_strndup(start,
-		ft_strspn(start, "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"))), &len);
+		result = append_to_result(result, find_var(env, ft_strndup(start, ft_strspn(start))), &len);
 		if (!result)
 			return (NULL);
-		start += ft_strspn(start, "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+		start += ft_strspn(start);
 		dollar = ft_strchr(start, '$');
 	}
 	result = append_to_result(result, start, &len);
@@ -121,20 +117,22 @@ char	*ft_strndup(const char *src, size_t n)
 	return (dup);
 }
 
-size_t	ft_strspn(const char *str, const char *accept)
+size_t	ft_strspn(const char *str)
 {
 	size_t	i;
 	size_t	j;
 	int		found;
+	char	*ok;
 
+	ok = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	i = 0;
 	while (str[i])
 	{
 		j = 0;
 		found = 0;
-		while (accept[j])
+		while (ok[j])
 		{
-			if (str[i] == accept[j])
+			if (str[i] == ok[j])
 			{
 				found = 1;
 				break ;

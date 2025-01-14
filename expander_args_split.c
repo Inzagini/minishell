@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include <string.h>
 
 int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 {
@@ -23,6 +22,7 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 	if (split->next && arg->arg_group_id == split->next->arg_group_id)
 		split->merge_next = 1;
 	update_arg_ids(split, arg);
+	return (0);
 }
 
 void	update_arg_ids(t_split *split, t_token *arg)
@@ -30,11 +30,14 @@ void	update_arg_ids(t_split *split, t_token *arg)
 	split->update = split->next;
 	while (split->update)
 	{
-		if (split->update->next && split->update->arg_group_id == split->update->next->arg_group_id)
-			split->update->arg_group_id = arg->arg_group_id + split->count_token - split->merge_next - split->merge_prev;
+		if (split->update->next
+			&& split->update->arg_group_id == split->update->next->arg_group_id)
+			split->update->arg_group_id = arg->arg_group_id
+				+ split->count_token - split->merge_next - split->merge_prev;
 		else
 		{
-			split->update->arg_group_id = arg->arg_group_id + split->count_token - split->merge_next - split->merge_prev;
+			split->update->arg_group_id = arg->arg_group_id
+				+ split->count_token - split->merge_next - split->merge_prev;
 			split->count_token++;
 		}
 		split->update = split->update->next;
@@ -50,7 +53,7 @@ int	split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id)
 	i = -1;
 	while (split.split_tokens[++i])
 	{
-		split.new_token = create_token2(split.split_tokens[i], (arg_id)++);
+		split.new_token = create_token_split(split.split_tokens[i], (arg_id)++);
 		if (!split.new_token)
 		{
 			free_split(split.split_tokens);
@@ -141,7 +144,7 @@ void insert_token_after(t_token **arg_list, t_token *after, t_token *new_token)
 {
 	if (!new_token)
 		return;
-	if (!after) // Insert at the head of the list
+	if (!after)
 	{
 		new_token->next = *arg_list;
 		*arg_list = new_token;
@@ -151,24 +154,24 @@ void insert_token_after(t_token **arg_list, t_token *after, t_token *new_token)
 		new_token->next = after->next;
 		after->next = new_token;
 	}
-	}
+}
 
-t_token *create_token2(char *content, int arg_id)
+t_token *create_token_split(char *content, int arg_id)
 	{
 	t_token *new_token;
 
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
-	new_token->content = ft_strdup(content); // Duplicate the content
+	new_token->content = ft_strdup(content);
 	if (!new_token->content)
 	{
 		free(new_token);
 		return (NULL);
 	}
 	new_token->arg_group_id = arg_id;
-	new_token->quote_identifier = 0;	// Default to unquoted
-	new_token->next = NULL;				// Initialize the next pointer to NULL
+	new_token->quote_identifier = 0;
+	new_token->next = NULL;
 	return (new_token);
 	}
 
@@ -196,9 +199,9 @@ void merge_tokens(t_token *first, t_token *second)
 	new_len = ft_strlen(first->content) + ft_strlen(second->content) + 1;
 	merged_content = malloc(new_len);
 	if (!merged_content)
-		return;
-	strcpy(merged_content, first->content); //replace with new function
-	strcat(merged_content, second->content); //replace with new function
+		return ;
+	ft_strlcpy(merged_content, first->content, new_len);
+	ft_strlcat(merged_content, second->content, new_len);
 	free(first->content);
 	first->content = merged_content;
 	first->next = second->next;
