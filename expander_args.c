@@ -47,7 +47,7 @@ char	*append_to_result(char *result, char *to_add, size_t *len)
 	return (result);
 }
 
-char	*expand_argument_dquote(char *arg, char **env)
+char	*expand_argument(char *arg, char **env)
 {
 	char	*result;
 	char	*start;
@@ -90,7 +90,7 @@ int	expand_arguments_dquote(t_env *env, t_command *cmd_list)
 		{
 			if (arg->quote_identifier == 2)
 			{
-				expanded = expand_argument_dquote(arg->content, env->env_current);
+				expanded = expand_argument(arg->content, env->env_current);
 				if (!expanded)
 					return (1);
 				free(arg->content);
