@@ -11,33 +11,38 @@ int	main(int argc, char **argv, char **envp)
 	char		*test;
 	t_token		*head;
 	t_command	*cmd_list;
-    t_env       env;
+    t_env		env;
 
-	head = NULL;
-	test = readline("Test prompt:");
-	// test = "echo ";
-	tokenizer(test, &head);
-	cmd_list = parser(head);
-	if (!cmd_list)
+	while (1)
 	{
+
+		head = NULL;
+		test = readline("Test prompt:");
+		// test = "echo ";
+		tokenizer(test, &head);
+		cmd_list = parser(head);
+		if (!cmd_list)
+		{
+			token_cleaner(head);
+			return 1;
+		}
+		// Print the commands
+		env = init_env();
+		expander(cmd_list, envp, &env);
+		// t_command *temp = cmd_list;
+		// while (temp)
+		// {
+		//     print_command(temp);
+		//     temp = temp->next;
+		// }
+
+		// call_build_in(cmd_list);
+		// executor(cmd_list);
+		//// Free memory
+		clean_env(&env);
+		clean_commands(cmd_list);
 		token_cleaner(head);
-		return 1;
 	}
-	// Print the commands
-    env = init_env();
-    expander(cmd_list, envp, &env);
-	// t_command *temp = cmd_list;
-    // while (temp)
-    // {
-    //     print_command(temp);
-    //     temp = temp->next;
-    // }
-	// ft_echo(cmd_list);
-	// executor(cmd_list);
-	//// Free memory
-    // clean_env(&env);
-    // clean_commands(cmd_list);
-	// token_cleaner(head);
     return 0;
 }
 

@@ -16,9 +16,10 @@ typedef struct s_executor_data
 int		executor(t_command *lst_cmd);
 
 //build_in functions
+void	call_build_in(t_command *cmd);
 void	ft_echo(t_command *cmd);
 void	ft_pwd(t_command *cmd);
-
+void	ft_cd(t_command *cmd);
 //supp
 int		lst_len(t_command *lst);
 void	print_error(char *prefix, char *msg, char *name);
