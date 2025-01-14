@@ -33,11 +33,13 @@ int	squote_handle(char *input_str, t_data *data, t_token **head)
 		return (data->exit_flag = 1, 1);
 	if (input_str[data->index] == '\'')
 	{
-		// printf("[SQUOTES]\n");
 		new_token = create_token(NULL, SQUOTE);
 		if (!new_token)
 			return (data->exit_flag = 1, 1);
 		append_token_lst(head, new_token);
+		// printf("[SQUOTES]\n");
+		data->start = data->index + 1;
+		return (0);
 	}
 	data->start = data->index;
 	return (0);
@@ -64,6 +66,8 @@ int	dquote_handle(char *input_str, t_data *data, t_token **head)
 			return (data->exit_flag = 1, 1);
 		append_token_lst(head, new_token);
 		// printf("[DQUOTES]\n");
+		data->start = data->index + 1;
+		return (0);
 	}
 	data->start = data->index;
 	return (0);
