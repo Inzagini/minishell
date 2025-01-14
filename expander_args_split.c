@@ -3,83 +3,75 @@
 
 int	split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id)
 {
-	char	*expanded;
-	char	**split_tokens;
+	t_split	split;
 	int		i;
 	int		k;
-	t_token	*prev;
-	t_token	*next;
-	t_token	*last_added;
-	t_token	*update;
-	t_token	*new_token;
-	int		merge_with_prev;
-	int		merge_with_next;
 
-	expanded = expand_argument(arg->content, env);
-	if (!expanded)
+	split.expanded = expand_argument(arg->content, env);
+	if (!split.expanded)
 		return (1);
-	split_tokens = ft_split(expanded, ' ');
-	free(expanded);
-	if (!split_tokens)
+	split.split_tokens = ft_split(split.expanded, ' ');
+	free(split.expanded);
+	if (!split.split_tokens)
 		return (1);
 	k = 0;
-	while (split_tokens[k])
+	while (split.split_tokens[k])
 		k++;
-	prev = find_previous_token(*arg_list, arg);
-	next = arg->next;
-	last_added = NULL;
-	merge_with_prev = 0;
-	if (prev)
-		merge_with_prev = 1;
-	merge_with_next = 0;
-	if (next && arg->arg_group_id == next->arg_group_id)
-		merge_with_next = 1;
-
-	update = next;
-	while (update)
+	split.prev = find_previous_token(*arg_list, arg);
+	split.next = arg->next;
+	split.last_added = NULL;
+	split.merge_prev = 0;
+	if (split.prev)
+		split.merge_prev = 1;
+	split.merge_next = 0;
+	if (split.next && arg->arg_group_id == split.next->arg_group_id)
+		split.merge_next = 1;
+	split.update = split.next;
+	while (split.update)
 	{
-		if (update->next && update->arg_group_id == update->next->arg_group_id)
-			update->arg_group_id = arg->arg_group_id + k - merge_with_next - merge_with_prev;
+		if (split.update->next && split.update->arg_group_id == split.update->next->arg_group_id)
+			split.update->arg_group_id = arg->arg_group_id + k - split.merge_next - split.merge_prev;
 		else
 		{
-			update->arg_group_id = arg->arg_group_id + k - merge_with_next - merge_with_prev;
+			split.update->arg_group_id = arg->arg_group_id + k - split.merge_next - split.merge_prev;
 			k++;
 		}
-		update = update->next;
+		split.update = split.update->next;
 	}
-	for (int i = 0; split_tokens[i]; i++)
+	i = -1;
+	while (split.split_tokens[++i])
 	{
-		new_token = create_token2(split_tokens[i], (arg_id)++);
-		if (!new_token)
+		split.new_token = create_token2(split.split_tokens[i], (arg_id)++);
+		if (!split.new_token)
 		{
-			free_split(split_tokens);
+			free_split(split.split_tokens);
 			return (1);
 		}
-		if (i == 0 && prev)
+		if (i == 0 && split.prev)
 		{
-			merge_tokens(prev, new_token);
-			last_added = prev;
+			merge_tokens(split.prev, split.new_token);
+			split.last_added = split.prev;
 		}
-		else if (!split_tokens[i + 1] && next)
+		else if (!split.split_tokens[i + 1] && split.next)
 		{
-			if (next->arg_group_id == arg->arg_group_id)
-				merge_tokens(new_token, next);
+			if (split.next->arg_group_id == arg->arg_group_id)
+				merge_tokens(split.new_token, split.next);
 			else
 			{
-				last_added->next = new_token;
-				new_token->next = next;
+				split.last_added->next = split.new_token;
+				split.new_token->next = split.next;
 			}
 		}
 		else
 		{
-			if (last_added)
-				insert_token_after(arg_list, last_added, new_token);
+			if (split.last_added)
+				insert_token_after(arg_list, split.last_added, split.new_token);
 			else
-				insert_token_after(arg_list, arg, new_token);
-			last_added = new_token;
+				insert_token_after(arg_list, arg, split.new_token);
+			split.last_added = split.new_token;
 		}
 	}
-	free_split(split_tokens);
+	free_split(split.split_tokens);
 	remove_token(arg_list, arg);
 	return (0);
 }

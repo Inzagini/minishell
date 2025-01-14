@@ -10,6 +10,19 @@ typedef struct s_env
 	char	**cmd_paths;
 }	t_env;
 
+typedef struct s_split
+{
+	char	*expanded;
+	char	**split_tokens;
+	t_token	*prev;
+	t_token	*next;
+	t_token	*last_added;
+	t_token	*update;
+	t_token	*new_token;
+	int		merge_prev;
+	int		merge_next;
+}	t_split;
+
 t_command	*expander(t_command *cmd_list, char **envp, t_env *env);
 void		check_builtins(t_command *cmd_list);
 
