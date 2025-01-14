@@ -1,9 +1,7 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-# include <sys/wait.h>
-# include <fcntl.h>
-# include <errno.h>
+# define PATH_MAX 4096
 
 
 typedef struct s_executor_data

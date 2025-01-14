@@ -26,13 +26,13 @@ int	main(int argc, char **argv, char **envp)
 	// Print the commands
     env = init_env();
     expander(cmd_list, envp, &env);
-	t_command *temp = cmd_list;
-    while (temp)
-    {
-        print_command(temp);
-        temp = temp->next;
-    }
-	// ft_echo(cmd_list);
+	// t_command *temp = cmd_list;
+    // while (temp)
+    // {
+    //     print_command(temp);
+    //     temp = temp->next;
+    // }
+	ft_echo(cmd_list);
 	// executor(cmd_list);
 	//// Free memory
     // clean_env(&env);
