@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include <string.h>
 
-int expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **env, int *next_arg_id)
+int expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **env, int next_arg_id)
 {
     // Step 1: Expand the content of the argument
     char *expanded = expand_argument_dquote(arg->content, env);
@@ -13,16 +13,48 @@ int expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **e
     free(expanded);
     if (!split_tokens)
         return (1);
+    // check # of tokens added
 
+    int k = 0;
+    while (split_tokens[k])
+        k++;
+ 
     t_token *prev = find_previous_token(*arg_list, arg);
     t_token *next = arg->next;
     t_token *last_added = NULL;  // Keep track of the last added token
+
+     // check if merge with prev happens (same id)
+
+    int merge_with_prev = 0;
+    if (prev)
+        merge_with_prev = 1;
+    // check if merge with last happens (same id)
+
+    int merge_with_next = 0;
+    if (next && arg->arg_group_id == next->arg_group_id)
+        merge_with_next = 1;
+
+  //  0 1 2
+  //  0 1 2 3 2 -> argID + split# -> 1 + 3 = 4
+  //  if merge pre or post -> argID + SPLIT# - 1
+  // if merge pre&post -> argID + SPLIT# - 2 
+    // recalculate IDs of following
+    t_token *update = next;
+    while (update)
+    {
+        update->arg_group_id = arg->arg_group_id + k - merge_with_next - merge_with_prev;
+        k++;
+        update = update->next;
+    }    
+
+    // ensure merge with next happens for same id
+
 
     // Step 3: Create tokens from the split parts and assign IDs
     for (int i = 0; split_tokens[i]; i++)
     {
         // Create a new token from the current split token
-        t_token *new_token = create_token2(split_tokens[i], (*next_arg_id)++);
+        t_token *new_token = create_token2(split_tokens[i], (next_arg_id)++);
         if (!new_token)
         {
             free_split(split_tokens);
@@ -37,7 +69,13 @@ int expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **e
         }
         else if (!split_tokens[i + 1] && next) // If it's the last token, we merge with the next
         {
-            merge_tokens(new_token, next);
+            if (next->arg_group_id == arg->arg_group_id)
+                  merge_tokens(new_token, next);
+            else     //if its last token but not to be merged, we insert and connect
+            {
+                last_added->next = new_token;
+                new_token->next = next;
+            }
         }
         else // Otherwise, insert it as a standalone token
         {
@@ -57,7 +95,6 @@ int expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **e
 
 int expand_arguments_noquote(t_env *env, t_command *cmd_list)
 {
-    int next_arg_id = 1; // Start from 1 for arguments (assuming cmd starts with 0)
     t_token *arg;
 
     while (cmd_list)
@@ -67,7 +104,7 @@ int expand_arguments_noquote(t_env *env, t_command *cmd_list)
         {
             if (arg->quote_identifier == 0 && ft_strchr(arg->content, '$') != NULL) // Unquoted
             {
-                if (expand_and_split_argument_noquote(&cmd_list->arg_tokens, arg, env->env_current, &next_arg_id))
+                if (expand_and_split_argument_noquote(&cmd_list->arg_tokens, arg, env->env_current, arg->arg_group_id))
                     return (1);
             }
             arg = arg->next;
@@ -159,7 +196,7 @@ t_token *find_previous_token(t_token *arg_list, t_token *token)
 void merge_tokens(t_token *first, t_token *second)
 {
     if (!first || !second)
-        return;
+        return ;
 
     size_t new_len = ft_strlen(first->content) + ft_strlen(second->content) + 1;
     char *merged_content = malloc(new_len);

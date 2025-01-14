@@ -36,7 +36,7 @@ int			merge_arguments(t_command *cmd_list);
 int			calculate_size(t_token *token);
 
 int         expand_arguments_noquote(t_env *env, t_command *cmd_list);
-int         expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **env, int *next_arg_id);
+int         expand_and_split_argument_noquote(t_token **arg_list, t_token *arg, char **env, int next_arg_id);
 char        *expand_argument_noquote(char *arg, char **env);
 
 void free_split(char **split_tokens);

@@ -15,7 +15,7 @@ int	main(int argc, char **argv, char **envp)
 
 	head = NULL;
 	test = readline("Test prompt:");
-//	test = "mkdir abc";
+//	test = "mkdir abc$VAR\bc abc";
 	tokenizer(test, &head);
 	cmd_list = parser(head);
 	if (!cmd_list)
