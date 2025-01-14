@@ -16,6 +16,7 @@ t_command	*expander(t_command *cmd_list, char **envp, t_env *env)
 	expand_arguments_noquote(env, cmd_list);
 	expand_commands(env, cmd_list);
 	merge_arguments(cmd_list);
+	
 	return (NULL);
 }
 

@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 		//     temp = temp->next;
 		// }
 
-		call_build_in(cmd_list);
+		call_build_in(cmd_list, &env.env_current);
 		// executor(cmd_list);
 		//// Free memory
 		clean_env(&env);
