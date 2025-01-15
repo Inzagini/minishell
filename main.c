@@ -42,11 +42,13 @@ int	main(int argc, char **argv, char **envp)
 		//     cmd_list = cmd_list->next;
 		// }
 		// cmd_list = temp;
-	// if (cmd_list->builtin_flag && lst_len(cmd_list) < 2)
-		call_build_in(cmd_list, env);
+		if (cmd_list->builtin_flag && lst_len(cmd_list) < 2)
+			call_build_in(cmd_list, &env);
+		else
+			executor(cmd_list, &env);
+		//// Free memory
+		
 		clean_commands(cmd_list);
-	// else
-		// 	executor(cmd_list, env);
 	}
 	clean_env(env);
 	return (0);
