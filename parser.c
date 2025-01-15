@@ -30,8 +30,10 @@ t_command	*parser(t_token *token_list)
 
 void	initialize_parser(t_parser *parser, t_token *token_list)
 {
-	parser->token = token_list;
+	parser->new_cmd = NULL;
 	parser->cmd_list = NULL;
+	parser->arg_tokens = NULL;
+	parser->token = token_list;
 	parser->arg_tokens = NULL;
 	parser->arg_group_id = 0;
 	parser->id = 0;
@@ -41,8 +43,11 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
 	parser->heredoc_separator = NULL;
+	parser->double_quotes = 0;
+	parser->single_quotes = 0;
 	parser->pipe_flag_in = 0;
 	parser->pipe_flag_out = 0;
+	parser->pipe_found = 0;
 }
 
 void	reset_parser(t_parser *parser)

@@ -12,10 +12,10 @@ t_env	*init_env(char **envp)
 	env->export_current = NULL;
 	env->full_path = NULL;
 	env->last_exit_status = 0;
-	env->env_current = copy_envp(envp);
+	env->env_current = copy_envp(envp, 0);
 	if (env->env_current == NULL)
 		return (free(env), NULL);
-	env->export_current = copy_envp(envp);
+	env->export_current = copy_envp(envp, 1);
 	if (env->export_current == NULL)
 		return (clean_env(env), free(env), NULL);
 	env->full_path = find_path(env->env_current);
@@ -29,7 +29,7 @@ t_env	*init_env(char **envp)
 
 
 
-char	**copy_envp(char **envp)
+char	**copy_envp(char **envp, int exp)
 {
 	int		i;
 	int		j;
@@ -42,6 +42,52 @@ char	**copy_envp(char **envp)
 	if (!copy)
 		return (NULL);
 	copy[i] = 0;
+	if (exp == 0)
+	{
+		if (copy_to_env(copy, envp, i, j) == 1)
+			return (NULL);
+	}
+	else if (exp == 1)
+	{
+		if (copy_to_exp(copy, envp, i, j) == 1)
+			return (NULL);
+	}
+	return (copy);
+}
+
+int	copy_to_exp(char **copy, char **envp, int i, int j)
+{
+	j = -1;
+	while (envp[++j])
+	{
+		copy[j] = malloc((ft_strlen(envp[j]) + 3) * sizeof(char));
+		if (!copy[j])
+		{
+			while (--j >= 0)
+				free (copy[j]);
+			return (free (copy), 1);
+		}
+		i = 0;
+		while (envp[j][i] && envp[j][i] != '=')
+		{
+			copy[j][i] = envp[j][i];
+			i++;
+		}
+		copy[j][i++] = '=';
+		copy[j][i++] = '"';
+		while (envp[j][i - 1])
+		{
+			copy[j][i] = envp[j][i - 1];
+			i++;
+		}
+		copy[j][i] = '"';
+		copy[j][i + 1] = '\0';
+	}
+	return (0);
+}
+
+int	copy_to_env(char **copy, char **envp, int i, int j)
+{
 	j = -1;
 	while (envp[++j])
 	{
@@ -50,16 +96,16 @@ char	**copy_envp(char **envp)
 		{
 			while (--j >= 0)
 				free (copy[j]);
-			return (free (copy[i]), free (copy), NULL);
+			return (free(copy), 1);
 		}
 	}
-	return (copy);
+	return (0);
 }
 
 void	clean_env(t_env *env)
 {
 	int	i;
-	
+
 	i = 0;
 	if (env->env_current && env->env_current[i])
 	{

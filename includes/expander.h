@@ -35,8 +35,10 @@ char		*get_cmd(char **paths, char *cmd);
 void		expand_commands(t_env *env, t_command *command);
 
 void		clean_env(t_env *env);
-char		**copy_envp(char **envp);
+char		**copy_envp(char **envp, int exp);
 t_env		*init_env(char **envp);
+int			copy_to_env(char **copy, char **envp, int i, int j);
+int			copy_to_exp(char **copy, char **envp, int i, int j);
 
 int			expand_arguments_dquote(t_env *env, t_command *cmd_list);
 char		*expand_argument(char *arg, char **env);

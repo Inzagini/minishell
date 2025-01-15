@@ -17,7 +17,6 @@ typedef struct s_command   //malloc
 	char		*redir_file_in;  //malloc
 	char		*redir_file_out; //malloc
 	char		*heredoc_separator; //malloc
-	int			pipe_flag;
 	int			size;
 	int			builtin_flag;
 	t_env		*env;
