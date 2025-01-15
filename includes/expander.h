@@ -6,6 +6,7 @@
 typedef struct s_env
 {
 	char	**env_current;
+	char	**export_current;
 	char	*full_path;
 	char	**cmd_paths;
 	int		last_exit_status;
@@ -34,7 +35,7 @@ char		*get_cmd(char **paths, char *cmd);
 void		expand_commands(t_env *env, t_command *command);
 
 void		clean_env(t_env *env);
-int			copy_envp(t_env *env, char **envp);
+char		**copy_envp(char **envp);
 t_env		init_env();
 
 int			expand_arguments_dquote(t_env *env, t_command *cmd_list);

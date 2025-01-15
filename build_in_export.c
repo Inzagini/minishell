@@ -1,59 +1,115 @@
 #include "minishell.h"
 
-void	print_env(t_env	*env);
-void	sort_env(t_env *env);
+void	print_export(t_env	*env);
+void	sort_export(t_env *env);
 int		check_options(char **args);
+int		check_argument(char *arg);
+int		find_argument(char *var, char **env);
 
 
 
 void	ft_export(t_command *cmd, t_env *env)
 {
-/*
-	+ append to env_current
-
-	DONE call without arguments -> show all variables in env as declare -x VAR="abc"
-
-	call with multiple arguments -> create multiple variables
-
- 	if "-" in the very beginning of any argument -> invalid option error, do not export anything
-		exit with exit code 2
-
-	export each variable individually, print error if not valid (invalid chars) but continue with others
-		exit with exit code 1 (irrespective of position)
-
-	The name of an environment variable can only contain letters, numbers, and underscores (_), but it cannot start with a number
-
-	pseudocode
-		parse input (check for - and flag arguments that contain invalid characters)
-		invalid option -> exit with exit code 2
-		no arguments -> printf env with declare -x (each line)
-		add/replace valid arguments in env (sort by number, large cap, small cap)
-			replace: check if string before '=' or end is same, if yes, replace
-		print error message if invalid var_name found
-		exit with correct exit code (0 if all good)
-
-*/
-	int			i;
+	int	i;
+	int	j;
 
 	i = 0;
 	if (cmd->args[1] == 0)
-		print_env(env);
+		print_export(env);
 	i = check_options(cmd->args);
 	if (i > 0)
 	{
-		printf("%s: %s: %s: invalid option\n", getenv("SHELL"), cmd->args[0], cmd->args[i]);  // need to define path, set error message etc.
+		printf("%s: export: %s: invalid option\n", getenv("SHELL"), cmd->args[i]);  // need to define path, set error message etc.
+		printf("export: usage: export [name[=value] ...]\n");
+		env->last_exit_status = 2;
 		return ;
 	}
-	while (++i < cmd->size)
+	while (cmd->args[++i])
 	{
-			//check for invalid option
-			//	if invalid option -> error and exit code
+		if (check_argument(cmd->args[i]) == 1)
+		{
+			printf("%s: export: `%s': not a valid identifier\n", getenv("SHELL"), cmd->args[i]);
+			env->last_exit_status = 1;
+		}
+		else
+		{
+			j = find_argument(cmd->args[i], env->export_current);
+			if (j > 0)
+			{
+				printf("found\n");
+				if (ft_strchr(cmd->args[i], '='))
+				{
+					// if = sign, update in both export and env list
+					free (env->export_current[j]);
+					env->export_current[j] = ft_strdup(cmd->args[i]);
+					if (!env->export_current[j])
+						return ;		//need some exit/cleaning
+				}
 
-			// loop through arguments -> if invalid -> skip and flag
-			// if valid -> append
-			// if flag, print error and set exit code
-
+			}
+			else
+			{
+				// if '= sign', append to both export and env list
+				// if no equal sign, only append to export list
+				printf("not found\n");
+			}
+		}
 	}
+}
+
+int	find_argument(char *var, char **env)
+{
+	size_t	len_var;
+	size_t	i;
+	char	*end;
+	char	*env_eq;
+
+	i = -1;
+	end = ft_strchr(var, '=');
+	if (end != NULL)
+		len_var = end - var;
+	else
+		len_var = ft_strlen(var);
+	while (env[++i])
+	{
+		env_eq = ft_strchr(env[i], '=');
+		if (env_eq != NULL)
+		{
+			if (ft_strncmp(env[i], var, len_var) == 0 && env[i][len_var] == '=')
+				return (i);
+		}
+		else
+			if (ft_strncmp(env[i], var, len_var) == 0)
+				return (i);
+	}
+	return (-1);
+}
+
+
+int	check_argument(char *arg)
+{
+	size_t	i;
+	size_t	j;
+	char	*ok;
+
+	ok = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	i = 0;
+	while (arg[i])
+	{
+		j = 0;
+		if (i > 0 && arg[i] == '=')
+			break ;
+		while (ok[j])
+		{
+			if (arg[i] == ok[j])
+				break ;
+			j++;
+		}
+		if (j == 63)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	check_options(char **args)
@@ -70,29 +126,29 @@ int	check_options(char **args)
 	return (0);
 }
 
-void	print_env(t_env *env)
+void	print_export(t_env *env)
 {
 	int	i;
 
 	i = -1;
-	sort_env(env);
-	while (env->env_current[++i])
-		printf("declare -x %s\n", env->env_current[i]);
+	sort_export(env);
+	while (env->export_current[++i])
+		printf("declare -x %s\n", env->export_current[i]);
 }
 
-void	sort_env(t_env *env)
+void	sort_export(t_env *env)
 {
 	char	*temp;
 	int		i;
 
 	i = 0;
-	while (env->env_current[i] && env->env_current[i + 1])
+	while (env->export_current[i] && env->export_current[i + 1])
 	{
-		if (ft_strncmp(env->env_current[i], env->env_current[i + 1], 1024) > 0)
+		if (ft_strncmp(env->export_current[i], env->export_current[i + 1], 1024) > 0)
 		{
-			temp = env->env_current[i];
-			env->env_current[i] = env->env_current[i + 1];
-			env->env_current[i + 1] = temp;
+			temp = env->export_current[i];
+			env->export_current[i] = env->export_current[i + 1];
+			env->export_current[i + 1] = temp;
 			i = 0;
 		}
 		else
