@@ -1,7 +1,6 @@
 #include "minishell.h"
 
 static void	call_execve(t_command *data, t_env *env);
-static void	executor_init(t_exdat *data);
 
 int	executor(t_command *cmd_lst, t_env *env)
 {
@@ -19,7 +18,10 @@ int	executor(t_command *cmd_lst, t_env *env)
 			redirect_out_handle(cmd_lst, &data);
 			close_child_pipes(cmd_lst, data.pipefd);
 			if (cmd_lst->builtin_flag)
+			{
 				call_build_in(cmd_lst, env);
+				exit(0);
+			}
 			else
 				call_execve(cmd_lst, env);
 		}
@@ -51,7 +53,7 @@ static void	call_execve(t_command *data, t_env *env)
 	}
 }
 
-static void	executor_init(t_exdat *data)
+void	executor_init(t_exdat *data)
 {
 	pipe(data->pipefd[0]);
 	pipe(data->pipefd[1]);

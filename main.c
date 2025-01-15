@@ -43,12 +43,13 @@ int	main(int argc, char **argv, char **envp)
 		// }
 		// cmd_list = temp;
 		if (cmd_list->builtin_flag && lst_len(cmd_list) < 2)
-			call_build_in(cmd_list, &env);
+			execute_build_in(cmd_list, &env);
 		else
 			executor(cmd_list, &env);
 		//// Free memory
 		clean_env(&env);
 		clean_commands(cmd_list);
+		// printf("\n");
 	}
 	return 0;
 }

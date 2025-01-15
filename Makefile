@@ -21,7 +21,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) -I. -Ilibft -L$(LIBFT_DIR) -lft -o $(NAME)
 
 %.o: %.c
-		$(CC) $(CFLAGS) -I$(INCLUDES) -Ilibft -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INCLUDES) -Ilibft -c $< -o $@
 
 clean:
 	$(MAKE) clean -C $(LIBFT_DIR)

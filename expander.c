@@ -35,15 +35,15 @@ void	check_builtins(t_command *cmd_list)
 			cmd_list->builtin_flag = 1;
 		if (ft_strncmp(arg, "cd", 2) == 0)
 			cmd_list->builtin_flag = 1;
-		if (ft_strncmp(arg, "pwd", 3) == 0)
+		else if (ft_strncmp(arg, "pwd", 3) == 0)
 			cmd_list->builtin_flag = 1;
-		if (ft_strncmp(arg, "export", 6) == 0)
+		else if (ft_strncmp(arg, "export", 6) == 0)
 			cmd_list->builtin_flag = 1;
-		if (ft_strncmp(arg, "unset", 5) == 0)
+		else if (ft_strncmp(arg, "unset", 5) == 0)
 			cmd_list->builtin_flag = 1;
-		if (ft_strncmp(arg, "env", 3) == 0)
+		else if (ft_strncmp(arg, "env", 3) == 0)
 			cmd_list->builtin_flag = 1;
-		if (ft_strncmp(arg, "exit", 4) == 0)
+		else if (ft_strncmp(arg, "exit", 4) == 0)
 			cmd_list->builtin_flag = 1;
 		cmd_list = cmd_list->next;
 	}
