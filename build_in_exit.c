@@ -3,30 +3,34 @@
 int	is_allnums(char *str);
 unsigned char	ft_atouc(char *str);
 
+//exit don't clean yet
 void	ft_exit(t_command *cmd, t_env *env)
 {
-	if (cmd->args[2] != NULL)
-	{
-		print_error(ft_getenv("SHELL", env->env_current), "too many arguments", "exit");
-		return ;
-	}
 	if (cmd->args[1] != NULL)
 	{
-		if (is_allnums(cmd->args[1]))
+		if (cmd->args[2] != NULL)
+		{
+			print_error(ft_getenv("SHELL", env->env_current), "too many arguments", "exit");
+		}
+		else if (is_allnums(cmd->args[1]))
 		{
 			print_error(ft_getenv("SHELL", env->env_current), "numeric argument required", cmd->args[1]);
-			printf("2\n");
+			exit(2);
 		}
 		else if (cmd->args[1])
 		{
 			printf("exit\n");
-			printf("%d\n", ft_atouc(cmd->args[1]));
+			clean_env(env);
+			clean_commands(cmd);
+			exit(ft_atouc(cmd->args[1]));
 		}
 	}
 	else
 	{
-		printf("exit");
-		printf("%d\n", env->last_exit_status);
+		printf("exit\n");
+		clean_env(env);
+		clean_commands(cmd);
+		exit(env->last_exit_status);
 	}
 }
 

@@ -6,34 +6,42 @@
 // context for each individual token. This ensures that the expander c
 // an accurately decide which parts of the argument to expand and which to treat as literal.
 
+void	test_signal(int sig)
+{
+	(void)sig;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*test;
 	t_token		*head;
 	t_command	*cmd_list;
-    t_env		env;
+	t_env		env;
 
-	// while (1)
-	// {
+	// signal(SIGINT, test_signal);
+
+	while (1)
+	{
 		head = NULL;
-		test = readline("Test prompt:");
+		test = readline("1 | Test prompt:");
 		// test = " ";
 		tokenizer(test, &head);
 		cmd_list = parser(head);
 		if (!cmd_list)
 		{
-			clean_tokens(head);
+			clean_tokens(&head);
 			return 1;
 		}
+		clean_tokens(&head);
 		env = init_env();
 		expander(cmd_list, envp, &env);
 		// t_command *temp = cmd_list;
-		// while (temp)
+		// while (cmd_list)
 		// {
-		//     print_command(temp);
-		//     temp = temp->next;
+		//     print_command(cmd_list);
+		//     cmd_list = cmd_list->next;
 		// }
-
+		// cmd_list = temp;
 		if (cmd_list->builtin_flag && lst_len(cmd_list) < 2)
 			call_build_in(cmd_list, &env);
 		else
@@ -41,8 +49,7 @@ int	main(int argc, char **argv, char **envp)
 		//// Free memory
 		clean_env(&env);
 		clean_commands(cmd_list);
-		clean_tokens(head);
-	// }
-    return 0;
+	}
+	return 0;
 }
 

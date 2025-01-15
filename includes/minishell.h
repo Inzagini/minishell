@@ -11,6 +11,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <limits.h>
+# include <signal.h>
 # include "tokenizer.h"
 # include "parser.h"
 # include "executor.h"
