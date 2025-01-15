@@ -13,11 +13,11 @@ int	main(int argc, char **argv, char **envp)
 	t_command	*cmd_list;
     t_env		env;
 
-	// while (1)
-	// {
+	while (1)
+	{
 		head = NULL;
 		test = readline("Test prompt:");
-		// test = " ";
+	//	test = "export abc";
 		tokenizer(test, &head);
 		cmd_list = parser(head);
 		if (!cmd_list)
@@ -36,13 +36,13 @@ int	main(int argc, char **argv, char **envp)
 		// }
 
 		// printf("env %s\n", env.env_current[0]);
-		// call_build_in(cmd_list, env);
-		// executor(cmd_list);
+		call_build_in(cmd_list, &env);
+		//executor(cmd_list);
 		//// Free memory
 		clean_env(&env);
 		clean_commands(cmd_list);
 		clean_tokens(head);
-	// }
+	}
     return 0;
 }
 
