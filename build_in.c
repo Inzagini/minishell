@@ -17,7 +17,7 @@ void	call_build_in(t_command *cmd, t_env *env)
 	else if (!ft_strcmp(cmd->args[0], "env"))
 		printf("unsupport\n");
 	else if (!ft_strcmp(cmd->args[0], "exit"))
-		printf("unsupport\n");
+		ft_exit(cmd, env);
 
 }
 

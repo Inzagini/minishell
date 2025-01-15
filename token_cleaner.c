@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	token_cleaner(t_token *head)
+void	clean_tokens(t_token *head)
 {
 	t_token	*tmp;
 

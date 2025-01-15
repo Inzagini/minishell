@@ -8,6 +8,7 @@ typedef struct s_env
 	char	**env_current;
 	char	*full_path;
 	char	**cmd_paths;
+	int		last_exit_status;
 }	t_env;
 
 typedef struct s_split

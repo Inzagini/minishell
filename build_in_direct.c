@@ -17,3 +17,5 @@ void	ft_cd(t_command *cmd)
 		return ;
 	}
 }
+
+
