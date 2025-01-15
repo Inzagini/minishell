@@ -5,11 +5,11 @@ int	ft_strcmp(char *s1, char *s2);
 void	call_build_in(t_command *cmd, t_env *env)
 {
 	if (!ft_strcmp(cmd->args[0], "cd"))
-		ft_cd(cmd);
+		ft_cd(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "echo"))
 		ft_echo(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		ft_pwd(cmd);
+		ft_pwd(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "export"))
 		ft_export(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "unset"))

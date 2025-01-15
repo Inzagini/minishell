@@ -1,34 +1,37 @@
 #include "minishell.h"
 
-void	call_execve(t_command *data);
-void	executor_init(t_exdat *data);
+static void	call_execve(t_command *data, t_env *env);
+static void	executor_init(t_exdat *data);
 
-int	executor(t_command *lst_cmd)
+int	executor(t_command *cmd_lst, t_env *env)
 {
 	t_exdat	data;
 
 	executor_init(&data);
-	while (lst_cmd)
+	while (cmd_lst)
 	{
-		if (lst_cmd->id != 0)
-			pipe(data.pipefd[(lst_cmd->id + 1) % 2]);
+		if (cmd_lst->id != 0)
+			pipe(data.pipefd[(cmd_lst->id + 1) % 2]);
 		data.pid = fork();
 		if (data.pid == 0)
 		{
-			redirect_in_handle(lst_cmd, &data);
-			redirect_out_handle(lst_cmd, &data);
-			close_child_pipes(lst_cmd, data.pipefd);
-			call_execve(lst_cmd);
+			redirect_in_handle(cmd_lst, &data);
+			redirect_out_handle(cmd_lst, &data);
+			close_child_pipes(cmd_lst, data.pipefd);
+			if (cmd_lst->builtin_flag)
+				call_build_in(cmd_lst, env);
+			else
+				call_execve(cmd_lst, env);
 		}
-		close_parent_pipes(lst_cmd, data.pipefd);
-		lst_cmd = lst_cmd->next;
+		close_parent_pipes(cmd_lst, data.pipefd);
+		cmd_lst = cmd_lst->next;
 	}
 	wait(NULL);
 	close_all_pipes(data.pipefd);
 	return (0);
 }
 
-void	call_execve(t_command *data)
+static void	call_execve(t_command *data, t_env *env)
 {
 	int	status;
 
@@ -36,7 +39,7 @@ void	call_execve(t_command *data)
 		print_error(getenv("SHELL"), "command not found", NULL);
 	else
 	{
-		status = execve(data->args[0], data->args, NULL);
+		status = execve(data->args[0], data->args, env->env_current);
 		if (status == -1)
 		{
 			print_error(getenv("SHELL"),
@@ -48,7 +51,7 @@ void	call_execve(t_command *data)
 	}
 }
 
-void	executor_init(t_exdat *data)
+static void	executor_init(t_exdat *data)
 {
 	pipe(data->pipefd[0]);
 	pipe(data->pipefd[1]);

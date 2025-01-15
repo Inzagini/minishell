@@ -65,14 +65,14 @@ void	exit_check(int n_cmd)
 	while (i < n_cmd)
 	{
 		wait(&status);
-		if (my_wiexitstatus(status) != 0)
+		if (ft_wiexitstatus(status) != 0)
 		{
-			if (my_wiexitstatus(status) > 0)
-				last_status = my_wiexitstatus(status);
+			if (ft_wiexitstatus(status) > 0)
+				last_status = ft_wiexitstatus(status);
 		}
 		i++;
 	}
-	if (my_wiexitstatus(status) == -1 || my_wiexitstatus(status) == 1)
+	if (ft_wiexitstatus(status) == -1 || ft_wiexitstatus(status) == 1)
 		exit(last_status);
 	exit(0);
 }

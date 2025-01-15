@@ -3,17 +3,15 @@
 
 # define PATH_MAX 4096
 
-
 typedef struct s_executor_data
 {
 	int	pipefd[2][2];
 	pid_t	pid;
 	int		in_fd;
 	int		out_fd;
-
 }	t_exdat;
 
-int		executor(t_command *lst_cmd);
+int		executor(t_command *cmd_lst, t_env *env);
 
 //build_in functions
 void	call_build_in(t_command *cmd, t_env *env);
@@ -34,6 +32,6 @@ int	redirect_out_handle(t_command *cmd_node, t_exdat *data);
 
 //pipes
 void	close_all_pipes(int pipefd[2][2]);
-void	close_parent_pipes(t_command *lst_cmd, int pipefd[2][2]);
-void	close_child_pipes(t_command *lst_cmd, int pipefd[2][2]);
+void	close_parent_pipes(t_command *cmd_lst, int pipefd[2][2]);
+void	close_child_pipes(t_command *cmd_lst, int pipefd[2][2]);
 #endif

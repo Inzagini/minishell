@@ -25,7 +25,6 @@ int	main(int argc, char **argv, char **envp)
 			clean_tokens(head);
 			return 1;
 		}
-		// Print the commands
 		env = init_env();
 		expander(cmd_list, envp, &env);
 		// t_command *temp = cmd_list;
@@ -35,9 +34,10 @@ int	main(int argc, char **argv, char **envp)
 		//     temp = temp->next;
 		// }
 
-		// printf("env %s\n", env.env_current[0]);
-		// call_build_in(cmd_list, env);
-		// executor(cmd_list);
+		if (cmd_list->builtin_flag && lst_len(cmd_list) < 2)
+			call_build_in(cmd_list, &env);
+		else
+			executor(cmd_list, &env);
 		//// Free memory
 		clean_env(&env);
 		clean_commands(cmd_list);

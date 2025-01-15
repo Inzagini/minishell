@@ -2,14 +2,17 @@
 
 int	lst_len(t_command *lst)
 {
-	int	len;
+	int			len;
+	t_command	*head;
 
 	len = 0;
+	head = lst;
 	while (lst)
 	{
 		len++;
 		lst = lst->next;
 	}
+	lst = head;
 	return (len);
 }
 
