@@ -10,7 +10,13 @@ void	test_signal(int sig)
 {
 	(void)sig;
 }
-
+static void	executor_init(t_exdat *data)
+{
+	pipe(data->pipefd[0]);
+	pipe(data->pipefd[1]);
+	data->in_fd = 0;
+	data->out_fd = 1;
+}
 int	main(int argc, char **argv, char **envp)
 {
 	char		*test;
@@ -49,6 +55,7 @@ int	main(int argc, char **argv, char **envp)
 		//// Free memory
 		clean_env(&env);
 		clean_commands(cmd_list);
+		// printf("\n");
 	}
 	return 0;
 }

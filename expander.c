@@ -16,7 +16,7 @@ t_command	*expander(t_command *cmd_list, char **envp, t_env *env)
 	expand_arguments_noquote(env, cmd_list);
 	expand_commands(env, cmd_list);
 	merge_arguments(cmd_list);
-	
+
 	return (NULL);
 }
 
@@ -29,8 +29,8 @@ void	check_builtins(t_command *cmd_list)
 
 		arg = cmd_list->arg_tokens->content;
 		len = ft_strlen(arg);
-		if (ft_strncmp(arg, "echo", len) == 0)
-			cmd_list->builtin_flag = 1;
+		// if (ft_strncmp(arg, "echo", len) == 0)
+		// 	cmd_list->builtin_flag = 0;
 		if (ft_strncmp(arg, "cd", len) == 0)
 			cmd_list->builtin_flag = 1;
 		if (ft_strncmp(arg, "pwd", len) == 0)

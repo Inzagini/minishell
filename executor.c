@@ -19,7 +19,10 @@ int	executor(t_command *cmd_lst, t_env *env)
 			redirect_out_handle(cmd_lst, &data);
 			close_child_pipes(cmd_lst, data.pipefd);
 			if (cmd_lst->builtin_flag)
+			{
 				call_build_in(cmd_lst, env);
+				exit(0);
+			}
 			else
 				call_execve(cmd_lst, env);
 		}

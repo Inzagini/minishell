@@ -21,11 +21,6 @@ void	ft_cd(t_command *cmd, t_env *env);
 void	ft_export(t_command *cmd, t_env *env);
 void	ft_exit(t_command *cmd, t_env *env);
 
-//supp
-int		lst_len(t_command *lst);
-void	print_error(char *prefix, char *msg, char *name);
-char	*ft_getenv(char *name, char **env);
-
 //redirect funcs
 int	redirect_in_handle(t_command *cmd_node, t_exdat *data);
 int	redirect_out_handle(t_command *cmd_node, t_exdat *data);
@@ -34,4 +29,10 @@ int	redirect_out_handle(t_command *cmd_node, t_exdat *data);
 void	close_all_pipes(int pipefd[2][2]);
 void	close_parent_pipes(t_command *cmd_lst, int pipefd[2][2]);
 void	close_child_pipes(t_command *cmd_lst, int pipefd[2][2]);
+
+//supp
+int		lst_len(t_command *lst);
+void	print_error(char *prefix, char *msg, char *name);
+char	*ft_getenv(char *name, char **env);
+void	exit_check(int n_cmd);
 #endif
