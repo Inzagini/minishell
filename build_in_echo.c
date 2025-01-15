@@ -2,7 +2,7 @@
 
 static int	contain_only(char *str, char c);
 
-void	ft_echo(t_command *cmd)
+void	ft_echo(t_command *cmd, t_env *env)
 {
 	int	index;
 	int	n_flag;
@@ -26,6 +26,7 @@ void	ft_echo(t_command *cmd)
 	}
 	if (!n_flag)
 		printf("\n");
+	env->last_exit_status = 0;
 }
 
 static int	contain_only(char *str, char c)

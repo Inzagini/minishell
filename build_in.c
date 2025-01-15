@@ -7,7 +7,7 @@ void	call_build_in(t_command *cmd, t_env *env)
 	if (!ft_strcmp(cmd->args[0], "cd"))
 		ft_cd(cmd);
 	else if (!ft_strcmp(cmd->args[0], "echo"))
-		ft_echo(cmd);
+		ft_echo(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
 		ft_pwd(cmd);
 	else if (!ft_strcmp(cmd->args[0], "export"))
