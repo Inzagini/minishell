@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-int	my_wifexisted(int status)
+int	ft_wifexisted(int status)
 {
 	return ((status & 0xFF) == 0);
 }
 
-int	my_wiexitstatus(int status)
+int	ft_wiexitstatus(int status)
 {
 	if ((status & 0xFF) == 0)
 		return ((status >> 8) & 0xFF);

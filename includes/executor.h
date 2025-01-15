@@ -17,9 +17,9 @@ int		executor(t_command *lst_cmd);
 
 //build_in functions
 void	call_build_in(t_command *cmd, t_env *env);
-void	ft_echo(t_command *cmd);
-void	ft_pwd(t_command *cmd);
-void	ft_cd(t_command *cmd);
+void	ft_echo(t_command *cmd, t_env *env);
+void	ft_pwd(t_command *cmd, t_env *env);
+void	ft_cd(t_command *cmd, t_env *env);
 void	ft_export(t_command *cmd, t_env *env);
 void	ft_exit(t_command *cmd, t_env *env);
 
