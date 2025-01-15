@@ -5,7 +5,7 @@ void	sort_export(t_env *env);
 int		check_options(char **args);
 int		check_argument(char *arg);
 int		find_argument(char *var, char **env);
-
+int		append_to_end(char *var, char **list);
 
 
 void	ft_export(t_command *cmd, t_env *env)
@@ -34,28 +34,42 @@ void	ft_export(t_command *cmd, t_env *env)
 		else
 		{
 			j = find_argument(cmd->args[i], env->export_current);
-			if (j > 0)
+			if (j >= 0)
 			{
-				printf("found\n");
 				if (ft_strchr(cmd->args[i], '='))
 				{
-					// if = sign, update in both export and env list
 					free (env->export_current[j]);
-					env->export_current[j] = ft_strdup(cmd->args[i]);
+					env->export_current[j] = ft_strdup(cmd->args[i]); // ALSO NEED TO UPDATE IN ENVIRON LIST
 					if (!env->export_current[j])
 						return ;		//need some exit/cleaning
 				}
-
 			}
 			else
 			{
+				append_to_end(cmd->args[i], env->export_current);
+//				if (ft_strchr(cmd->args[i], '='))
+//					append_to_end(env->export_current, env->env_current);
 				// if '= sign', append to both export and env list
-				// if no equal sign, only append to export list
-				printf("not found\n");
 			}
 		}
 	}
 }
+
+int	append_to_end(char *var, char **list)
+{
+	int	i;
+
+	i = 0;
+	while (list[i])
+		i++;
+	free (list[i]);
+	list[i] = ft_strdup(var);
+	if (!list[i])
+		return (1);
+	list[i + 1] = 0;
+	return (0);
+}
+
 
 int	find_argument(char *var, char **env)
 {
@@ -94,6 +108,8 @@ int	check_argument(char *arg)
 
 	ok = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	i = 0;
+	if (arg[0] >= '0' && arg[0] <= '9')
+		return (1);
 	while (arg[i])
 	{
 		j = 0;

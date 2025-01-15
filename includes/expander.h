@@ -3,12 +3,12 @@
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-typedef struct s_env
+typedef struct s_env			//malloc
 {
-	char	**env_current;
-	char	**export_current;
+	char	**env_current;		//malloc
+	char	**export_current;	//malloc
 	char	*full_path;
-	char	**cmd_paths;
+	char	**cmd_paths;		//malloc
 	int		last_exit_status;
 }	t_env;
 
@@ -36,7 +36,7 @@ void		expand_commands(t_env *env, t_command *command);
 
 void		clean_env(t_env *env);
 char		**copy_envp(char **envp);
-t_env		init_env();
+t_env		*init_env(char **envp);
 
 int			expand_arguments_dquote(t_env *env, t_command *cmd_list);
 char		*expand_argument(char *arg, char **env);

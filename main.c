@@ -16,10 +16,11 @@ int	main(int argc, char **argv, char **envp)
 	char		*test;
 	t_token		*head;
 	t_command	*cmd_list;
-	t_env		env;
+	t_env		*env;
 
 	// signal(SIGINT, test_signal);
 
+	env = init_env(envp);
 	while (1)
 	{
 		head = NULL;
@@ -33,8 +34,7 @@ int	main(int argc, char **argv, char **envp)
 			return 1;
 		}
 		clean_tokens(&head);
-		env = init_env();
-		expander(cmd_list, envp, &env);
+		expander(cmd_list, envp, env);
 		// t_command *temp = cmd_list;
 		// while (cmd_list)
 		// {
@@ -42,14 +42,13 @@ int	main(int argc, char **argv, char **envp)
 		//     cmd_list = cmd_list->next;
 		// }
 		// cmd_list = temp;
-		if (cmd_list->builtin_flag && lst_len(cmd_list) < 2)
-			call_build_in(cmd_list, &env);
-		else
-			executor(cmd_list, &env);
-		//// Free memory
-		clean_env(&env);
+	// if (cmd_list->builtin_flag && lst_len(cmd_list) < 2)
+		call_build_in(cmd_list, env);
 		clean_commands(cmd_list);
+	// else
+		// 	executor(cmd_list, env);
 	}
-	return 0;
+	clean_env(env);
+	return (0);
 }
 
