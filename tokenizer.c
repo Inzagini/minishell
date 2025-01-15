@@ -49,7 +49,7 @@ int	meta_char(char *input_str, t_data *data, t_token **head)
 	else if (input_str[data->index] == '"')
 		dquote_handle(input_str, data, head);
 	else if (input_str[data->index] == '\n')
-		new_line_handle(data, head);
+		new_line_handle(input_str, data, head);
 	else if (input_str[data->index] == '>'
 		|| input_str[data->index] == '<')
 		rd_handle(input_str, data, head);

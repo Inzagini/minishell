@@ -61,7 +61,7 @@ int		rd_heredoc_handle(char *input_str, t_data *data, t_token **head);
 
 int		squote_handle(char *input_str, t_data *data, t_token **head);
 int		dquote_handle(char *input_str, t_data *data, t_token **head);
-int		new_line_handle (t_data *data, t_token **head);
+int		new_line_handle(char *input_str, t_data *data, t_token **head);
 
-void	token_cleaner(t_token *head);
+void	clean_tokens(t_token *head);
 #endif

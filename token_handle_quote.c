@@ -2,7 +2,7 @@
 
 int	quotes_helper(char *input_str, t_data *data, t_token **head);
 
-int	new_line_handle(t_data *data, t_token **head)
+int	new_line_handle(char *input_str, t_data *data, t_token **head)
 {
 	t_token	*new_token;
 
@@ -11,8 +11,9 @@ int	new_line_handle(t_data *data, t_token **head)
 		return (data->exit_flag = 1, 1);
 	append_token_lst(head, new_token);
 	data->cmd_flag = 0;
-	(data->index)++;
-	data->start = data->index;
+	if (input_str[data->index + 1] == ' ')
+		(data->index)++;
+	data->start = data->index + 1;
 	// printf("[NEW_LINE]\n");
 	return (0);
 }
