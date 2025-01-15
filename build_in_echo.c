@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	contain_only(char *str, char c);
+static int	contain_only(char *str, char c);
 
 void	ft_echo(t_command *cmd)
 {
@@ -28,7 +28,7 @@ void	ft_echo(t_command *cmd)
 		printf("\n");
 }
 
-int	contain_only(char *str, char c)
+static int	contain_only(char *str, char c)
 {
 	int	index;
 

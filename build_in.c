@@ -2,7 +2,7 @@
 
 int	ft_strcmp(char *s1, char *s2);
 
-void	call_build_in(t_command *cmd)
+void	call_build_in(t_command *cmd, t_env env)
 {
 	if (!ft_strcmp(cmd->args[0], "cd"))
 		ft_cd(cmd);
@@ -17,7 +17,7 @@ void	call_build_in(t_command *cmd)
 	else if (!ft_strcmp(cmd->args[0], "env"))
 		printf("unsupport\n");
 	else if (!ft_strcmp(cmd->args[0], "exit"))
-		printf("unsupport\n");
+		ft_exit(cmd, env);
 
 }
 

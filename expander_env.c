@@ -7,6 +7,7 @@ t_env	init_env()
 	env.cmd_paths = NULL;
 	env.env_current = NULL;
 	env.full_path = NULL;
+	env.last_exit_status = 0;
 	return (env);
 }
 
