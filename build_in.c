@@ -41,7 +41,7 @@ void	call_builtin(t_command *cmd, t_env *env)
 	else if (!ft_strcmp(cmd->args[0], "unset"))
 		printf("unsupport\n");
 	else if (!ft_strcmp(cmd->args[0], "env"))
-		printf("unsupport\n");
+		ft_env(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "exit"))
 		ft_exit(cmd, env);
 }

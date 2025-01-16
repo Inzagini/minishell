@@ -19,19 +19,19 @@ void	check_builtins(t_command *cmd_list)
 		char	*arg;
 
 		arg = cmd_list->arg_tokens->content;
-		if (ft_strncmp(arg, "echo", 4) == 0)
+		if (ft_strcmp(arg, "echo") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "cd", 2) == 0)
+		else if (ft_strcmp(arg, "cd") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "pwd", 3) == 0)
+		else if (ft_strcmp(arg, "pwd") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "export", 6) == 0)
+		else if (ft_strcmp(arg, "export") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "unset", 5) == 0)
+		else if (ft_strcmp(arg, "unset") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "env", 3) == 0)
+		else if (ft_strcmp(arg, "env") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "exit", 4) == 0)
+		else if (ft_strcmp(arg, "exit") == 0)
 			cmd_list->builtin_flag = 1;
 		cmd_list = cmd_list->next;
 	}

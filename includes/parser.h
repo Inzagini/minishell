@@ -37,8 +37,6 @@ typedef struct s_parser		// no need to free (no dynamic allocation)
 	char		*redir_file_in;	// no need to free as handed over to command (unless it fails before handing over to command)
 	char		*redir_file_out; // no need to free as handed over to command (unless it fails before handing over to command)
 	char		*heredoc_separator; // no need to free as handed over to command (unless it fails before handing over to command)
-	int			double_quotes;
-	int			single_quotes;
 	int			pipe_flag_in;
 	int			pipe_flag_out;
 	int			pipe_found;
