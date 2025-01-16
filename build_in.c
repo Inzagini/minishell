@@ -14,7 +14,7 @@ void	execute_build_in(t_command *cmd, t_env *env)
 	redirect_in_handle(cmd, &data);
 	redirect_out_handle(cmd, &data);
 	close_child_pipes(cmd, data.pipefd);
-	call_build_in(cmd, env);
+	call_builtin(cmd, env);
 	close(data.pipefd[1 - ((cmd->id + 1) % 2)][1]);
 	if (origin_in != -1)
 	{
@@ -28,7 +28,7 @@ void	execute_build_in(t_command *cmd, t_env *env)
 	}
 }
 
-void	call_build_in(t_command *cmd, t_env *env)
+void	call_builtin(t_command *cmd, t_env *env)
 {
 	if (!ft_strcmp(cmd->args[0], "cd"))
 		ft_cd(cmd, env);
