@@ -7,8 +7,8 @@ int		check_argument(char *arg);
 int		find_argument(char *var, char **env);
 int		append_to_end(char *var, char **list);
 char	*add_quotes(char *arg);
-int		export_to_exp(int i, char *arg, t_env *env);
-int		export_to_env(int i, char *arg, t_env *env);
+int		export_to_exp(char *arg, t_env *env);
+int		export_to_env(char *arg, t_env *env);
 
 
 void	ft_export(t_command *cmd, t_env *env)
@@ -20,7 +20,7 @@ void	ft_export(t_command *cmd, t_env *env)
 	i = check_options(cmd->args);
 	if (i > 0)
 	{
-		printf("%s: export: %s: invalid option\n", getenv("SHELL"), cmd->args[i]);  // need to define path, set error message etc.
+		printf("%s: export: %.2s: invalid option\n", getenv("SHELL"), cmd->args[i]);  // need to define path, set error message etc.
 		printf("export: usage: export [name[=value] ...]\n");
 		env->last_exit_status = 2;
 		return ;
@@ -34,13 +34,13 @@ void	ft_export(t_command *cmd, t_env *env)
 		}
 		else
 		{
-			if (export_to_exp(i, cmd->args[i], env) == 1 || export_to_env(i, cmd->args[i], env) == 1)
+			if (export_to_exp(cmd->args[i], env) == 1 || export_to_env(cmd->args[i], env) == 1)
 				return ;
 		}
 	}
 }
 
-int	export_to_env(int i, char *arg, t_env *env)
+int	export_to_env(char *arg, t_env *env)
 {
 	int		j;
 	char	*new_env;
@@ -63,7 +63,7 @@ int	export_to_env(int i, char *arg, t_env *env)
 	return (0);
 }
 
-int	export_to_exp(int i, char *arg, t_env *env)
+int	export_to_exp(char *arg, t_env *env)
 {
 	int		j;
 	char	*new_exp;

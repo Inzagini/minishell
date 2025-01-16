@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-int	ft_strcmp(char *s1, char *s2);
-
 void	execute_build_in(t_command *cmd, t_env *env)
 {
 	t_exdat	data;
@@ -39,7 +37,7 @@ void	call_builtin(t_command *cmd, t_env *env)
 	else if (!ft_strcmp(cmd->args[0], "export"))
 		ft_export(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "unset"))
-		printf("unsupport\n");
+		ft_unset(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "env"))
 		ft_env(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "exit"))
