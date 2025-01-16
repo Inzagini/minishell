@@ -53,7 +53,7 @@ char	*ft_getenv(char *name, char **env)
 // 	return (NULL);
 // }
 
-void	exit_check(int n_cmd)
+int	exit_check(int n_cmd)
 {
 	int	i;
 	int	last_status;
@@ -73,6 +73,6 @@ void	exit_check(int n_cmd)
 		i++;
 	}
 	if (ft_wiexitstatus(status) == -1 || ft_wiexitstatus(status) == 1)
-		exit(last_status);
-	exit(0);
+		return(last_status);
+	return(0);
 }

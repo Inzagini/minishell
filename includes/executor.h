@@ -36,5 +36,5 @@ void	close_child_pipes(t_command *cmd_lst, int pipefd[2][2]);
 int		lst_len(t_command *lst);
 void	print_error(char *prefix, char *msg, char *name);
 char	*ft_getenv(char *name, char **env);
-void	exit_check(int n_cmd);
+int		exit_check(int n_cmd);
 #endif
