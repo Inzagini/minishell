@@ -13,32 +13,36 @@ int	main(int argc, char **argv, char **envp)
 	{
 		head = NULL;
 		input = readline("1 | Test prompt:");
+		if (!input)
+			break ;
 		if (input[0])
-			add_history(input);
-        // input = " ";
-		tokenizer(input, &head);
-		free (input);
-		cmd_list = parser(head);
-		if (!cmd_list)
 		{
+			if (input[0])
+			add_history(input);
+			tokenizer(input, &head);
+			free (input);
+			cmd_list = parser(head);
+			if (!cmd_list)
+			{
+				clean_tokens(&head);
+				return 1;
+			}
 			clean_tokens(&head);
-			return 1;
+			expander(cmd_list, envp, env);
+			// t_command *temp = cmd_list;
+			// while (cmd_list)
+			// {
+			//     print_command(cmd_list);
+			//     cmd_list = cmd_list->next;
+			// }
+			// cmd_list = temp;
+			executor(cmd_list, env);
+			//// Free memory
+			clean_commands(cmd_list);
 		}
-		clean_tokens(&head);
-		expander(cmd_list, envp, env);
-		// t_command *temp = cmd_list;
-		// while (cmd_list)
-		// {
-		//     print_command(cmd_list);
-		//     cmd_list = cmd_list->next;
-		// }
-		// cmd_list = temp;
-		executor(cmd_list, env);
-		//// Free memory
-		clean_commands(cmd_list);
 	}
 	clean_env(env);
-    rl_clear_history();
+	rl_clear_history();
 	return (0);
 }
 
