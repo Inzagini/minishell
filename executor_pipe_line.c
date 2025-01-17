@@ -4,28 +4,30 @@ static void	call_execve(t_command *data, t_env *env);
 static void	pre_handle(t_command *cmd, t_exdat *data);
 static void	exec_builtin(t_command *cmd, t_env *env);
 
-int	call_pipe_line(t_command *cmd_lst, t_env *env)
+int	call_pipe_line(t_command **cmd_lst, t_env *env)
 {
 	t_exdat	data;
 
 	executor_init(&data);
-	while (cmd_lst)
+	while ((*cmd_lst))
 	{
-		if (cmd_lst->id != 0)
-			pipe(data.pipefd[(cmd_lst->id + 1) % 2]);
+		if ((*cmd_lst)->id != 0)
+			pipe(data.pipefd[((*cmd_lst)->id + 1) % 2]);
 		env->child_pid = fork();
 		if (env->child_pid == 0)
 		{
-			pre_handle(cmd_lst, &data);
-			if (cmd_lst->builtin_flag)
-				exec_builtin(cmd_lst, env);
+			pre_handle((*cmd_lst), &data);
+			if ((*cmd_lst)->builtin_flag)
+				exec_builtin((*cmd_lst), env);
 			else
-				call_execve(cmd_lst, env);
+				call_execve((*cmd_lst), env);
 		}
-		close_parent_pipes(cmd_lst, data.pipefd);
-		cmd_lst = cmd_lst->next;
+		close_parent_pipes((*cmd_lst), data.pipefd);
+		(*cmd_lst) = (*cmd_lst)->next;
+		if ((*cmd_lst))
+			if ((*cmd_lst)->redir_in == 0)
+				break ;
 	}
-	wait(NULL);
 	close_all_pipes(data.pipefd);
 	return (0);
 }
@@ -41,7 +43,8 @@ static void	call_execve(t_command *data, t_env *env)
 	int	status;
 
 	if (!data->args || !data->args[0])
-		print_error(ft_getenv("SHELL", env->env_current), "command not found", NULL);
+		print_error(ft_getenv("SHELL", env->env_current),
+			"command not found", NULL);
 	else
 	{
 		status = execve(data->args[0], data->args, env->env_current);

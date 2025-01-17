@@ -7,7 +7,7 @@ int	main(int argc, char **argv, char **envp)
 	t_command	*cmd_list;
 	t_env		*env;
 
-	signal_setup();
+	// signal_setup();
 	env = init_env(envp);
 	while (1)
 	{
@@ -36,13 +36,13 @@ int	main(int argc, char **argv, char **envp)
 			cmd_list = temp;
 			clean_tokens(&head);
 			expander(cmd_list, envp, env);
-			temp = cmd_list;
-			while (cmd_list)
-			{
-				print_command(cmd_list);
-				cmd_list = cmd_list->next;
-			}
-			cmd_list = temp;
+			// t_command *temp = cmd_list;
+			// while (cmd_list)
+			// {
+			// 	print_command(cmd_list);
+			// 	cmd_list = cmd_list->next;
+			// }
+			// cmd_list = temp;
 			executor(cmd_list, env);
 			//// Free memory
 			clean_commands(cmd_list);
@@ -52,4 +52,3 @@ int	main(int argc, char **argv, char **envp)
 	rl_clear_history();
 	return (0);
 }
-
