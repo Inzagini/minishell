@@ -35,7 +35,9 @@ void	clean_commands(t_command *cmd_list)
 			free (curr_cmd->redir_file_out);
 		if (curr_cmd->heredoc_separator)
 			free (curr_cmd->heredoc_separator);
-		while (curr_cmd->arg_tokens)
+		if (curr_cmd->args)
+            free_split(curr_cmd->args);
+        while (curr_cmd->arg_tokens)
 		{
 			temp = curr_cmd->arg_tokens;
 			curr_cmd->arg_tokens = curr_cmd->arg_tokens->next;

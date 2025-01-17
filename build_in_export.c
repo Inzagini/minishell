@@ -6,20 +6,21 @@ int		check_options(char **args);
 int		check_argument(char *arg);
 int		find_argument(char *var, char **env);
 int		append_to_end(char *var, char **list);
+char	*add_quotes(char *arg);
+int		export_to_exp(char *arg, t_env *env);
+int		export_to_env(char *arg, t_env *env);
 
 
 void	ft_export(t_command *cmd, t_env *env)
 {
-	int	i;
-	int	j;
+	int		i;
 
-	i = 0;
 	if (cmd->args[1] == 0)
 		print_export(env);
 	i = check_options(cmd->args);
 	if (i > 0)
 	{
-		printf("%s: export: %s: invalid option\n", getenv("SHELL"), cmd->args[i]);  // need to define path, set error message etc.
+		printf("%s: export: %.2s: invalid option\n", getenv("SHELL"), cmd->args[i]);  // need to define path, set error message etc.
 		printf("export: usage: export [name[=value] ...]\n");
 		env->last_exit_status = 2;
 		return ;
@@ -33,26 +34,88 @@ void	ft_export(t_command *cmd, t_env *env)
 		}
 		else
 		{
-			j = find_argument(cmd->args[i], env->export_current);
-			if (j >= 0)
-			{
-				if (ft_strchr(cmd->args[i], '='))
-				{
-					free (env->export_current[j]);
-					env->export_current[j] = ft_strdup(cmd->args[i]); // ALSO NEED TO UPDATE IN ENVIRON LIST
-					if (!env->export_current[j])
-						return ;		//need some exit/cleaning
-				}
-			}
-			else
-			{
-				append_to_end(cmd->args[i], env->export_current);
-//				if (ft_strchr(cmd->args[i], '='))
-//					append_to_end(env->export_current, env->env_current);
-				// if '= sign', append to both export and env list
-			}
+			if (export_to_exp(cmd->args[i], env) == 1 || export_to_env(cmd->args[i], env) == 1)
+				return ;
 		}
 	}
+}
+
+int	export_to_env(char *arg, t_env *env)
+{
+	int		j;
+	char	*new_env;
+
+	if (ft_strchr(arg, '='))
+	{
+		j = find_argument(arg, env->env_current);
+		new_env = ft_strdup(arg);
+		if (!new_env)
+			return (1); //needs some exit/cleaning
+		if (j >= 0)
+		{
+			free (env->env_current[j]);
+			env->env_current[j] = new_env;
+		}
+		else
+			if (append_to_end(new_env, env->env_current) == 1)
+				return (1);	//need some exit/cleaning
+	}
+	return (0);
+}
+
+int	export_to_exp(char *arg, t_env *env)
+{
+	int		j;
+	char	*new_exp;
+
+	j = find_argument(arg, env->export_current);
+	if (ft_strchr(arg, '='))
+	{
+		new_exp = add_quotes(arg);
+		if (!new_exp)
+			return (1);//exit and clean
+	}
+	else if (j == -1)
+	{
+		new_exp = ft_strdup(arg);
+		if (!new_exp)
+			return (1);//exit and clean
+	}
+	if (j >= 0 && ft_strchr(arg, '='))
+	{
+		free (env->export_current[j]);
+		env->export_current[j] = new_exp;
+	}
+	if (j == -1)
+		if (append_to_end(new_exp, env->export_current) == 1)
+			return (1);	//need some exit/cleaninh
+	return (0);
+}
+
+char	*add_quotes(char *arg)
+{
+	int		i;
+	char	*new;
+
+	i = 0;
+	new = malloc((ft_strlen(arg) + 3) * sizeof(char));
+	if (!new)
+		return (NULL);
+	while (arg[i] && arg[i] != '=')
+	{
+		new[i] = arg[i];
+		i++;
+	}
+	new[i++] = '=';
+	new[i++] = '"';
+	while (arg[i - 1])
+	{
+		new[i] = arg[i - 1];
+		i++;
+	}
+	new[i] = '"';
+	new[i + 1] = '\0';
+	return (new);
 }
 
 int	append_to_end(char *var, char **list)
@@ -63,13 +126,13 @@ int	append_to_end(char *var, char **list)
 	while (list[i])
 		i++;
 	free (list[i]);
-	list[i] = ft_strdup(var);
-	if (!list[i])
+	list[i] = var;
+	list[i + 1] = malloc(1 * sizeof (char *));
+	if (!list[i + 1])
 		return (1);
 	list[i + 1] = 0;
 	return (0);
 }
-
 
 int	find_argument(char *var, char **env)
 {
@@ -98,7 +161,6 @@ int	find_argument(char *var, char **env)
 	}
 	return (-1);
 }
-
 
 int	check_argument(char *arg)
 {

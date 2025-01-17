@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-// To properly handle cases like $HOME'$ABC',
-// your parser needs to accommodate multiple tokens being
-// combined into a single argument, while also preserving the quotation
-// context for each individual token. This ensures that the expander c
-// an accurately decide which parts of the argument to expand and which to treat as literal.
-
 void	test_signal(int sig)
 {
 	(void)sig;
@@ -15,7 +9,7 @@ void	test_signal(int sig)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*test;
+	char		*input;
 	t_token		*head;
 	t_command	*cmd_list;
 	t_env		*env;
@@ -26,9 +20,12 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		head = NULL;
-		test = readline("1 | Test prompt:");
-		// test = " ";
-		tokenizer(test, &head);
+		input = readline("1 | Test prompt:");
+		if (input[0])
+            add_history(input);
+        // input = " ";
+		tokenizer(input, &head);
+        free (input);
 		cmd_list = parser(head);
 		if (!cmd_list)
 		{
@@ -49,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 		clean_commands(cmd_list);
 	}
 	clean_env(env);
+    rl_clear_history();
 	return (0);
 }
 

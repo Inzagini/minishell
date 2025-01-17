@@ -43,8 +43,6 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
 	parser->heredoc_separator = NULL;
-	parser->double_quotes = 0;
-	parser->single_quotes = 0;
 	parser->pipe_flag_in = 0;
 	parser->pipe_flag_out = 0;
 	parser->pipe_found = 0;

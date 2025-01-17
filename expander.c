@@ -4,6 +4,7 @@ t_command	*expander(t_command *cmd_list, char **envp, t_env *env)
 {
 	check_builtins(cmd_list);
 	expand_tilde(env, cmd_list);
+	expand_question(env, cmd_list);
 	expand_arguments_dquote(env, cmd_list);
 	expand_arguments_noquote(env, cmd_list);
 	expand_commands(env, cmd_list);
@@ -19,19 +20,19 @@ void	check_builtins(t_command *cmd_list)
 		char	*arg;
 
 		arg = cmd_list->arg_tokens->content;
-		if (ft_strncmp(arg, "echo", 4) == 0)
+		if (ft_strcmp(arg, "echo") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "cd", 2) == 0)
+		else if (ft_strcmp(arg, "cd") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "pwd", 3) == 0)
+		else if (ft_strcmp(arg, "pwd") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "export", 6) == 0)
+		else if (ft_strcmp(arg, "export") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "unset", 5) == 0)
+		else if (ft_strcmp(arg, "unset") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "env", 3) == 0)
+		else if (ft_strcmp(arg, "env") == 0)
 			cmd_list->builtin_flag = 1;
-		else if (ft_strncmp(arg, "exit", 4) == 0)
+		else if (ft_strcmp(arg, "exit") == 0)
 			cmd_list->builtin_flag = 1;
 		cmd_list = cmd_list->next;
 	}

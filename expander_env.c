@@ -27,8 +27,6 @@ t_env	*init_env(char **envp)
 	return (env);
 }
 
-
-
 char	**copy_envp(char **envp, int exp)
 {
 	int		i;
@@ -76,10 +74,7 @@ int	copy_to_exp(char **copy, char **envp, int i, int j)
 		copy[j][i++] = '=';
 		copy[j][i++] = '"';
 		while (envp[j][i - 1])
-		{
-			copy[j][i] = envp[j][i - 1];
-			i++;
-		}
+			copy[j][i] = envp[j][i - 1], i++;
 		copy[j][i] = '"';
 		copy[j][i + 1] = '\0';
 	}
