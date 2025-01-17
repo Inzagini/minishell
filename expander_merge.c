@@ -4,9 +4,7 @@ int	merge_arguments(t_command *cmd_list)
 {
 	t_command	*cmd;
 	t_token		*arg;
-	int			i;
 	int			max;
-	char		*content;
 	char		*temp;
 
 	cmd = cmd_list;
@@ -16,29 +14,40 @@ int	merge_arguments(t_command *cmd_list)
 		arg = cmd->arg_tokens;
 		cmd->args = malloc ((cmd->size + 1) * sizeof (char *));
 		if (!cmd->args)
-			return (1); //needs more cleanup
+			return (1);
 		cmd->args[cmd->size] = NULL;
-		i = 0;
 		max = -1;
-		while (arg)
-		{
-			content = ft_strdup(arg->content);
-			if (!content)	//clean up
-				return (1);
-			if (arg->arg_group_id == max)
-			{
-				i--;
-				cmd->args[i] = ft_strjoin(cmd->args[i], content); //needs protection
-				i++;
-			}
-			else
-			{
-				cmd->args[i++] = content;
-				max = arg->arg_group_id;
-			}
-			arg = arg->next;
-		}
+		conduct_merge(arg, cmd, &max);
 		cmd = cmd->next;
+	}
+	return (0);
+}
+
+int	conduct_merge(t_token *arg, t_command *cmd, int *max)
+{
+	char	*content;
+	int		i;
+
+	i = 0;
+	while (arg)
+	{
+		content = ft_strdup(arg->content);
+		if (!content)
+			return (1);
+		if (arg->arg_group_id == *max)
+		{
+			i--;
+			cmd->args[i] = ft_strjoin(cmd->args[i], content);
+			if (!cmd->args[i])
+				return (free (content), 1);
+			i++;
+		}
+		else
+		{
+			cmd->args[i++] = content;
+			*max = arg->arg_group_id;
+		}
+		arg = arg->next;
 	}
 	return (0);
 }

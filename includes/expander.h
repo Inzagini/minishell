@@ -51,6 +51,7 @@ size_t		ft_strspn(const char *str);
 char		*append_to_result(char *result, char *to_add, size_t *len);
 
 int			merge_arguments(t_command *cmd_list);
+int			conduct_merge(t_token *arg, t_command *cmd, int *max);
 int			calculate_size(t_token *token);
 
 int			init_split(t_split *split, char **env, t_token **arg_list, t_token *arg);
