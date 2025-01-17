@@ -12,13 +12,6 @@ void	clean_parser(t_parser *parser)
 		free (parser->redir_file_out);
 	if (parser->heredoc_separator)
 		free (parser->heredoc_separator);
-	// if (parser->args)  NEED TO FREE THE ARG TOKEN LIST
-	// {
-	// 	i = -1;
-	// 	while (parser->args[++i])
-	// 		free (parser->args[i]);
-	// 	free (parser->args);
-	// }
 }
 
 void	clean_commands(t_command *cmd_list)
@@ -36,8 +29,8 @@ void	clean_commands(t_command *cmd_list)
 		if (curr_cmd->heredoc_separator)
 			free (curr_cmd->heredoc_separator);
 		if (curr_cmd->args)
-            free_split(curr_cmd->args);
-        while (curr_cmd->arg_tokens)
+			free_split(curr_cmd->args);
+		while (curr_cmd->arg_tokens)
 		{
 			temp = curr_cmd->arg_tokens;
 			curr_cmd->arg_tokens = curr_cmd->arg_tokens->next;

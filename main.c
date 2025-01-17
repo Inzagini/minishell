@@ -22,10 +22,10 @@ int	main(int argc, char **argv, char **envp)
 		head = NULL;
 		input = readline("1 | Test prompt:");
 		if (input[0])
-            add_history(input);
-        // input = " ";
+			add_history(input);
+		// input = " ";
 		tokenizer(input, &head);
-        free (input);
+		free (input);
 		cmd_list = parser(head);
 		if (!cmd_list)
 		{
@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 		clean_commands(cmd_list);
 	}
 	clean_env(env);
-    rl_clear_history();
+	rl_clear_history();
 	return (0);
 }
 

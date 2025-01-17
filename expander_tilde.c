@@ -13,7 +13,6 @@ int	expand_tilde(t_env *env, t_command *cmd_list)
 		{
 			if (arg->quote_identifier == 0 && arg->content[0] == '~')
 			{
-				free (arg->content);
 				arg->content = replace_tilde(arg->content, env->env_current);
 				if (!arg->content)
 					return (1);
