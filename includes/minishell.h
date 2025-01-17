@@ -19,5 +19,6 @@
 # include "parser.h"
 # include "executor.h"
 # include "expander.h"
+# include "signals.h"
 
 #endif
