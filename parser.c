@@ -20,6 +20,8 @@ t_command	*parser(t_token *token_list)
 		{
 			if (handle_pipes(&parser) == 1)
 				return (NULL);
+			if (parser.token->type == NEW_LINE)
+				parser.pipe_flag_in = 0;
 		}
 		parser.token = parser.token->next;
 	}
@@ -51,7 +53,7 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 void	reset_parser(t_parser *parser)
 {
 	parser->id++;
-	parser->arg_tokens = NULL;
+
 	parser->arg_group_id = 0;
 	parser->size = 0;
 	parser->redir_in = 0;
@@ -59,6 +61,7 @@ void	reset_parser(t_parser *parser)
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
 	parser->heredoc_separator = NULL;
+	parser->arg_tokens = NULL;
 }
 
 int	add_argument_token(t_parser *parser)
