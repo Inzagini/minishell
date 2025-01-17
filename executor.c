@@ -13,3 +13,4 @@ void	executor(t_command *cmd_list, t_env *env)
 		env->last_exit_status = exit_check(len);
 	}
 }
+

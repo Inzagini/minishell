@@ -8,7 +8,7 @@ int	expand_tilde(t_env *env, t_command *cmd_list)
 	cmd = cmd_list;
 	while (cmd)
 	{
-		arg = cmd_list->arg_tokens;
+		arg = cmd->arg_tokens;
 		while (arg)
 		{
 			if (arg->quote_identifier == 0 && arg->content[0] == '~')
