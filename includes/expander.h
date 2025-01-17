@@ -59,6 +59,8 @@ void		update_arg_ids(t_split *split, t_token *arg);
 
 int			expand_arguments_noquote(t_env *env, t_command *cmd_list);
 int			split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id);
+int			handle_token_merge(t_split *split, t_token *arg, t_token **arg_list, int i);
+
 char		*expand_argument_noquote(char *arg, char **env);
 
 void		free_split(char **split_tokens);

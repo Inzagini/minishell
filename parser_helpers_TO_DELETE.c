@@ -24,13 +24,13 @@ void print_command(t_command *cmd)
 		args = args->next;
 	}
 	int i = 0;
-	printf("Arg Strings\n");
+	// printf("Arg Strings\n");
 
-	while (cmd->args[i])
-	{
-		printf("\t%s\n", cmd->args[i]);
-		i++;
-	}
+	// while (cmd->args[i])
+	// {
+	// 	printf("\t%s\n", cmd->args[i]);
+	// 	i++;
+	// }
 	printf("Redirection In: %d\n", cmd->redir_in);
 	printf("Redirection Out: %d\n", cmd->redir_out);
 	if (cmd->redir_file_in)
@@ -41,3 +41,6 @@ void print_command(t_command *cmd)
 		printf("Heredoc separator: %s\n", cmd->heredoc_separator);
 	printf("---------------\n");
 }
+
+// c3a8c3% echo eabc$VAR"$VAR"$VAR'abc'
+// eabcPAUL BUCHTERPAUL BUCHTERPAUL BUCHTERabc
