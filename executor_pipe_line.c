@@ -13,8 +13,8 @@ int	call_pipe_line(t_command *cmd_lst, t_env *env)
 	{
 		if (cmd_lst->id != 0)
 			pipe(data.pipefd[(cmd_lst->id + 1) % 2]);
-		data.pid = fork();
-		if (data.pid == 0)
+		env->child_pid = fork();
+		if (env->child_pid == 0)
 		{
 			pre_handle(cmd_lst, &data);
 			if (cmd_lst->builtin_flag)

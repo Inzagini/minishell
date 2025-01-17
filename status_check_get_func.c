@@ -25,34 +25,6 @@ char	*ft_getenv(char *name, char **env)
 	return (NULL);
 }
 
-// char	*my_getpath(char *cmd)
-// {
-// 	int		i;
-// 	char	*path;
-// 	char	*cmd_path;
-// 	char	**arr_path;
-
-// 	if (cmd[0] == '/')
-// 		if (!access(cmd, F_OK) && !access(cmd, X_OK))
-// 			return (cmd);
-// 	path = my_getenv("PATH");
-// 	arr_path = ft_split(path, ':');
-// 	if (!arr_path || !*arr_path)
-// 		return (NULL);
-// 	i = -1;
-// 	while (arr_path[++i])
-// 	{
-// 		path = ft_strjoin((const char *) arr_path[i], (const char *) "/");
-// 		cmd_path = ft_strjoin(path, cmd);
-// 		free(path);
-// 		if (!access(cmd_path, F_OK) && !access(cmd_path, X_OK))
-// 			return (clean_arr(arr_path), cmd_path);
-// 		free(cmd_path);
-// 	}
-// 	clean_arr(arr_path);
-// 	return (NULL);
-// }
-
 int	exit_check(int n_cmd)
 {
 	int	i;

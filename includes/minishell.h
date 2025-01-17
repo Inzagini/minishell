@@ -3,6 +3,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -16,7 +17,5 @@
 # include "parser.h"
 # include "executor.h"
 # include "expander.h"
-
-
 
 #endif

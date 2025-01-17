@@ -9,6 +9,8 @@
 void	test_signal(int sig)
 {
 	(void)sig;
+	printf("test\n");
+	rl_clear_history();
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -18,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	t_command	*cmd_list;
 	t_env		*env;
 
-	// signal(SIGINT, test_signal);
+	signal(SIGINT, test_signal);
 
 	env = init_env(envp);
 	while (1)

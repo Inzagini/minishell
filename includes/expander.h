@@ -10,6 +10,7 @@ typedef struct s_env			//malloc
 	char	*full_path;
 	char	**cmd_paths;		//malloc
 	int		last_exit_status;
+	pid_t	child_pid;
 }	t_env;
 
 typedef struct s_split
