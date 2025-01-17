@@ -60,11 +60,7 @@ int	copy_to_exp(char **copy, char **envp, int i, int j)
 	{
 		copy[j] = malloc((ft_strlen(envp[j]) + 3) * sizeof(char));
 		if (!copy[j])
-		{
-			while (--j >= 0)
-				free (copy[j]);
-			return (free (copy), 1);
-		}
+			return (free_split(copy), 1);
 		i = 0;
 		while (envp[j][i] && envp[j][i] != '=')
 		{
@@ -74,7 +70,10 @@ int	copy_to_exp(char **copy, char **envp, int i, int j)
 		copy[j][i++] = '=';
 		copy[j][i++] = '"';
 		while (envp[j][i - 1])
-			copy[j][i] = envp[j][i - 1], i++;
+		{
+			copy[j][i] = envp[j][i - 1];
+			i++;
+		}
 		copy[j][i] = '"';
 		copy[j][i + 1] = '\0';
 	}

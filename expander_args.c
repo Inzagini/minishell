@@ -1,28 +1,35 @@
 #include "minishell.h"
 
-int	is_valid_var_char(char c)
+char	*expand_argument(char *arg, char **env, char *result)
 {
-	return (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9'));
-}
+	char	*start;
+	char	*var_pos;
+	size_t	len;
 
-char	*find_var(char **env, char *var)
-{
-	int	len;
-	int	i;
-
-	len = ft_strlen(var);
-	i = 0;
-	while (env[i])
+	start = arg;
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	len = 0;
+	var_pos = ft_strchr(start, '$');
+	while (var_pos)
 	{
-		if (ft_strncmp(env[i], var, len) == 0 && env[i][len] == '=')
-			return (&env[i][len + 1]);
-		i++;
+		result = append(result, ft_strndup(start, var_pos - start), &len);
+		if (!result)
+			return (NULL);
+		start = var_pos + 1;
+		result = append(result, find_var(env,
+					ft_strndup(start, ft_strspn(start))), &len);
+		if (!result)
+			return (NULL);
+		start += ft_strspn(start);
+		var_pos = ft_strchr(start, '$');
 	}
-	return ("");
+	result = append(result, start, &len);
+	return (result);
 }
 
-char	*append_to_result(char *result, char *to_add, size_t *len)
+char	*append(char *result, char *to_add, size_t *len)
 {
 	char	*temp;
 	size_t	add_len;
@@ -44,41 +51,12 @@ char	*append_to_result(char *result, char *to_add, size_t *len)
 	return (result);
 }
 
-char	*expand_argument(char *arg, char **env)
-{
-	char	*result;
-	char	*start;
-	char	*dollar;
-	size_t	len;
-
-	start = arg;
-	result = malloc(1);
-	if (!result)
-		return (NULL);
-	result[0] = '\0';
-	len = 0;
-	dollar = ft_strchr(start, '$');
-	while (dollar)
-	{
-		result = append_to_result(result, ft_strndup(start, dollar - start), &len);
-		if (!result)
-			return (NULL);
-		start = dollar + 1;
-		result = append_to_result(result, find_var(env, ft_strndup(start, ft_strspn(start))), &len);
-		if (!result)
-			return (NULL);
-		start += ft_strspn(start);
-		dollar = ft_strchr(start, '$');
-	}
-	result = append_to_result(result, start, &len);
-	return (result);
-}
-
 int	expand_arguments_dquote(t_env *env, t_command *cmd_list)
 {
 	char	*expanded;
 	t_token	*arg;
 
+	expanded = NULL;
 	while (cmd_list)
 	{
 		arg = cmd_list->arg_tokens;
@@ -86,7 +64,8 @@ int	expand_arguments_dquote(t_env *env, t_command *cmd_list)
 		{
 			if (arg->quote_identifier == 2)
 			{
-				expanded = expand_argument(arg->content, env->env_current);
+				expanded = expand_argument(arg->content,
+						env->env_current, expanded);
 				if (!expanded)
 					return (1);
 				free(arg->content);
@@ -99,49 +78,18 @@ int	expand_arguments_dquote(t_env *env, t_command *cmd_list)
 	return (0);
 }
 
-char	*ft_strndup(const char *src, size_t n)
+char	*find_var(char **env, char *var)
 {
-	char	*dup;
-	size_t	i;
+	int	len;
+	int	i;
 
-	dup = malloc(n + 1);
-	if (!dup)
-		return (NULL);
+	len = ft_strlen(var);
 	i = 0;
-	while (i < n)
+	while (env[i])
 	{
-		dup[i] = src[i];
+		if (ft_strncmp(env[i], var, len) == 0 && env[i][len] == '=')
+			return (&env[i][len + 1]);
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-size_t	ft_strspn(const char *str)
-{
-	size_t	i;
-	size_t	j;
-	int		found;
-	char	*ok;
-
-	ok = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	i = 0;
-	while (str[i])
-	{
-		j = 0;
-		found = 0;
-		while (ok[j])
-		{
-			if (str[i] == ok[j])
-			{
-				found = 1;
-				break ;
-			}
-			j++;
-		}
-		if (!found)
-			break ;
-		i++;
-	}
-	return (i);
+	return ("");
 }

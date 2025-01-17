@@ -3,7 +3,7 @@
 int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 {
 	split->count_token = 0;
-		split->expanded = expand_argument(arg->content, env);
+	split->expanded = expand_argument(arg->content, env, split->expanded);
 	if (!split->expanded)
 		return (1);
 	split->split_tokens = ft_split(split->expanded, ' ');
@@ -97,16 +97,18 @@ int	split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id)
 
 int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 {
-	t_token *arg;
+	t_token	*arg;
 
 	while (cmd_list)
 	{
 		arg = cmd_list->arg_tokens;
 		while (arg)
 		{
-			if (arg->quote_identifier == 0 && ft_strchr(arg->content, '$') != NULL)
+			if (arg->quote_identifier == 0
+				&& ft_strchr(arg->content, '$') != NULL)
 			{
-				if (split_argument(&cmd_list->arg_tokens, arg, env->env_current, arg->arg_group_id))
+				if (split_argument(&cmd_list->arg_tokens, arg,
+						env->env_current, arg->arg_group_id))
 					return (1);
 			}
 			arg = arg->next;
@@ -118,102 +120,15 @@ int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 
 void	free_split(char **split_tokens)
 {
-if (!split_tokens)
-	return;
-for (int i = 0; split_tokens[i]; i++)
-	free(split_tokens[i]);
-free(split_tokens);
-}
+	int	i;
 
-void	remove_token(t_token **arg_list, t_token *token)
-{
-	t_token	*prev;
-
-	if (!arg_list || !*arg_list || !token)
+	if (!split_tokens)
 		return ;
-	if (*arg_list == token)
+	i = 0;
+	while (split_tokens[i])
 	{
-		*arg_list = token->next;
+		free(split_tokens[i]);
+		i++;
 	}
-	else
-	{
-		prev = *arg_list;
-		while (prev && prev->next != token)
-			prev = prev->next;
-		if (prev)
-			prev->next = token->next;
-	}
-	free(token->content);
-	free(token);
+	free(split_tokens);
 }
-
-void insert_token_after(t_token **arg_list, t_token *after, t_token *new_token)
-{
-	if (!new_token)
-		return;
-	if (!after)
-	{
-		new_token->next = *arg_list;
-		*arg_list = new_token;
-	}
-	else
-	{
-		new_token->next = after->next;
-		after->next = new_token;
-	}
-}
-
-t_token *create_token_split(char *content, int arg_id)
-	{
-	t_token *new_token;
-
-	new_token = malloc(sizeof(t_token));
-	if (!new_token)
-		return (NULL);
-	new_token->content = ft_strdup(content);
-	if (!new_token->content)
-	{
-		free(new_token);
-		return (NULL);
-	}
-	new_token->arg_group_id = arg_id;
-	new_token->quote_identifier = 0;
-	new_token->next = NULL;
-	return (new_token);
-	}
-
-t_token *find_previous_token(t_token *arg_list, t_token *token)
-{
-	t_token	*current;
-
-	if (!arg_list || !token || arg_list == token)
-		return (NULL);
-	current = arg_list;
-	while (current && current->next != token)
-		current = current->next;
-	if (current->arg_group_id == token->arg_group_id)
-		return (current);
-	return (NULL);
-}
-
-void	merge_tokens(t_token *first, t_token *second)
-{
-	size_t	new_len;
-	char	*merged_content;
-
-	if (!first || !second)
-		return ;
-	new_len = ft_strlen(first->content) + ft_strlen(second->content) + 1;
-	merged_content = malloc(new_len);
-	if (!merged_content)
-		return ;
-	ft_strlcpy(merged_content, first->content, new_len);
-	ft_strlcat(merged_content, second->content, new_len);
-	free(first->content);
-	first->content = merged_content;
-	first->next = second->next;
-	free(second->content);
-	free(second);
-}
-
-
