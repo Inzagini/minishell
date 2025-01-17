@@ -9,7 +9,6 @@ int	call_pipe_line(t_command *cmd_lst, t_env *env)
 	t_exdat	data;
 
 	executor_init(&data);
-	int	len = lst_len(cmd_lst);
 	while (cmd_lst)
 	{
 		if (cmd_lst->id != 0)
@@ -41,7 +40,8 @@ static void	call_execve(t_command *data, t_env *env)
 	int	status;
 
 	if (!data->args || !data->args[0])
-		print_error(ft_getenv("SHELL", env->env_current), "command not found", NULL);
+		print_error(ft_getenv("SHELL", env->env_current),
+			"command not found", NULL);
 	else
 	{
 		status = execve(data->args[0], data->args, env->env_current);
@@ -70,4 +70,3 @@ static void	pre_handle(t_command *cmd, t_exdat *data)
 	redirect_out_handle(cmd, data);
 	close_child_pipes(cmd, data->pipefd);
 }
-
