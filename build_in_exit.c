@@ -22,6 +22,7 @@ void	ft_exit(t_command *cmd, t_env *env)
 			printf("exit\n");
 			clean_env(env);
 			clean_commands(cmd);
+            rl_clear_history();
 			exit(ft_atouc(cmd->args[1]));
 		}
 	}
@@ -30,6 +31,7 @@ void	ft_exit(t_command *cmd, t_env *env)
 		printf("exit\n");
 		clean_env(env);
 		clean_commands(cmd);
+        rl_clear_history();
 		exit(env->last_exit_status);
 	}
 }
