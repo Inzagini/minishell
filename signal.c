@@ -9,6 +9,7 @@ void	signal_handle(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+
 }
 
 void	signal_setup(void)
@@ -20,7 +21,14 @@ void	signal_setup(void)
 	sigemptyset(&sa.sa_mask);
 
 	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
+
+	// signal(SIGQUIT, SIG_IGN);
+	int	i = 0;
+	while (++i < NSIG)
+	{
+		if (i != SIGINT)
+			signal(i, SIG_IGN);
+	}
 }
 
 
