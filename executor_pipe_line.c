@@ -9,6 +9,7 @@ int	call_pipe_line(t_command *cmd_lst, t_env *env)
 	t_exdat	data;
 
 	executor_init(&data);
+	int	len = lst_len(cmd_lst);
 	while (cmd_lst)
 	{
 		if (cmd_lst->id != 0)
@@ -25,7 +26,6 @@ int	call_pipe_line(t_command *cmd_lst, t_env *env)
 		close_parent_pipes(cmd_lst, data.pipefd);
 		cmd_lst = cmd_lst->next;
 	}
-	wait(NULL);
 	close_all_pipes(data.pipefd);
 	return (0);
 }
