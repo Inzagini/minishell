@@ -44,4 +44,17 @@ int		lst_len(t_command *lst);
 void	print_error(char *prefix, char *msg, char *name);
 char	*ft_getenv(char *name, char **env);
 int		exit_check(int n_cmd);
+
+//build-in export functions
+void	check_add_vars(t_command *cmd, t_env *env, int i);
+void	print_export(t_env	*env);
+void	sort_export(t_env *env);
+int		check_options(char **args);
+int		check_argument(char *arg);
+int		find_argument(char *var, char **env);
+int		append_to_end(char *var, char **list);
+char	*add_quotes(char *arg);
+int		export_to_exp(char *arg, t_env *env);
+int		export_to_env(char *arg, t_env *env);
+
 #endif

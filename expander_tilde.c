@@ -56,9 +56,11 @@ int	expand_question(t_env *env, t_command *cmd_list)
 		arg = cmd_list->arg_tokens;
 		while (arg)
 		{
-			if (arg->quote_identifier != 1 && arg->content[0] == '$' && arg->content[1] == '?')
+			if (arg->quote_identifier != 1
+				&& arg->content[0] == '$' && arg->content[1] == '?')
 			{
-				arg->content = replace_question(arg->content, env->last_exit_status);
+				arg->content = replace_question(arg->content,
+						env->last_exit_status);
 				if (!arg->content)
 					return (1);
 			}

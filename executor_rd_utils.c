@@ -5,7 +5,7 @@ int	open_outfile_handle(t_command *cmd_node, t_exdat *data);
 
 int	redirect_in_handle(t_command *cmd_node, t_exdat *data)
 {
-	if (cmd_node->redir_in == 1 || cmd_node->redir_in == 2)
+	if (cmd_node->redir_in == 1 || cmd_node->redir_in == 2) // add herefile support
 	{
 		open_infile_handle(cmd_node, data);
 	}
