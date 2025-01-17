@@ -36,13 +36,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd_list = temp;
 			clean_tokens(&head);
 			expander(cmd_list, envp, env);
-			// t_command *temp = cmd_list;
-			// while (cmd_list)
-			// {
-			// 	print_command(cmd_list);
-			// 	cmd_list = cmd_list->next;
-			// }
-			// cmd_list = temp;
+
 			executor(cmd_list, env);
 			//// Free memory
 			clean_commands(cmd_list);
