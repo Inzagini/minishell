@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 			    cmd_list = cmd_list->next;
 			}
 			cmd_list = temp;
-			// executor(cmd_list, env);
+			executor(cmd_list, env);
 			//// Free memory
 			clean_commands(cmd_list);
 		}
