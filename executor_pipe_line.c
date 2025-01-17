@@ -11,7 +11,6 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 	executor_init(&data);
 	while ((*cmd_lst))
 	{
-		printf("child before cmd_list %p\n", (*cmd_lst));
 		if ((*cmd_lst)->id != 0)
 			pipe(data.pipefd[((*cmd_lst)->id + 1) % 2]);
 		env->child_pid = fork();
@@ -25,7 +24,8 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 		}
 		close_parent_pipes((*cmd_lst), data.pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
-		printf("child after cmd_list %p\n", (*cmd_lst));
+		if ((*cmd_lst)->redir_in == 0)
+			break ;
 	}
 	close_all_pipes(data.pipefd);
 	return (0);
