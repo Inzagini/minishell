@@ -2,6 +2,7 @@
 
 int	open_infile_handle(t_command *cmd_node, t_exdat *data);
 int	open_outfile_handle(t_command *cmd_node, t_exdat *data);
+int	here_doc_handle(t_command *cmd_node);
 
 int	redirect_in_handle(t_command *cmd_node, t_exdat *data)
 {
@@ -45,14 +46,21 @@ int	redirect_out_handle(t_command *cmd_node, t_exdat *data)
 
 int	open_infile_handle(t_command *cmd_node, t_exdat *data)
 {
-	if (access(cmd_node->redir_file_in, F_OK) == -1
-		|| access(cmd_node->redir_file_in, R_OK) == -1)
+	if (cmd_node->redir_in == 1)
 	{
-		print_error(getenv("SHELL"), strerror(errno), cmd_node->redir_file_in);
+		if (access(cmd_node->redir_file_in, F_OK) == -1
+			|| access(cmd_node->redir_file_in, R_OK) == -1)
+		{
+			print_error(getenv("SHELL"), strerror(errno), cmd_node->redir_file_in);
+		}
+		else
+		{
+			data->in_fd = open(cmd_node->redir_file_in, O_RDONLY);
+		}
 	}
-	else
+	else if (cmd_node->redir_in == 2)
 	{
-		data->in_fd = open(cmd_node->redir_file_in, O_RDONLY);
+		data->in_fd = here_doc_handle(cmd_node);
 	}
 	return (0);
 }
@@ -81,4 +89,29 @@ int	open_outfile_handle(t_command *cmd_node, t_exdat *data)
 	else
 		perror("Error redir out\n");
 	return (0);
+}
+
+int	here_doc_handle(t_command *cmd_node)
+{
+		char *delimiter;
+		char buffer[BUFFER_SIZE + 1];
+		int pipefd[2];
+		ssize_t bytes_read;
+
+		bytes_read = 1;
+		delimiter = cmd_node->heredoc_separator;
+		pipe(pipefd);
+		while (bytes_read)
+		{
+			write(1, "> ", 2);
+			bytes_read = read(0, buffer, BUFFER_SIZE);
+			if (bytes_read == -1)
+				break ;
+			buffer[bytes_read] = 0;
+			if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 10)
+				break ;
+			write(pipefd[1], buffer, bytes_read);
+		}
+		close(pipefd[1]);
+		return (pipefd[0]);
 }
