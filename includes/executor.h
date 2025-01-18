@@ -16,6 +16,10 @@ void	executor(t_command *cmd_list, t_env *env);
 int		call_pipe_line(t_command **cmd_lst, t_env *env);
 void	execute_build_in(t_command *cmd, t_env *env);
 
+void	call_execve(t_command *data, t_env *env);
+void	pre_handle(t_command *cmd, t_exdat *data);
+void	invoke_builtin(t_command *cmd, t_env *env);
+
 //build_in functions
 void	call_builtin(t_command *cmd, t_env *env);
 void	ft_echo(t_command *cmd, t_env *env);
@@ -27,9 +31,6 @@ void	ft_env(t_command *cmd, t_env *env);
 void	ft_unset(t_command *cmd, t_env *env);
 
 int		ft_strcmp(char *s1, char *s2);
-
-
-
 //redirect funcs
 int	redirect_in_handle(t_command *cmd_node, t_exdat *data);
 int	redirect_out_handle(t_command *cmd_node, t_exdat *data);

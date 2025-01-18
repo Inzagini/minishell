@@ -1,9 +1,5 @@
 #include "minishell.h"
 
-static void	call_execve(t_command *data, t_env *env);
-static void	pre_handle(t_command *cmd, t_exdat *data);
-static void	exec_builtin(t_command *cmd, t_env *env);
-
 int	call_pipe_line(t_command **cmd_lst, t_env *env)
 {
 	t_exdat	data;
@@ -18,7 +14,7 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 		{
 			pre_handle((*cmd_lst), &data);
 			if ((*cmd_lst)->builtin_flag)
-				exec_builtin((*cmd_lst), env);
+				invoke_builtin((*cmd_lst), env);
 			else
 				call_execve((*cmd_lst), env);
 		}
@@ -32,13 +28,13 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 	return (0);
 }
 
-static void	exec_builtin(t_command *cmd, t_env *env)
+void	invoke_builtin(t_command *cmd, t_env *env)
 {
 	call_builtin(cmd, env);
 	exit(env->last_exit_status);
 }
 
-static void	call_execve(t_command *data, t_env *env)
+void	call_execve(t_command *data, t_env *env)
 {
 	int	status;
 
@@ -67,7 +63,7 @@ void	executor_init(t_exdat *data)
 	data->out_fd = 1;
 }
 
-static void	pre_handle(t_command *cmd, t_exdat *data)
+void	pre_handle(t_command *cmd, t_exdat *data)
 {
 	redirect_in_handle(cmd, data);
 	redirect_out_handle(cmd, data);
