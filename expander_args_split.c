@@ -37,11 +37,9 @@ void	update_arg_ids(t_split *split, t_token *arg)
 	base_id = arg->arg_group_id;
 	new_id = base_id + split->count_token - split->merge_prev - split->merge_next + 1;
 	split->update = split->next;
-	printf("Content %s %d\n", split->update->content, new_id);
 	while (split->update)
 	{
 		split->update->arg_group_id = new_id;
-		printf("Content %s %d\n", split->update->content, new_id);
 		if (split->update->next && split->update->next->arg_group_id != split->update->arg_group_id)
 			new_id = new_id + 1;
 		split->update = split->update->next;
