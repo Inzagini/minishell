@@ -1,19 +1,27 @@
 #include "minishell.h"
 
-int	append_to_end(char *var, char **list)
+int append_to_end(char *var, char ***list)
 {
-	int	i;
-
-	i = 0;
-	while (list[i])
-		i++;
-	free (list[i]);
-	list[i] = var;
-	list[i + 1] = malloc(1 * sizeof (char *));
-	if (!list[i + 1])
-		return (1);
-	list[i + 1] = 0;
-	return (0);
+    int i;
+    int j;
+    char **new_list; 
+    
+    i = 0;
+    if (!var || !list || !*list)
+        return (1);
+    while ((*list)[i])
+        i++;
+    new_list = malloc((i + 2) * sizeof(char *));
+    if (!new_list)
+        return (1);
+    j = -1;
+    while (++j < i)
+        new_list[j] = (*list)[j];
+    new_list[i] = var;
+    new_list[i + 1] = NULL;
+    free(*list);
+    *list = new_list;
+    return (0);
 }
 
 int	find_argument(char *var, char **env)

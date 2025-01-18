@@ -54,7 +54,7 @@ int	export_to_env(char *arg, t_env *env)
 			env->env_current[j] = new_env;
 		}
 		else
-			if (append_to_end(new_env, env->env_current) == 1)
+			if (append_to_end(new_env, &env->env_current) == 1)
 				return (1);
 	}
 	return (0);
@@ -84,7 +84,7 @@ int	export_to_exp(char *arg, t_env *env)
 		env->export_current[j] = new_exp;
 	}
 	if (j == -1)
-		if (append_to_end(new_exp, env->export_current) == 1)
+		if (append_to_end(new_exp, &env->export_current) == 1)
 			return (1);
 	return (0);
 }

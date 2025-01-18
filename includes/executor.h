@@ -53,7 +53,7 @@ void	sort_export(t_env *env);
 int		check_options(char **args);
 int		check_argument(char *arg);
 int		find_argument(char *var, char **env);
-int		append_to_end(char *var, char **list);
+int		append_to_end(char *var, char ***list);
 char	*add_quotes(char *arg);
 int		export_to_exp(char *arg, t_env *env);
 int		export_to_env(char *arg, t_env *env);
