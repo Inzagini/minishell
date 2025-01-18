@@ -4,7 +4,7 @@ t_command	*expander(t_command *cmd_list, char **envp, t_env *env)
 {
 	check_builtins(cmd_list);
 	expand_tilde(env, cmd_list);
-	expand_question(env, cmd_list);
+	expand_special(env, cmd_list);
 	expand_arguments_dquote(env, cmd_list);
 	// t_command *temp = cmd_list;
 	// while (cmd_list)

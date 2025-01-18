@@ -45,7 +45,7 @@ char	*replace_tilde(const char *content, char **env)
 	return (result);
 }
 
-int	expand_question(t_env *env, t_command *cmd_list)
+int	expand_special(t_env *env, t_command *cmd_list)
 {
 	t_command	*cmd;
 	t_token		*arg;
@@ -57,9 +57,10 @@ int	expand_question(t_env *env, t_command *cmd_list)
 		while (arg)
 		{
 			if (arg->quote_identifier != 1
-				&& arg->content[0] == '$' && arg->content[1] == '?')
+				&& arg->content[0] == '$'
+                && (arg->content[1] == '?' || arg->content[1] == '-'))
 			{
-				arg->content = replace_question(arg->content,
+				arg->content = replace_special(arg->content,
 						env->last_exit_status);
 				if (!arg->content)
 					return (1);
@@ -71,16 +72,27 @@ int	expand_question(t_env *env, t_command *cmd_list)
 	return (0);
 }
 
-char	*replace_question(char *content, int status)
+char	*replace_special(char *content, int status)
 {
-	char	*question;
+	char	*special;
 	char	*result;
 
-	question = ft_itoa(status);
-	if (!question)
-		return (NULL);
-	result = ft_strjoin(question, content + 2);
-	free (question);
+	if (content[1] == '?')
+    {
+        special = ft_itoa(status);
+        if (!special)
+            return (NULL);
+        result = ft_strjoin(special, content + 2);
+        free (special);
+    }
+    else if (content[1] == '-')
+    {
+        special = malloc (7);
+        if (!special)
+            return (NULL);
+        ft_strlcpy(special, "himBHs", 7);
+        result = ft_strjoin(special, content + 2);
+    }
 	free (content);
 	return (result);
 }
