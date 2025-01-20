@@ -5,7 +5,7 @@
 
 typedef struct s_executor_data
 {
-	int	pipefd[2][2];
+	int		pipefd[2][2];
 	pid_t	pid;
 	int		in_fd;
 	int		out_fd;
@@ -32,8 +32,8 @@ void	ft_unset(t_command *cmd, t_env *env);
 
 int		ft_strcmp(char *s1, char *s2);
 //redirect funcs
-int	redirect_in_handle(t_command *cmd_node, t_exdat *data);
-int	redirect_out_handle(t_command *cmd_node, t_exdat *data);
+int		redirect_in_handle(t_command *cmd_node, t_exdat *data);
+int		redirect_out_handle(t_command *cmd_node, t_exdat *data);
 
 //pipes
 void	close_all_pipes(int pipefd[2][2]);

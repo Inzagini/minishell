@@ -25,9 +25,9 @@ typedef enum e_token_types
 typedef struct s_token_structure
 {
 	t_token_type	type;
-	char			*content;	//malloc
-	t_token			*previous;	//malloc
-	t_token			*next;		//malloc
+	char			*content;
+	t_token			*previous;
+	t_token			*next;
 	int				quote_identifier;
 	int				arg_group_id;
 }	t_token;
@@ -41,10 +41,8 @@ typedef struct s_token_data
 	int	exit_flag;
 }	t_data;
 
-
 //token handle
 int		tokenizer(char *input_str, t_token **head);
-
 t_token	*create_token(char *content, t_token_type token_type);
 void	append_token_lst(t_token **head, t_token *new_token);
 int		token_quotes(t_token **head, t_data *data, t_token_type type);

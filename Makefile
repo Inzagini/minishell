@@ -25,22 +25,22 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -I. -Ilibft -L$(LIBFT_DIR) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -I. -I$(LIBFT_DIR) -L$(LIBFT_DIR) -lft -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -I$(INCLUDES) -Ilibft -c $< -o $@
 
 clean:
 	$(MAKE) clean -C $(LIBFT_DIR)
-	rm -f $(OBJS)
+	@rm -f $(OBJS) && echo "Cleaned *.o files"
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFT_DIR)
-	rm -f $(NAME)
+	@rm -f $(NAME) && echo "Cleaned *.o files and $(NAME)"
 
 re: fclean all
 
-.PHONY: clean fclean re all
+.PHONY: clean fclean re all t leak
 
 t: $(LIBFT)
 	clear
