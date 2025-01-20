@@ -71,6 +71,8 @@ int	quotes_helper(char *input_str, t_data *data, t_token **head)
 	t_token	*new_token;
 	char	*str;
 
+	if (input_str[data->index] == 0)
+		return (1);
 	str = ft_substr(input_str, data->start, data->index - data->start);
 	if (!str)
 		return (1);

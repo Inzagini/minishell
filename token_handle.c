@@ -33,6 +33,8 @@ int	arg_handle(char *input_str, t_data *data, t_token **head)
 
 	if (input_str[data->start] == ' ')
 		(data->start)++;
+	if (!input_str[data->start])
+		return (0);
 	str = ft_substr((const char *)input_str, data->start,
 			data->index + 1 - data->start);
 	if (!str)
