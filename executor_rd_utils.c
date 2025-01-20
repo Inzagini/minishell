@@ -32,13 +32,9 @@ int	redirect_out_handle(t_command *cmd_node, t_exdat *data)
 		open_outfile_handle(cmd_node, data);
 	}
 	else if (cmd_node->redir_out == 3)
-	{
 		data->out_fd = data->pipefd[(cmd_node->id + 1) % 2][1];
-	}
 	else if (cmd_node->redir_out == 0)
 		data->out_fd = STDOUT_FILENO;
-	else
-		return (1);
 	if (dup2(data->out_fd, STDOUT_FILENO) == -1)
 		return (1);
 	return (0);

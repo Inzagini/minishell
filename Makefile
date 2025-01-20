@@ -6,11 +6,18 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS =	parser.c tokenizer.c token_handle.c parser_helpers.c parser_cleaning.c main.c
+SRCS =	build_in_export.c build_in_export_utils.c executor.c \
+		parser_redirects_quotes.c build_in_direct.c build_in_env.c \
+		executor_pipe_line.c expander_args_split.c expander_args_utils.c \
+		status_check_get_func.c tokenizer.c parser_commands.c \
+		signal.c token_cleaner.c token_handle.c token_handle_quote.c \
+		token_handle_rd.c build_in.c build_in_echo.c build_in_exit.c \
+		build_in_unset.c expander_cmds.c executor_rd_utils.c expander_args.c \
+		expander.c executor_pipes_utils.c executor_utils.c expander_args_split_utils.c \
+		expander_env.c parser.c parser_cleaner.c expander_tilde.c main.c \
+		token_func.c expander_merge.c
 
 OBJS = $(SRCS:.c=.o)
-
-TEST_PROMPT = "ls | cat > OUT < IN"
 
 all: $(LIBFT) $(NAME)
 

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	ft_pwd(t_command *cmd, t_env *env)
+void	ft_pwd(t_env *env)
 {
 	char	buff[PATH_MAX];
 	char	*path;

@@ -31,7 +31,6 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 void	update_arg_ids(t_split *split, t_token *arg)
 {
 	int	base_id;
-	int	i;
 	int	new_id;
 
 	base_id = arg->arg_group_id;
@@ -49,7 +48,6 @@ void	update_arg_ids(t_split *split, t_token *arg)
 int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 {
 	t_token	*arg;
-	t_token *test;
 
 	while (cmd_list)
 	{

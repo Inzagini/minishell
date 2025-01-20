@@ -33,7 +33,7 @@ void	call_builtin(t_command *cmd, t_env *env)
 	else if (!ft_strcmp(cmd->args[0], "echo"))
 		ft_echo(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		ft_pwd(cmd, env);
+		ft_pwd(env);
 	else if (!ft_strcmp(cmd->args[0], "export"))
 		ft_export(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "unset"))
