@@ -91,7 +91,7 @@ char	*find_var(char **env, char *var)
 			return (&env[i][len + 1]);
 		i++;
 	}
-    if (len > 0)
-        return ("");
+	if (len > 0)
+		return ("");
 	return ("$");
 }

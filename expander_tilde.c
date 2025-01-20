@@ -78,21 +78,21 @@ char	*replace_special(char *content, int status)
 	char	*result;
 
 	if (content[1] == '?')
-    {
-        special = ft_itoa(status);
-        if (!special)
-            return (NULL);
-        result = ft_strjoin(special, content + 2);
-        free (special);
-    }
-    else if (content[1] == '-')
-    {
-        special = malloc (7);
-        if (!special)
-            return (NULL);
-        ft_strlcpy(special, "himBHs", 7);
-        result = ft_strjoin(special, content + 2);
-    }
+	{
+		special = ft_itoa(status);
+		if (!special)
+			return (NULL);
+		result = ft_strjoin(special, content + 2);
+		free (special);
+	}
+	else if (content[1] == '-')
+	{
+		special = malloc (7);
+		if (!special)
+			return (NULL);
+		ft_strlcpy(special, "himBHs", 7);
+		result = ft_strjoin(special, content + 2);
+	}
 	free (content);
 	return (result);
 }
