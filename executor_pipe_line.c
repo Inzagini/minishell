@@ -69,4 +69,3 @@ void	pre_handle(t_command *cmd, t_exdat *data)
 	redirect_out_handle(cmd, data);
 	close_child_pipes(cmd, data->pipefd);
 }
-

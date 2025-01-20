@@ -19,8 +19,6 @@ int	new_line_handle(char *input_str, t_data *data, t_token **head)
 
 int	squote_handle(char *input_str, t_data *data, t_token **head)
 {
-	t_token	*new_token;
-
 	if (token_quotes(head, data, SQUOTE))
 		return (data->exit_flag = 1, 1);
 	data->start = ++(data->index);
@@ -46,8 +44,6 @@ int	squote_handle(char *input_str, t_data *data, t_token **head)
 
 int	dquote_handle(char *input_str, t_data *data, t_token **head)
 {
-	t_token	*new_token;
-
 	if (token_quotes(head, data, DQUOTE))
 		return (data->exit_flag = 1, 1);
 	data->start = ++(data->index);

@@ -32,7 +32,6 @@ int	rd_out_handle(char *input_str, t_data *data, t_token **head)
 	data->start = data->index;
 	data->rd_flag = 1;
 	data->exit_flag = 0;
-	// printf("[RD_OUT]\n");
 	return (0);
 }
 
@@ -49,7 +48,6 @@ int	rd_in_handle(char *input_str, t_data *data, t_token **head)
 	data->start = data->index;
 	data->rd_flag = 1;
 	data->exit_flag = 0;
-	// printf("[RD_IN]\n");
 	return (0);
 }
 
@@ -67,7 +65,6 @@ int	rd_app_handle(char *input_str, t_data *data, t_token **head)
 	append_token_lst(head, new_token);
 	data->start = data->index;
 	data->rd_flag = 1;
-	// printf("[RD_APP]\n");
 	return (0);
 }
 
@@ -85,6 +82,5 @@ int	rd_heredoc_handle(char *input_str, t_data *data, t_token **head)
 	append_token_lst(head, new_token);
 	data->start = data->index;
 	data->rd_flag = 1;
-	// printf("[RD_ININ]\n");
 	return (0);
 }

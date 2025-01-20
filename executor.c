@@ -9,8 +9,8 @@ void	executor(t_command *cmd_list, t_env *env)
 	len = lst_len(cmd_list);
 	while (cmd_list)
 	{
-		if (cmd_list->builtin_flag && cmd_list->redir_out != 3 &&
-			cmd_list->redir_in != 3)
+		if (cmd_list->builtin_flag && cmd_list->redir_out != 3
+			&& cmd_list->redir_in != 3)
 		{
 			execute_build_in(cmd_list, env);
 			cmd_list = cmd_list->next;
@@ -25,7 +25,7 @@ void	executor(t_command *cmd_list, t_env *env)
 
 int	is_pipes(t_command *cmd_list)
 {
-	t_command *head;
+	t_command	*head;
 
 	head = cmd_list;
 	while (cmd_list)

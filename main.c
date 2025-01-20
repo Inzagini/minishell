@@ -7,12 +7,12 @@ int	main(int argc, char **argv, char **envp)
 	t_command	*cmd_list;
 	t_env		*env;
 
-	// signal_setup();
+	signal_setup();
 	env = init_env(envp);
 	while (1)
 	{
 		head = NULL;
-		input = readline("1 | Test prompt:");
+		input = readline("Test prompt:");
 		if (!input)
 			break ;
 		if (input[0])
@@ -39,9 +39,7 @@ int	main(int argc, char **argv, char **envp)
 			// cmd_list = temp;
 			clean_tokens(&head);
 			expander(cmd_list, envp, env);
-
 			executor(cmd_list, env);
-			//// Free memory
 			clean_commands(cmd_list);
 		}
 	}
