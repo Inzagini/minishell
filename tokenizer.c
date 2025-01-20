@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int	meta_char(char *str, t_data *data, t_token **head);
+static int	meta_char(char *str, t_data *data, t_token **head);
 static void	token_init(t_data *data);
-int	is_symbol_char(char c);
+static int	is_symbol_char(char c);
 
 int	tokenizer(char *input_str, t_token **head)
 {
@@ -12,8 +12,10 @@ int	tokenizer(char *input_str, t_token **head)
 	while (input_str[++(data.index)] != '\0')
 	{
 		if (!meta_char(input_str, &data, head))
-			continue ;
-		else if (is_symbol_char(input_str[data.index + 1]))
+		{
+		}
+		else if (is_symbol_char(input_str[data.index + 1])
+			&& !data.exit_flag)
 		{
 			if (data.cmd_flag == 0 && !data.rd_flag)
 				cmd_handle(input_str, &data, head);
@@ -23,6 +25,8 @@ int	tokenizer(char *input_str, t_token **head)
 		if (data.exit_flag)
 			return (1);
 	}
+	free(input_str);
+	input_str = NULL;
 	return (0);
 }
 

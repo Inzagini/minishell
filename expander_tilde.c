@@ -58,7 +58,7 @@ int	expand_special(t_env *env, t_command *cmd_list)
 		{
 			if (arg->quote_identifier != 1
 				&& arg->content[0] == '$'
-                && (arg->content[1] == '?' || arg->content[1] == '-'))
+				&& (arg->content[1] == '?' || arg->content[1] == '-'))
 			{
 				arg->content = replace_special(arg->content,
 						env->last_exit_status);

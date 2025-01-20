@@ -17,10 +17,13 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (input[0])
 		{
-			if (input[0])
 			add_history(input);
-			tokenizer(input, &head);
-			free (input);
+			if (tokenizer(input, &head))
+			{
+				clean_tokens(&head);
+				free(input);
+				continue;
+			}
 			cmd_list = parser(head);
 			if (!cmd_list)
 			{
