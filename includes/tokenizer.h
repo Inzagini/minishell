@@ -47,6 +47,7 @@ int		tokenizer(char *input_str, t_token **head);
 
 t_token	*create_token(char *content, t_token_type token_type);
 void	append_token_lst(t_token **head, t_token *new_token);
+int		token_quotes(t_token **head, t_data *data, t_token_type type);
 
 int		cmd_handle(char *input_str, t_data *data, t_token **head);
 int		arg_handle(char *input_str, t_data *data, t_token **head);

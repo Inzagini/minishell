@@ -33,3 +33,14 @@ void	append_token_lst(t_token **head, t_token *new_token)
 	tmp->next = new_token;
 	new_token->previous = tmp;
 }
+
+int	token_quotes(t_token **head, t_data *data, t_token_type type)
+{
+	t_token *new_token;
+
+	new_token = create_token(NULL, type);
+	if (!new_token)
+		return (data->exit_flag = 1, 1);
+	append_token_lst(head, new_token);
+	return (0);
+}
