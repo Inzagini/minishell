@@ -18,12 +18,8 @@ int	main(int argc, char **argv, char **envp)
 		if (input[0])
 		{
 			add_history(input);
-			if (tokenizer(input, &head))
-			{
-				clean_tokens(&head);
-				free(input);
+			if (tokenizer(input, &head, env))
 				continue;
-			}
 			cmd_list = parser(head);
 			if (!cmd_list)
 			{

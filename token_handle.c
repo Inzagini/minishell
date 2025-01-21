@@ -58,6 +58,8 @@ int	sep_handle(char *input_str, t_data *data, t_token **head)
 	append_token_lst(head, new_token);
 	while (input_str[(data->index)] == ' ')
 		(data->index)++;
+	if (!input_str[data->index])
+		return (1);
 	data->start = data->index;
 	return (0);
 }
