@@ -4,6 +4,8 @@ cd ~/Work
 ls
 ls | cat -e | echo '
 ls | cat -e |
+ls | cat -e >
+
 VAR$=$VAR  ==> VAR$=cat
 $-
 echo $(cat $(echo "-e main.c")) == echo $($VAR $(echo "-e main.c") | $(cat -e))
