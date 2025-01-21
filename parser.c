@@ -20,8 +20,6 @@ t_command	*parser(t_token *token_list)
 		{
 			if (handle_pipes(&parser) == 1)
 				return (NULL);
-			if (parser.token->type == NEW_LINE)
-				parser.pipe_flag_in = 0;
 		}
 		parser.token = parser.token->next;
 	}
@@ -53,7 +51,6 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 void	reset_parser(t_parser *parser)
 {
 	parser->id++;
-
 	parser->arg_group_id = 0;
 	parser->size = 0;
 	parser->redir_in = 0;
@@ -93,15 +90,16 @@ int	add_argument_token(t_parser *parser)
 
 void	set_quote_identifier(t_token *new_token, t_token *current)
 {
-		if (current->previous && current->next)
+	if (current->previous && current->next)
 	{
 		if (current->previous->type == SQUOTE && current->next->type == SQUOTE)
-			new_token->quote_identifier = 1; // Single quotes
-		else if (current->previous->type == DQUOTE && current->next->type == DQUOTE)
-			new_token->quote_identifier = 2; // Double quotes
+			new_token->quote_identifier = 1;
+		else if (current->previous->type
+			== DQUOTE && current->next->type == DQUOTE)
+			new_token->quote_identifier = 2;
 		else
-			new_token->quote_identifier = 0; // No valid enclosing quotes
+			new_token->quote_identifier = 0;
 	}
 	else
-		new_token->quote_identifier = 0; // No valid enclosing quotes
+		new_token->quote_identifier = 0;
 }

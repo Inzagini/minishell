@@ -52,3 +52,18 @@ size_t	ft_strspn(const char *str)
 	}
 	return (i);
 }
+
+void	free_split(char **split_tokens)
+{
+	int	i;
+
+	if (!split_tokens)
+		return ;
+	i = 0;
+	while (split_tokens[i])
+	{
+		free(split_tokens[i]);
+		i++;
+	}
+	free(split_tokens);
+}

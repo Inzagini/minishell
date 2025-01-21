@@ -41,7 +41,7 @@ void	cmdadd(t_command **list, t_command *new)
 	temp->next = new;
 }
 
-void handle_pipe_flags(t_parser *parser)
+void	handle_pipe_flags(t_parser *parser)
 {
 	if (parser->pipe_flag_in == 1)
 	{
@@ -52,34 +52,28 @@ void handle_pipe_flags(t_parser *parser)
 			parser->redir_file_in = NULL;
 		}
 	}
-	if (parser->pipe_found == 1)
+	if (parser->pipe_found == 1 || parser->pipe_flag_out == 1)
 	{
 		if (parser->redir_out == 0)
 		{
 			parser->redir_out = 3;
 			free(parser->redir_file_out);
 			parser->redir_file_out = NULL;
-			parser->pipe_flag_in = 1;
-		}
-	}
-	else if (parser->pipe_flag_out == 1)
-	{
-		if (parser->redir_out == 0)
-		{
-			parser->redir_out = 3;
-			free(parser->redir_file_out);
-			parser->redir_file_out = NULL;
+			if (parser->pipe_found == 1)
+				parser->pipe_flag_in = 1;
 		}
 	}
 	parser->pipe_found = 0;
 }
 
-int	handle_pipes (t_parser *parser)
+int	handle_pipes(t_parser *parser)
 {
 	if (parser->token->type == PIPE)
 	{
 		parser->pipe_found = 1;
 	}
+	else if (parser->token->type == NEW_LINE)
+		parser->pipe_flag_in = 0;
 	if (cmdnew(parser) == 1)
 		return (1);
 	return (0);

@@ -27,19 +27,21 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 	return (0);
 }
 
-
 void	update_arg_ids(t_split *split, t_token *arg)
 {
 	int	base_id;
 	int	new_id;
 
 	base_id = arg->arg_group_id;
-	new_id = base_id + split->count_token - split->merge_prev - split->merge_next + 1;
+	new_id = base_id + split->count_token
+		- split->merge_prev - split->merge_next + 1;
 	split->update = split->next;
 	while (split->update)
 	{
 		split->update->arg_group_id = new_id;
-		if (split->update->next && split->update->next->arg_group_id != split->update->arg_group_id)
+		if (split->update->next
+			&& split->update->next->arg_group_id
+			!= split->update->arg_group_id)
 			new_id = new_id + 1;
 		split->update = split->update->next;
 	}
@@ -68,21 +70,6 @@ int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 	return (0);
 }
 
-void	free_split(char **split_tokens)
-{
-	int	i;
-
-	if (!split_tokens)
-		return ;
-	i = 0;
-	while (split_tokens[i])
-	{
-		free(split_tokens[i]);
-		i++;
-	}
-	free(split_tokens);
-}
-
 int	handle_token_merge(t_split *split, t_token *arg, t_token **arg_list, int i)
 {
 	if (i == 0 && split->prev)
@@ -93,19 +80,17 @@ int	handle_token_merge(t_split *split, t_token *arg, t_token **arg_list, int i)
 	else if (!split->split_tokens[i + 1] && split->next)
 	{
 		if (split->next->arg_group_id == arg->arg_group_id)
-		{
 			merge_tokens(split->new_token, split->next);
-			split->last_added->next = split->new_token;
-		}
 		else
-		{
-			split->last_added->next = split->new_token;
 			split->new_token->next = split->next;
-		}
+		split->last_added->next = split->new_token;
 	}
 	else
 	{
-		insert_token_after(arg_list, split->last_added ? split->last_added : arg, split->new_token);
+		if (split->last_added)
+			insert_token_after(arg_list, split->last_added, split->new_token);
+		else
+			insert_token_after(arg_list, arg, split->new_token);
 		split->last_added = split->new_token;
 	}
 	return (0);
@@ -118,7 +103,8 @@ int	split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id)
 
 	init_split(&split, env, arg_list, arg);
 	if (split.count_token == 1)
-		return (arg->content = ft_strdup(split.split_tokens[0]), free_split(split.split_tokens), 0);
+		return (arg->content = ft_strdup(split.split_tokens[0]),
+			free_split(split.split_tokens), 0);
 	i = -1;
 	while (split.split_tokens[++i])
 	{
@@ -128,7 +114,6 @@ int	split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id)
 		handle_token_merge(&split, arg, arg_list, i);
 	}
 	free_split(split.split_tokens);
-
 	remove_token(arg_list, arg);
 	return (0);
 }
