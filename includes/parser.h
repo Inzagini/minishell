@@ -53,6 +53,7 @@ int			cmdnew(t_parser *parser);
 void		cmdadd(t_command **list, t_command *new);
 void		handle_pipe_flags(t_parser *parser);
 int			handle_pipes(t_parser *parser);
+void		update_arg_id_deltas(t_token *input);
 
 // parser_redirects_quotes.c
 int			handle_redirects(t_parser *parser);

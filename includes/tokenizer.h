@@ -30,6 +30,7 @@ typedef struct s_token_structure
 	t_token			*next;
 	int				quote_identifier;
 	int				arg_group_id;
+	int				arg_group_id_delta;
 }	t_token;
 
 typedef struct s_token_data

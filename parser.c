@@ -75,6 +75,7 @@ int	add_argument_token(t_parser *parser)
 	set_quote_identifier(new_token, parser->token);
 	new_token->next = NULL;
 	new_token->arg_group_id = parser->arg_group_id;
+	new_token->arg_group_id_delta = 0;
 	if (!parser->arg_tokens)
 		parser->arg_tokens = new_token;
 	else

@@ -52,6 +52,7 @@ t_token	*create_token_split(char *content, int arg_id)
 		return (NULL);
 	}
 	new_token->arg_group_id = arg_id;
+	new_token->arg_group_id_delta = 0;
 	new_token->quote_identifier = 0;
 	new_token->next = NULL;
 	return (new_token);
