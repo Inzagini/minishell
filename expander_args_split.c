@@ -35,14 +35,14 @@ void	update_arg_ids(t_split *split, t_token *arg)
 	base_id = arg->arg_group_id;
 	new_id = base_id + split->count_token
 		- split->merge_prev - split->merge_next + 1;
+	if (split->count_token == 0)
+		new_id = base_id;
 	split->update = split->next;
 	while (split->update)
 	{
 		split->update->arg_group_id = new_id;
 		if (split->update->next && split->update->next->arg_group_id_delta == 1)
 			new_id = new_id + 1;
-		printf("token id: %d, delta %d, und content %s\n", split->update->arg_group_id, split->update->arg_group_id_delta, split->update->content);
-
 		split->update = split->update->next;
 	}
 }
@@ -57,7 +57,6 @@ int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 		update_arg_id_deltas(arg);
 		while (arg)
 		{
-			printf("ID %d, delta %d, cont %s\n", arg->arg_group_id, arg->arg_group_id_delta, arg->content);
 			if (arg->quote_identifier == 0
 				&& ft_strchr(arg->content, '$') != NULL)
 			{
