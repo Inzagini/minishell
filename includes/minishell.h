@@ -1,10 +1,8 @@
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#define _GNU_SOURCE // check what this actually is https://42born2code.slack.com/archives/C04C5N7EWS2/p1686320400227179?thread_ts=1686310183.263039&cid=C04C5N7EWS2
+# define _GNU_SOURCE
 
-# include "libft.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -15,10 +13,13 @@
 # include <errno.h>
 # include <limits.h>
 # include <signal.h>
+
+# include "libft.h"
+
 # include "tokenizer.h"
 # include "parser.h"
-# include "executor.h"
 # include "expander.h"
+# include "executor.h"
 # include "signals.h"
 
 #endif

@@ -13,9 +13,10 @@ SRCS =	build_in_export.c build_in_export_utils.c executor.c \
 		signal.c token_cleaner.c token_handle.c token_handle_quote.c \
 		token_handle_rd.c build_in.c build_in_echo.c build_in_exit.c \
 		build_in_unset.c expander_cmds.c executor_rd_utils.c expander_args.c \
-		expander.c executor_pipes_utils.c executor_utils.c expander_args_split_utils.c \
-		expander_env.c parser.c parser_cleaner.c expander_tilde.c main.c \
-		token_func.c expander_merge.c
+		expander.c executor_pipes_utils.c executor_utils.c \
+		expander_args_split_utils.c expander_env.c expander_merge.c \
+		parser.c parser_cleaner.c expander_special.c main.c \
+		token_func.c
 
 OBJS = $(SRCS:.c=.o)
 
