@@ -11,6 +11,7 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 
 	int rd_flag = 0;
 	int	pipe_flag = 0;
+	print_tokens(head);
 	while (token_lst)
 	{
 		if (rd_type(token_lst->type))
