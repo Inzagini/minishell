@@ -79,16 +79,16 @@ int	handle_pipes(t_parser *parser)
 	return (0);
 }
 
-void update_arg_id_deltas(t_token *input)
+void	update_arg_id_deltas(t_token *input)
 {
-        t_token *tokens;
-		tokens = input;
-		while (tokens)
-        {
-            if (tokens->next
-                    && tokens->next->arg_group_id > tokens->arg_group_id)
-                tokens->next->arg_group_id_delta = 1;
-            tokens = tokens->next;
-        }
-}
+	t_token	*tokens;
 
+	tokens = input;
+	while (tokens)
+	{
+		if (tokens->next
+			&& tokens->next->arg_group_id > tokens->arg_group_id)
+			tokens->next->arg_group_id_delta = 1;
+		tokens = tokens->next;
+	}
+}

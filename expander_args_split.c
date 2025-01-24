@@ -18,7 +18,7 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 	split->next = arg->next;
 	split->last_added = NULL;
 	split->merge_prev = 0;
-	if (split->prev)
+	if ((split->prev || arg->content[0] != '$') || !split->prev)
 		split->merge_prev = 1;
 	split->merge_next = 0;
 	if (split->next && arg->arg_group_id == split->next->arg_group_id)
