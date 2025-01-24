@@ -16,6 +16,18 @@
 
 # include "libft.h"
 
+typedef struct s_env
+{
+	char	**env;
+	char	**exp;
+	char	*full_path;
+	char	**cmd_paths;
+	int		last_exit_status;
+	char	*shell_name;
+	char	*shell_var;
+	pid_t	child_pid;
+}	t_env;
+
 # include "tokenizer.h"
 # include "parser.h"
 # include "expander.h"
