@@ -64,4 +64,6 @@ int		dquote_handle(char *input_str, t_data *data, t_token **head);
 int		new_line_handle(char *input_str, t_data *data, t_token **head);
 
 void	clean_tokens(t_token **head);
+void	print_tokens(t_token *token_list);
+
 #endif

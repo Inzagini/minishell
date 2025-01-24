@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **envp)
 				free(input);
 				continue;
 			}
+			print_tokens(head);
 			cmd_list = parser(head);
 			if (!cmd_list)
 			{
