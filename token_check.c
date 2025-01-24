@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 static int	rd_type(t_token_type type);
-char	*ending_pipe_handle(t_token *token_list);
+char	*ending_pipe_handle();
 
 int	check_tokens(char **input, t_token *token_lst, t_env *env)
 {
@@ -25,14 +25,14 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	}
 	if (rd_flag)
 	{
-		print_error(ft_getenv("SHELL", env->env_current),
+		print_err(ft_get("SHELL", env->env),
 			"syntax error near unexpected token" , "newline");
 		env->last_exit_status = 2;
 		return (2);
 	}
 	else if (pipe_flag)
 	{
-		char *new_input = ending_pipe_handle(token_lst);
+		char *new_input = ending_pipe_handle();
 		token_lst = head;
 		*input = new_input;
 		return (1);
@@ -48,7 +48,7 @@ static int	rd_type(t_token_type type)
 		|| type == RD_APP || type == RD_HEREDOC);
 }
 
-char	*ending_pipe_handle(t_token *token_list)
+char	*ending_pipe_handle()
 {
 	char	buffer[BUFFER_SIZE + 1];
 	char	*line;

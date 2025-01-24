@@ -7,7 +7,7 @@ int	tokenizer(char *input, t_token **head, t_env *env)
 	i = 1;
 	while (i)
 	{
-		if (token_construc(input, head))
+		if (token_construct(input, head))
 		{
 			clean_tokens(head);
 			free(input);

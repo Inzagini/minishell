@@ -4,12 +4,12 @@ static int	meta_char(char *str, t_data *data, t_token **head);
 static void	token_init(t_data *data);
 static int	is_symbol_char(char c);
 
-int	token_construc(char *input_str, t_token **head)
+int	token_construct(char *input_str, t_token **head)
 {
 	t_data	data;
 
 	token_init(&data);
-	while (input_str[++(data.index)])
+	while (input_str[++(data.index)] != '\0')
 	{
 		if (!meta_char(input_str, &data, head))
 		{
@@ -24,8 +24,6 @@ int	token_construc(char *input_str, t_token **head)
 		}
 		if (data.exit_flag)
 			return (1);
-		if (!input_str[data.index])
-			break ;
 	}
 	free(input_str);
 	input_str = NULL;
@@ -44,8 +42,7 @@ static void	token_init(t_data *data)
 int	meta_char(char *input_str, t_data *data, t_token **head)
 {
 	if (input_str[data->index] == ' ')
-		if (sep_handle(input_str, data, head))
-			return (0);
+		sep_handle(input_str, data, head);
 	if (input_str[data->index] == '|')
 		pipe_handle(input_str, data, head);
 	else if (input_str[data->index] == '\'')
@@ -64,6 +61,6 @@ int	meta_char(char *input_str, t_data *data, t_token **head)
 
 int	is_symbol_char(char c)
 {
-	return (c == ' ' || c == 0 || c == '\n'
+	return (c == ' ' || c == '\0' || c == '\n'
 		|| c == '\'' || c == '"');
 }

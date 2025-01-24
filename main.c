@@ -30,7 +30,7 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 	if (input[0])
 	{
 		add_history(input);
-		if (tokenizer(input, &head))
+		if (tokenizer(input, &head, env))
 			return (clean_tokens(&head), free(input), 1);
 		cmd_list = parser(head);
 		if (!cmd_list)

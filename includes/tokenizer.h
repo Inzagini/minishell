@@ -46,7 +46,7 @@ typedef struct s_token_data
 
 //token handle
 int	tokenizer(char *input, t_token **head, t_env *env);
-int		token_construc(char *input_str, t_token **head);
+int		token_construct(char *input_str, t_token **head);
 t_token	*create_token(char *content, t_token_type token_type);
 void	append_token_lst(t_token **head, t_token *new_token);
 int		token_quotes(t_token **head, t_data *data, t_token_type type);
