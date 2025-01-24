@@ -45,6 +45,7 @@ void	handle_pipe_flags(t_parser *parser)
 {
 	if (parser->pipe_flag_in == 1)
 	{
+		printf("HERE\n");
 		if (parser->redir_in == 0)
 		{
 			parser->redir_in = 3;
@@ -72,10 +73,10 @@ int	handle_pipes(t_parser *parser)
 	{
 		parser->pipe_found = 1;
 	}
-	else if (parser->token->type == NEW_LINE)
-		parser->pipe_flag_in = 0;
 	if (cmdnew(parser) == 1)
 		return (1);
+	if (parser->token->type == NEW_LINE)
+		parser->pipe_flag_in = 0;
 	return (0);
 }
 

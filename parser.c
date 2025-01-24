@@ -104,3 +104,4 @@ void	set_quote_identifier(t_token *new_token, t_token *current)
 	else
 		new_token->quote_identifier = 0;
 }
+
