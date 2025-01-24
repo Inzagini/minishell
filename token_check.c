@@ -8,22 +8,36 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	t_token	*head;
 
 	head = token_lst;
-	while (token_lst->next)
+
+	int rd_flag = 0;
+	int	pipe_flag = 0;
+	while (token_lst)
+	{
+		if (rd_type(token_lst->type))
+			rd_flag = 1;
+		else if (token_lst->type == ARG)
+			rd_flag = 0;
+		else if (token_lst->type == PIPE)
+			pipe_flag = 1;
+		else if (token_lst->type == CMD)
+			pipe_flag = 0;
 		token_lst = token_lst->next;
-	if (token_lst->type == PIPE)
+	}
+	if (rd_flag)
+	{
+		print_error(ft_getenv("SHELL", env->env_current),
+			"syntax error near unexpected token" , "newline");
+		env->last_exit_status = 2;
+		return (2);
+	}
+	else if (pipe_flag)
 	{
 		char *new_input = ending_pipe_handle(token_lst);
 		token_lst = head;
 		*input = new_input;
 		return (1);
 	}
-	else if (rd_type(token_lst->type))
-	{
-		print_error(ft_getenv("SHELL", env->env_current),
-			"syntax error near unexpected token" , "'newline'");
-		env->last_exit_status = 2;
-		return (2);
-	}
+
 	token_lst = head;
 	return (0);
 }
