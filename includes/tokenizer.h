@@ -1,6 +1,8 @@
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
+
+typedef struct s_env		t_env;
 typedef struct s_token_structure	t_token;
 
 typedef enum e_token_types
@@ -43,7 +45,8 @@ typedef struct s_token_data
 }	t_data;
 
 //token handle
-int		tokenizer(char *input_str, t_token **head);
+int	tokenizer(char *input, t_token **head, t_env *env);
+int		token_construc(char *input_str, t_token **head);
 t_token	*create_token(char *content, t_token_type token_type);
 void	append_token_lst(t_token **head, t_token *new_token);
 int		token_quotes(t_token **head, t_data *data, t_token_type type);
@@ -63,6 +66,7 @@ int		squote_handle(char *input_str, t_data *data, t_token **head);
 int		dquote_handle(char *input_str, t_data *data, t_token **head);
 int		new_line_handle(char *input_str, t_data *data, t_token **head);
 
+int	check_tokens(char **input, t_token *token_lst, t_env *env);
 void	clean_tokens(t_token **head);
 void	print_tokens(t_token *token_list);
 
