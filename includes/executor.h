@@ -42,8 +42,8 @@ void	close_child_pipes(t_command *cmd_lst, int pipefd[2][2]);
 
 //supp
 int		lst_len(t_command *lst);
-void	print_error(char *prefix, char *msg, char *name);
-char	*ft_getenv(char *name, char **env);
+void	print_err(char *prefix, char *msg, char *name);
+char	*ft_get(char *name, char **env);
 int		exit_check(int n_cmd);
 
 //build-in export functions

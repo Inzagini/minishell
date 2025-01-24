@@ -47,7 +47,7 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data)
 		if (access(cmd_node->redir_file_in, F_OK) == -1
 			|| access(cmd_node->redir_file_in, R_OK) == -1)
 		{
-			print_error(getenv("SHELL"),
+			print_err(getenv("SHELL"),
 				strerror(errno), cmd_node->redir_file_in);
 		}
 		else

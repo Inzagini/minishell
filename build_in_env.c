@@ -7,7 +7,7 @@ void	ft_env(t_command *cmd, t_env *env)
 	if (cmd->args[1] != 0)
 	{
 		printf("%s: env: only supported without options/arguments\n",
-			ft_getenv("SHELL", env->env));
+			ft_get("SHELL", env->env));
 		env->last_exit_status = 1;
 	}
 	else
@@ -22,5 +22,3 @@ void	print_env(t_env *env)
 	while (env->env[++i])
 		printf("%s\n", env->env[i]);
 }
-
-

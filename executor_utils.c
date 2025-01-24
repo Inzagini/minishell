@@ -26,7 +26,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[index] - s2[index]);
 }
 
-void	print_error(char *prefix, char *msg, char *name)
+void	print_err(char *prefix, char *msg, char *name)
 {
 	if (prefix)
 	{

@@ -26,7 +26,7 @@ int	squote_handle(char *input_str, t_data *data, t_token **head)
 		(data->index)++;
 	if (!input_str[data->index])
 	{
-		print_error(NULL, "Error: unclosed quote", NULL);
+		print_err(NULL, "Error: unclosed quote", NULL);
 		return (data->exit_flag = 1, 1);
 	}
 	if (quotes_helper(input_str, data, head))
@@ -51,7 +51,7 @@ int	dquote_handle(char *input_str, t_data *data, t_token **head)
 		(data->index)++;
 	if (!input_str[data->index])
 	{
-		print_error(NULL, "Error: unclosed quote", NULL);
+		print_err(NULL, "Error: unclosed quote", NULL);
 		return (data->exit_flag = 1, 1);
 	}
 	if (quotes_helper(input_str, data, head))

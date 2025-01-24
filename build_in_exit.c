@@ -12,12 +12,13 @@ void	ft_exit(t_command *cmd, t_env *env)
 	{
 		if (cmd->args[2] != NULL)
 		{
-			print_error(ft_getenv("SHELL", env->env), "too many arguments", "exit");
+			print_err(ft_get("SHELL", env->env), "too many arguments", "exit");
 			return ;
 		}
 		else if (is_allnums(cmd->args[1]))
 		{
-			print_error(ft_getenv("SHELL", env->env), "numeric argument required", cmd->args[1]);
+			print_err(ft_get("SHELL", env->env),
+				"numeric argument required", cmd->args[1]);
 			env->last_exit_status = 2;
 		}
 	}

@@ -13,7 +13,7 @@ int	ft_wiexitstatus(int status)
 }
 
 // Custom getenv function
-char	*ft_getenv(char *name, char **env)
+char	*ft_get(char *name, char **env)
 {
 	while (*env != NULL)
 	{
