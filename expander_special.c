@@ -77,6 +77,7 @@ char	*replace_special(char *content, int status)
 	char	*special;
 	char	*result;
 
+	result = NULL;
 	if (content[1] == '?')
 	{
 		special = ft_itoa(status);

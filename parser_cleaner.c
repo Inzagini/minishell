@@ -2,8 +2,6 @@
 
 void	clean_parser(t_parser *parser)
 {
-	int	i;
-
 	if (parser->cmd_list)
 		clean_commands(parser->cmd_list);
 	if (parser->redir_file_in)

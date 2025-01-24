@@ -36,6 +36,7 @@ char	**copy_envp(char **envp, int exp)
 	char	**copy;
 
 	i = 0;
+	j = 0;
 	while (envp[i])
 		i++;
 	copy = malloc ((i + 1) * sizeof(char *));
@@ -44,7 +45,7 @@ char	**copy_envp(char **envp, int exp)
 	copy[i] = 0;
 	if (exp == 0)
 	{
-		if (copy_to_env(copy, envp, i, j) == 1)
+		if (copy_to_env(copy, envp, j) == 1)
 			return (NULL);
 	}
 	else if (exp == 1)
@@ -82,7 +83,7 @@ int	copy_to_exp(char **copy, char **envp, int i, int j)
 	return (0);
 }
 
-int	copy_to_env(char **copy, char **envp, int i, int j)
+int	copy_to_env(char **copy, char **envp, int j)
 {
 	j = -1;
 	while (envp[++j])

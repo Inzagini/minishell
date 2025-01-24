@@ -6,17 +6,16 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS =	build_in_export.c build_in_export_utils.c executor.c \
-		parser_redirects_quotes.c build_in_direct.c build_in_env.c \
-		executor_pipe_line.c expander_args_split.c expander_args_utils.c \
-		status_check_get_func.c tokenizer.c parser_commands.c \
-		signal.c token_cleaner.c token_handle.c token_handle_quote.c \
-		token_handle_rd.c build_in.c build_in_echo.c build_in_exit.c \
-		build_in_unset.c expander_cmds.c executor_rd_utils.c expander_args.c \
-		expander.c executor_pipes_utils.c executor_utils.c \
-		expander_args_split_utils.c expander_env.c expander_merge.c \
-		parser.c parser_cleaner.c expander_special.c main.c \
-		token_func.c
+SRCS =	build_in.c build_in_direct.c build_in_echo.c build_in_env.c \
+		build_in_exit.c build_in_export.c build_in_export_utils.c \
+		build_in_unset.c executor.c executor_pipe_line.c executor_pipes_utils.c \
+		executor_rd_utils.c executor_utils.c expander.c expander_args.c \
+		expander_args_split.c expander_args_split_utils.c expander_args_utils.c \
+		expander_cmds.c expander_env.c expander_merge.c expander_special.c \
+		main.c parser.c parser_cleaner.c parser_commands.c \
+		parser_redirects_quotes.c signal.c status_check_get_func.c \
+		token_cleaner.c token_func.c tokenizer.c token_handle.c \
+		token_handle_quote.c token_handle_rd.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -26,7 +25,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -I. -I$(LIBFT_DIR) -L$(LIBFT_DIR) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -I. -I$(LIBFT_DIR) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -I$(INCLUDES) -Ilibft -c $< -o $@

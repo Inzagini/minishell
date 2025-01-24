@@ -42,7 +42,7 @@ void		expand_commands(t_env *env, t_command *command);
 t_env		*init_env(char **envp);
 char		**copy_envp(char **envp, int exp);
 int			copy_to_exp(char **copy, char **envp, int i, int j);
-int			copy_to_env(char **copy, char **envp, int i, int j);
+int			copy_to_env(char **copy, char **envp, int j);
 void		clean_env(t_env *env);
 
 // expander_args.c

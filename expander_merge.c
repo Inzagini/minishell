@@ -5,7 +5,6 @@ int	merge_arguments(t_command *cmd_list)
 	t_command	*cmd;
 	t_token		*arg;
 	int			max;
-	char		*temp;
 
 	cmd = cmd_list;
 	while (cmd)
