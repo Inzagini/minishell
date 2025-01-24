@@ -19,7 +19,7 @@ char	*ft_getenv(char *name, char **env)
 	{
 		if (ft_strncmp(*env, name, ft_strlen(name)) == 0
 			&& (*env)[ft_strlen(name)] == '=')
-			return (*env + ft_strlen(name) + 6);
+			return (*env + ft_strlen(name) + 1);
 		env++;
 	}
 	return (NULL);

@@ -1,27 +1,27 @@
 #include "minishell.h"
 
-int append_to_end(char *var, char ***list)
+int	append_to_end(char *var, char ***list)
 {
-    int i;
-    int j;
-    char **new_list; 
-    
-    i = 0;
-    if (!var || !list || !*list)
-        return (1);
-    while ((*list)[i])
-        i++;
-    new_list = malloc((i + 2) * sizeof(char *));
-    if (!new_list)
-        return (1);
-    j = -1;
-    while (++j < i)
-        new_list[j] = (*list)[j];
-    new_list[i] = var;
-    new_list[i + 1] = NULL;
-    free(*list);
-    *list = new_list;
-    return (0);
+	int		i;
+	int		j;
+	char	**new_list;
+
+	i = 0;
+	if (!var || !list || !*list)
+		return (1);
+	while ((*list)[i])
+		i++;
+	new_list = malloc((i + 2) * sizeof(char *));
+	if (!new_list)
+		return (1);
+	j = -1;
+	while (++j < i)
+		new_list[j] = (*list)[j];
+	new_list[i] = var;
+	new_list[i + 1] = NULL;
+	free(*list);
+	*list = new_list;
+	return (0);
 }
 
 int	find_argument(char *var, char **env)
@@ -97,21 +97,22 @@ void	print_export(t_env *env)
 {
 	int		i;
 	char	*temp;
+
 	i = 0;
-	while (env->export_current[i] && env->export_current[i + 1])
+	while (env->exp[i] && env->exp[i + 1])
 	{
-		if (ft_strncmp(env->export_current[i]
-				, env->export_current[i + 1], 1024) > 0)
+		if (ft_strncmp(env->exp[i]
+				, env->exp[i + 1], 1024) > 0)
 		{
-			temp = env->export_current[i];
-			env->export_current[i] = env->export_current[i + 1];
-			env->export_current[i + 1] = temp;
+			temp = env->exp[i];
+			env->exp[i] = env->exp[i + 1];
+			env->exp[i + 1] = temp;
 			i = 0;
 		}
 		else
 			i++;
 	}
 	i = -1;
-	while (env->export_current[++i])
-		printf("declare -x %s\n", env->export_current[i]);
+	while (env->exp[++i])
+		printf("declare -x %s\n", env->exp[i]);
 }

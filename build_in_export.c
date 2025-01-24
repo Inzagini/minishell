@@ -10,7 +10,7 @@ void	ft_export(t_command *cmd, t_env *env)
 	if (i > 0)
 	{
 		printf("%s: export: %.2s: invalid option\n",
-			getenv("SHELL"), cmd->args[i]);
+			ft_getenv("SHELL", env->env), cmd->args[i]);
 		printf("export: usage: export [name[=value] ...]\n");
 		env->last_exit_status = 2;
 		return ;
@@ -25,7 +25,7 @@ void	check_add_vars(t_command *cmd, t_env *env, int i)
 		if (check_argument(cmd->args[i]) == 1)
 		{
 			printf("%s: export: `%s': not a valid identifier\n",
-				getenv("SHELL"), cmd->args[i]);
+				ft_getenv("SHELL", env->env), cmd->args[i]);
 			env->last_exit_status = 1;
 		}
 		else
@@ -44,17 +44,17 @@ int	export_to_env(char *arg, t_env *env)
 
 	if (ft_strchr(arg, '='))
 	{
-		j = find_argument(arg, env->env_current);
+		j = find_argument(arg, env->env);
 		new_env = ft_strdup(arg);
 		if (!new_env)
 			return (1);
 		if (j >= 0)
 		{
-			free (env->env_current[j]);
-			env->env_current[j] = new_env;
+			free (env->env[j]);
+			env->env[j] = new_env;
 		}
 		else
-			if (append_to_end(new_env, &env->env_current) == 1)
+			if (append_to_end(new_env, &env->env) == 1)
 				return (1);
 	}
 	return (0);
@@ -65,7 +65,7 @@ int	export_to_exp(char *arg, t_env *env)
 	int		j;
 	char	*new_exp;
 
-	j = find_argument(arg, env->export_current);
+	j = find_argument(arg, env->exp);
 	if (ft_strchr(arg, '='))
 	{
 		new_exp = add_quotes(arg);
@@ -80,11 +80,11 @@ int	export_to_exp(char *arg, t_env *env)
 	}
 	if (j >= 0 && ft_strchr(arg, '='))
 	{
-		free (env->export_current[j]);
-		env->export_current[j] = new_exp;
+		free (env->exp[j]);
+		env->exp[j] = new_exp;
 	}
 	if (j == -1)
-		if (append_to_end(new_exp, &env->export_current) == 1)
+		if (append_to_end(new_exp, &env->exp) == 1)
 			return (1);
 	return (0);
 }

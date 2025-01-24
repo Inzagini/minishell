@@ -6,18 +6,18 @@ int	ft_atouc(char *str);
 //exit don't clean yet
 void	ft_exit(t_command *cmd, t_env *env)
 {
-	int status;
+	int	status;
 
 	if (cmd->args[1] != NULL)
 	{
 		if (cmd->args[2] != NULL)
 		{
-			print_error(ft_getenv("SHELL", env->env_current), "too many arguments", "exit");
+			print_error(ft_getenv("SHELL", env->env), "too many arguments", "exit");
 			return ;
 		}
 		else if (is_allnums(cmd->args[1]))
 		{
-			print_error(ft_getenv("SHELL", env->env_current), "numeric argument required", cmd->args[1]);
+			print_error(ft_getenv("SHELL", env->env), "numeric argument required", cmd->args[1]);
 			env->last_exit_status = 2;
 		}
 	}
@@ -48,11 +48,11 @@ int	is_allnums(char *str)
 int	ft_atouc(char *str)
 {
 	unsigned char	result;
-	int		index;
+	int				index;
 
 	result = 0;
 	index = -1;
-	while(str[++index])
+	while (str[++index])
 		result = result * 10 + str[index] - '0';
 	return ((int) result);
 }

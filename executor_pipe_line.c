@@ -39,14 +39,14 @@ void	call_execve(t_command *data, t_env *env)
 	int	status;
 
 	if (!data->args || !data->args[0])
-		print_error(ft_getenv("SHELL", env->env_current),
+		print_error(ft_getenv("SHELL", env->env),
 			"command not found", NULL);
 	else
 	{
-		status = execve(data->args[0], data->args, env->env_current);
+		status = execve(data->args[0], data->args, env->env);
 		if (status == -1)
 		{
-			print_error(ft_getenv("SHELL", env->env_current),
+			print_error(ft_getenv("SHELL", env->env),
 				"command not found", data->args[0]);
 			exit(127);
 		}

@@ -12,15 +12,16 @@ void	ft_unset(t_command *cmd, t_env *env)
 	i = check_options_unset(cmd->args);
 	if (i > 0)
 	{
-		printf("%s: unset: %.2s: invalid option\n", getenv("SHELL"), cmd->args[i]);
+		printf("%s: unset: %.2s: invalid option\n",
+			getenv("SHELL"), cmd->args[i]);
 		printf("unset: usage: unset [name ...]\n");
 		env->last_exit_status = 2;
 		return ;
 	}
 	while (cmd->args[++i])
 	{
-		unset_variable(cmd->args[i], env->env_current);
-		unset_variable(cmd->args[i], env->export_current);
+		unset_variable(cmd->args[i], env->env);
+		unset_variable(cmd->args[i], env->exp);
 	}
 }
 
@@ -55,7 +56,6 @@ int	check_options_unset(char **args)
 	int	i;
 
 	i = -1;
-
 	while (args[++i])
 	{
 		if (args[i][0] == '-')

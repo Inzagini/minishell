@@ -3,8 +3,8 @@
 void	execute_build_in(t_command *cmd, t_env *env)
 {
 	t_exdat	data;
-	int	origin_in;
-	int	origin_out;
+	int		origin_in;
+	int		origin_out;
 
 	origin_in = dup(STDIN_FILENO);
 	origin_out = dup(STDOUT_FILENO);

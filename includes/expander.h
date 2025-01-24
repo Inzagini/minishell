@@ -5,11 +5,13 @@
 
 typedef struct s_env
 {
-	char	**env_current;
-	char	**export_current;
+	char	**env;
+	char	**exp;
 	char	*full_path;
 	char	**cmd_paths;
 	int		last_exit_status;
+	char	*shell_name;
+	char	*shell_var;
 	pid_t	child_pid;
 }	t_env;
 

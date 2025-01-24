@@ -61,7 +61,7 @@ int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 				&& ft_strchr(arg->content, '$') != NULL)
 			{
 				if (split_argument(&cmd_list->arg_tokens, arg,
-						env->env_current, arg->arg_group_id))
+						env->env, arg->arg_group_id))
 					return (1);
 			}
 			arg = arg->next;

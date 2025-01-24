@@ -8,17 +8,19 @@ t_env	*init_env(char **envp)
 	if (!env)
 		return (NULL);
 	env->cmd_paths = NULL;
-	env->env_current = NULL;
-	env->export_current = NULL;
+	env->env = NULL;
+	env->exp = NULL;
 	env->full_path = NULL;
+	env->shell_name = "BROKEN_SHELL";
+	env->shell_var =  "SHELL=BROKEN_SHELL";
 	env->last_exit_status = 0;
-	env->env_current = copy_envp(envp, 0);
-	if (env->env_current == NULL)
+	env->env = copy_envp(envp, 0);
+	if (env->env == NULL)
 		return (free(env), NULL);
-	env->export_current = copy_envp(envp, 1);
-	if (env->export_current == NULL)
+	env->exp = copy_envp(envp, 1);
+	if (env->exp == NULL)
 		return (clean_env(env), free(env), NULL);
-	env->full_path = find_path(env->env_current);
+	env->full_path = find_path(env->env);
 	if (!env->full_path)
 		return (clean_env(env), free(env), NULL);
 	env->cmd_paths = ft_split(env->full_path, ':');
@@ -101,18 +103,18 @@ void	clean_env(t_env *env)
 	int	i;
 
 	i = 0;
-	if (env->env_current && env->env_current[i])
+	if (env->env && env->env[i])
 	{
-		while (env->env_current[i])
-			free (env->env_current[i++]);
-		free (env->env_current);
+		while (env->env[i])
+			free (env->env[i++]);
+		free (env->env);
 	}
 	i = 0;
-	if (env->export_current && env->export_current[i])
+	if (env->exp && env->exp[i])
 	{
-		while (env->export_current[i])
-			free (env->export_current[i++]);
-		free (env->export_current);
+		while (env->exp[i])
+			free (env->exp[i++]);
+		free (env->exp);
 	}
 	i = 0;
 	if (env->cmd_paths && env->cmd_paths[i])

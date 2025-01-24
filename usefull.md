@@ -1,4 +1,4 @@
-cd ~/Work/minishell/libft
+cd ~/Work/minishell/libft  // check what happens if you exit directly after (without additional args). exit code 1 seems fine, but still weird?
 ls | cat -e > test
 cd ~/Work
 ls

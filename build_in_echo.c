@@ -41,4 +41,3 @@ static int	contain_only(char *str, char c)
 	}
 	return (0);
 }
-

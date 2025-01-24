@@ -65,7 +65,7 @@ int	expand_arguments_dquote(t_env *env, t_command *cmd_list)
 			if (arg->quote_identifier == 2)
 			{
 				expanded = expand_argument(arg->content,
-						env->env_current, expanded);
+						env->env, expanded);
 				if (!expanded)
 					return (1);
 				free(arg->content);

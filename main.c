@@ -12,7 +12,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		head = NULL;
-		input = readline("Test prompt:");
+		input = readline("BROKEN_SHELL: ");
 		if (!input)
 			break ;
 		if (input[0])
