@@ -22,4 +22,6 @@
 # include "executor.h"
 # include "signals.h"
 
+int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env);
+
 #endif

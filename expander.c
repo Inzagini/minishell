@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_command	*expander(t_command *cmd_list, char **envp, t_env *env)
+t_command	*expander(t_command *cmd_list, t_env *env)
 {
 	check_builtins(cmd_list);
 	expand_tilde(env, cmd_list);

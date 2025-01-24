@@ -30,7 +30,7 @@ typedef struct s_split
 }	t_split;
 
 // expander.c
-t_command	*expander(t_command *cmd_list, char **envp, t_env *env);
+t_command	*expander(t_command *cmd_list, t_env *env);
 void		check_builtins(t_command *cmd_list);
 
 // expander_cmds.c
