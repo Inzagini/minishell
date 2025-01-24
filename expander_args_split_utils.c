@@ -65,6 +65,8 @@ t_token	*find_previous_token(t_token *arg_list, t_token *token)
 	if (!arg_list || !token || arg_list == token)
 		return (NULL);
 	current = arg_list;
+	printf("current content: %s, token content: %s\n", current->content, token->content);
+	printf("current arg group id: %d\n", current->arg_group_id);
 	while (current && current->next != token)
 		current = current->next;
 	if (current->arg_group_id == token->arg_group_id)

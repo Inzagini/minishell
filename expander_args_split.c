@@ -18,7 +18,7 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 	split->next = arg->next;
 	split->last_added = NULL;
 	split->merge_prev = 0;
-	if (split->prev)
+	if ((split->prev || arg->content[0] != '$') || !split->prev)
 		split->merge_prev = 1;
 	split->merge_next = 0;
 	if (split->next && arg->arg_group_id == split->next->arg_group_id)
@@ -35,8 +35,11 @@ void	update_arg_ids(t_split *split, t_token *arg)
 	base_id = arg->arg_group_id;
 	new_id = base_id + split->count_token
 		- split->merge_prev - split->merge_next + 1;
+	if (arg->arg_group_id)
 	if (split->count_token == 0)
 		new_id = base_id;
+	printf("base id: %d, new id: %d, Count: %d; Content %s\n", base_id, new_id, split->count_token, split->next->content);
+	printf("merge prev: %d, merge next: %d\n", split->merge_prev, split->merge_next);
 	split->update = split->next;
 	while (split->update)
 	{
