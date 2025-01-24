@@ -1,9 +1,8 @@
-#ifndef SIGNAL_H
-# define SIGNAL_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
 # include "minishell.h"
 
 void	signal_setup(void);
 
 #endif
-

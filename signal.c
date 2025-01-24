@@ -9,26 +9,21 @@ void	signal_handle(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-
 }
 
 void	signal_setup(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
+	int					i;
 
 	sa.sa_handler = signal_handle;
 	sa.sa_flags = SA_RESTART;
 	sigemptyset(&sa.sa_mask);
-
 	sigaction(SIGINT, &sa, NULL);
-
-	// signal(SIGQUIT, SIG_IGN);
-	int	i = 0;
+	i = 0;
 	while (++i < NSIG)
 	{
 		if (i != SIGINT)
 			signal(i, SIG_IGN);
 	}
 }
-
-

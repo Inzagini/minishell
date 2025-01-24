@@ -45,6 +45,6 @@ int	exit_check(int n_cmd)
 		i++;
 	}
 	if (ft_wiexitstatus(status) != 0)
-		return(last_status);
-	return(0);
+		return (last_status);
+	return (0);
 }
