@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env);
-int	open_outfile_handle(t_command *cmd_node, t_exdat *data);
+int	open_outfile_handle(t_command *cmd_node, t_exdat *data, t_env *env);
 int	here_doc_handle(t_command *cmd_node);
 
 int	redirect_in_handle(t_command *cmd_node, t_exdat *data, t_env *env)
@@ -28,11 +28,11 @@ int	redirect_in_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 	return (0);
 }
 
-int	redirect_out_handle(t_command *cmd_node, t_exdat *data)
+int	redirect_out_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 {
 	if (cmd_node->redir_out == 1 || cmd_node->redir_out == 2)
 	{
-		open_outfile_handle(cmd_node, data);
+		open_outfile_handle(cmd_node, data, env);
 	}
 	else if (cmd_node->redir_out == 3)
 	{
@@ -73,12 +73,10 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 	return (0);
 }
 
-int	open_outfile_handle(t_command *cmd_node, t_exdat *data)
+int	open_outfile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 {
 	if (access(cmd_node->redir_file_out, F_OK) == -1)
-	{
 		data->out_fd = open(cmd_node->redir_file_out, O_WRONLY | O_CREAT, 0666);
-	}
 	else if (access(cmd_node->redir_file_out, W_OK) != -1)
 	{
 		if (cmd_node->redir_out == 1)
@@ -95,7 +93,11 @@ int	open_outfile_handle(t_command *cmd_node, t_exdat *data)
 		}
 	}
 	else
-		perror("Error redir out\n");
+	{
+		print_err(ft_get("SHELL", env->env),
+			strerror(errno), cmd_node->redir_file_out);
+		exit(1);
+	}
 	return (0);
 }
 
