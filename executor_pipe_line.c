@@ -12,7 +12,7 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 		env->child_pid = fork();
 		if (env->child_pid == 0)
 		{
-			pre_handle((*cmd_lst), &data);
+			pre_handle((*cmd_lst), &data, env);
 			if ((*cmd_lst)->builtin_flag)
 				invoke_builtin((*cmd_lst), env);
 			else
@@ -64,9 +64,9 @@ void	executor_init(t_exdat *data)
 	data->out_fd = 1;
 }
 
-void	pre_handle(t_command *cmd, t_exdat *data)
+void	pre_handle(t_command *cmd, t_exdat *data, t_env *env)
 {
-	redirect_in_handle(cmd, data);
+	redirect_in_handle(cmd, data, env);
 	redirect_out_handle(cmd, data);
 	close_child_pipes(cmd, data->pipefd);
 }

@@ -9,7 +9,7 @@ void	execute_build_in(t_command *cmd, t_env *env)
 	origin_in = dup(STDIN_FILENO);
 	origin_out = dup(STDOUT_FILENO);
 	executor_init(&data);
-	redirect_in_handle(cmd, &data);
+	redirect_in_handle(cmd, &data, env);
 	redirect_out_handle(cmd, &data);
 	close_child_pipes(cmd, data.pipefd);
 	call_builtin(cmd, env);

@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-int	open_infile_handle(t_command *cmd_node, t_exdat *data);
+int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env);
 int	open_outfile_handle(t_command *cmd_node, t_exdat *data);
 int	here_doc_handle(t_command *cmd_node);
 
-int	redirect_in_handle(t_command *cmd_node, t_exdat *data)
+int	redirect_in_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 {
 	if (cmd_node->redir_in == 1 || cmd_node->redir_in == 2)
 	{
-		open_infile_handle(cmd_node, data);
+		open_infile_handle(cmd_node, data, env);
 	}
 	else if (cmd_node->redir_in == 3)
 	{
@@ -50,15 +50,16 @@ int	redirect_out_handle(t_command *cmd_node, t_exdat *data)
 	return (0);
 }
 
-int	open_infile_handle(t_command *cmd_node, t_exdat *data)
+int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 {
 	if (cmd_node->redir_in == 1)
 	{
 		if (access(cmd_node->redir_file_in, F_OK) == -1
 			|| access(cmd_node->redir_file_in, R_OK) == -1)
 		{
-			print_err(getenv("SHELL"),
+			print_err(ft_get("SHELL", env->env),
 				strerror(errno), cmd_node->redir_file_in);
+			exit(1);
 		}
 		else
 		{
