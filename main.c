@@ -24,6 +24,8 @@ int	main(int argc, char **argv, char **envp)
 int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 {
 	head = NULL;
+	export_to_env(env->shell_var, env);
+	export_to_exp(env->shell_var, env);
 	input = readline("BROKEN_SHELL: ");
 	if (!input)
 		return (0);
@@ -32,7 +34,7 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 		add_history(input);
 		if (tokenizer(input, &head, env))
 			return (clean_tokens(&head), free(input), 1);
-		cmd_list = parser(head);
+		cmd_list = parser(head, env);
 		if (!cmd_list)
 		{
 			clean_tokens(&head);

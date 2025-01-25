@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	handle_redirects(t_parser *parser)
+int	handle_redirects(t_parser *parser, t_env *env)
 {
 	t_token_type	type;
 
@@ -14,11 +14,11 @@ int	handle_redirects(t_parser *parser)
 			parser->token = parser->token->next;
 		if (parser->token->next && parser->token->next->type == ARG)
 			parser->token = parser->token->next;
-		else
-		{
-			return (printf("syntax error: expected ARG after redirection\n")
+		// else
+		// {
+			return (print_err(ft_get("SHELL", env->env), "syntax error", "expected ARG after redirection")
 				, clean_parser(parser), 1);
-		}
+		// }
 		if (set_redirects_single(parser, type) == 1)
 			return (1);
 		if (set_redirects_double(parser, type) == 1)
