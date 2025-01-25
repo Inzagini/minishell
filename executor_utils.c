@@ -41,3 +41,24 @@ void	print_err(char *prefix, char *msg, char *name)
 	}
 	write(2, "\n", 1);
 }
+
+void	print_err_long(char *prefix, char *function, char *msg, char *attrib)
+{
+	if (prefix)
+	{
+		write(2, prefix, ft_strlen(prefix));
+		write(2, ": ", 2);
+	}
+	write(2, function, ft_strlen(function));
+	if (msg)
+	{
+		write(2, ": ", 2);
+		write(2, msg, ft_strlen(msg));
+	}
+	if (attrib)
+	{
+		write(2, ": ", 2);
+		write(2, attrib, ft_strlen(attrib));
+	}
+	write(2, "\n", 1);
+}

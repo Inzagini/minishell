@@ -43,6 +43,7 @@ void	close_child_pipes(t_command *cmd_lst, int pipefd[2][2]);
 //supp
 int		lst_len(t_command *lst);
 void	print_err(char *prefix, char *msg, char *name);
+void	print_err_long(char *prefix, char *function, char *msg, char *attrib);
 char	*ft_get(char *name, char **env);
 int		exit_check(int n_cmd);
 

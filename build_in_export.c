@@ -9,9 +9,8 @@ void	ft_export(t_command *cmd, t_env *env)
 	i = check_options(cmd->args);
 	if (i > 0)
 	{
-		printf("%s: export: %.2s: invalid option\n",
-			ft_get("SHELL", env->env), cmd->args[i]);
-		printf("export: usage: export [name[=value] ...]\n");
+		print_err_long(ft_get("SHELL", env->env), "export", cmd->args[i], "invalid option");
+		print_err_long("export", "usage", "export [name[=value] ...]", NULL);
 		env->last_exit_status = 2;
 		return ;
 	}
@@ -24,8 +23,7 @@ void	check_add_vars(t_command *cmd, t_env *env, int i)
 	{
 		if (check_argument(cmd->args[i]) == 1)
 		{
-			printf("%s: export: `%s': not a valid identifier\n",
-				ft_get("SHELL", env->env), cmd->args[i]);
+			print_err_long(ft_get("SHELL", env->env), "export", cmd->args[i], "not a valid identifier");
 			env->last_exit_status = 1;
 		}
 		else
