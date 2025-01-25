@@ -8,13 +8,17 @@ int	handle_redirects(t_parser *parser)
 	if (type == RD_OUT || type == RD_IN
 		|| type == RD_APP || type == RD_HEREDOC)
 	{
-		if (parser->token->next && parser->token->next->type == SEP)
+		while (parser->token->next && (parser->token->next->type == SEP
+				||  parser->token->next->type == DQUOTE
+				|| parser->token->next->type == SQUOTE))
 			parser->token = parser->token->next;
 		if (parser->token->next && parser->token->next->type == ARG)
 			parser->token = parser->token->next;
 		else
+		{
 			return (printf("syntax error: expected ARG after redirection\n")
 				, clean_parser(parser), 1);
+		}
 		if (set_redirects_single(parser, type) == 1)
 			return (1);
 		if (set_redirects_double(parser, type) == 1)
