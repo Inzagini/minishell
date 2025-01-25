@@ -49,6 +49,7 @@ int	expand_special(t_env *env, t_command *cmd_list)
 {
 	t_command	*cmd;
 	t_token		*arg;
+	char		*find;
 
 	cmd = cmd_list;
 	while (cmd)
@@ -56,14 +57,16 @@ int	expand_special(t_env *env, t_command *cmd_list)
 		arg = cmd_list->arg_tokens;
 		while (arg)
 		{
-			if (arg->quote_identifier != 1
-				&& arg->content[0] == '$'
-				&& (arg->content[1] == '?' || arg->content[1] == '-'))
+			find = ft_strchr(arg->content, '$');
+			while (arg->quote_identifier != 1
+				&& find != NULL
+				&& (*(find + 1) == '?' || *(find + 1) == '-'))
 			{
 				arg->content = replace_special(arg->content,
-						env->last_exit_status);
+						env->last_exit_status, find);
 				if (!arg->content)
 					return (1);
+				find = ft_strchr(arg->content, '$');
 			}
 			arg = arg->next;
 		}
@@ -72,28 +75,49 @@ int	expand_special(t_env *env, t_command *cmd_list)
 	return (0);
 }
 
-char	*replace_special(char *content, int status)
+char	*replace_special(char *content, int status, char *find)
 {
 	char	*special;
 	char	*result;
+	int		i;
+	int		j;
+	int		new_len;
 
-	result = NULL;
-	if (content[1] == '?')
+	if (*(find + 1) == '?')
 	{
 		special = ft_itoa(status);
 		if (!special)
 			return (NULL);
-		result = ft_strjoin(special, content + 2);
-		free (special);
 	}
-	else if (content[1] == '-')
+	else if (*(find + 1) == '-')
 	{
-		special = malloc (7);
+		special = ft_strdup("himBHs");
 		if (!special)
 			return (NULL);
-		ft_strlcpy(special, "himBHs", 7);
-		result = ft_strjoin(special, content + 2);
 	}
-	free (content);
+	else
+		return (content);
+	new_len = ft_strlen(content) - 2 + ft_strlen(special) + 1;
+	result = malloc(new_len);
+	if (!result)
+	{
+		free(special);
+		return (NULL);
+	}
+	i = 0;
+	while (content + i != find)
+	{
+		result[i] = content[i];
+		i++;
+	}
+	j = 0;
+	while (special[j])
+		result[i++] = special[j++];
+	j = (find - content) + 2;
+	while (content[j])
+		result[i++] = content[j++];
+	result[i] = '\0';
+	free(special);
+	free(content);
 	return (result);
 }
