@@ -17,7 +17,7 @@ void	ft_exit(t_command *cmd, t_env *env)
 		else if (is_allnums(cmd->args[1]))
 		{
 			print_err(ft_get("SHELL", env->env),
-				"numeric argument required", NULL);
+				"numeric argument required", "exit");
 			env->last_exit_status = 2;
 		}
 		else
