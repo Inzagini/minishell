@@ -10,8 +10,7 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	char	*new_input;
 
 	flag_count(token_lst, &flags);
-	///
-	print_tokens(token_lst);
+	///	print_tokens(token_lst);
 	if (flags.rd_flag)
 	{
 		print_err(ft_get("SHELL", env->env),
