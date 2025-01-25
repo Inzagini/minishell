@@ -14,11 +14,9 @@ int	handle_redirects(t_parser *parser, t_env *env)
 			parser->token = parser->token->next;
 		if (parser->token->next && parser->token->next->type == ARG)
 			parser->token = parser->token->next;
-		// else
-		// {
+		else
 			return (print_err(ft_get("SHELL", env->env), "syntax error", "expected ARG after redirection")
 				, clean_parser(parser), 1);
-		// }
 		if (set_redirects_single(parser, type) == 1)
 			return (1);
 		if (set_redirects_double(parser, type) == 1)
