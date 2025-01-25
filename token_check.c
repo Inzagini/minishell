@@ -7,6 +7,7 @@ void	flag_count(t_token *token_lst, t_data *data);
 int	check_tokens(char **input, t_token *token_lst, t_env *env)
 {
 	t_data	flags;
+	char	*new_input;
 
 	flag_count(token_lst, &flags);
 	if (flags.rd_flag)
@@ -18,7 +19,7 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	}
 	else if (flags.pipe_flag)
 	{
-		char *new_input = ending_pipe_handle();
+		new_input = ending_pipe_handle();
 		*input = new_input;
 		return (1);
 	}
