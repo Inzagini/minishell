@@ -39,6 +39,7 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 			exit (1);
 		}
 		clean_tokens(&head);
+//		print_command(cmd_list);
 		expander(cmd_list, env);
 		executor(cmd_list, env);
 		clean_commands(cmd_list);
