@@ -12,16 +12,21 @@ int	redirect_in_handle(t_command *cmd_node, t_exdat *data)
 	}
 	else if (cmd_node->redir_in == 3)
 	{
-		data->in_fd = data->pipefd[1 - ((cmd_node->id + 1) % 2)][0];
+		data->in_fd = data->pipefd[1 - (cmd_node->id + 1) % 2][0];
+		printf("%d| PIPE IN %d | %d\n",cmd_node->id, data->in_fd, data->pipefd[1 - (cmd_node->id + 1) % 2][1]);
 	}
 	else if (cmd_node->redir_in == 0)
 	{
 		data->in_fd = STDIN_FILENO;
+		printf("%d| STDIN %d\n",cmd_node->id, data->in_fd);
 	}
 	else
 		return (1);
 	if (dup2(data->in_fd, STDIN_FILENO) == -1)
+	{
+		perror("dup2 in");
 		return (1);
+	}
 	return (0);
 }
 
@@ -32,11 +37,20 @@ int	redirect_out_handle(t_command *cmd_node, t_exdat *data)
 		open_outfile_handle(cmd_node, data);
 	}
 	else if (cmd_node->redir_out == 3)
+	{
 		data->out_fd = data->pipefd[(cmd_node->id + 1) % 2][1];
+		printf("%d| PIPE OUT %d | %d\n", cmd_node->id, data->out_fd, data->pipefd[(cmd_node->id + 1) % 2][0]);
+	}
 	else if (cmd_node->redir_out == 0)
+	{
 		data->out_fd = STDOUT_FILENO;
+		printf("%d| STDOUT %d\n", cmd_node->id, data->out_fd);
+	}
 	if (dup2(data->out_fd, STDOUT_FILENO) == -1)
+	{
+		perror("dup2 out");
 		return (1);
+	}
 	return (0);
 }
 
