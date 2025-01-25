@@ -8,17 +8,17 @@ void	ft_exit(t_command *cmd, t_env *env)
 {
 	if (cmd->args[1] != NULL)
 	{
-		if (cmd->args[2] != NULL)
-		{
-			print_err(ft_get("SHELL", env->env), "too many arguments", "exit");
-			env->last_exit_status = 1;
-			return ;
-		}
-		else if (is_allnums(cmd->args[1]))
+		if (is_allnums(cmd->args[1]))
 		{
 			print_err(ft_get("SHELL", env->env),
 				"numeric argument required", "exit");
 			env->last_exit_status = 2;
+		}
+		else if (cmd->args[2] != NULL)
+		{
+			print_err(ft_get("SHELL", env->env), "too many arguments", "exit");
+			env->last_exit_status = 1;
+			return ;
 		}
 		else
 			env->last_exit_status = ft_atouc(cmd->args[1]);
@@ -39,7 +39,6 @@ int	is_allnums(char *str)
 		index++;
 	while (str[++index])
 	{
-		printf("%d| %c\n", index, str[index]);
 		if (str[index] < '0' || str[index] > '9')
 			return (1);
 	}
