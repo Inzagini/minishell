@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+void print_command(t_command *cmd);
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
@@ -24,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 {
 	head = NULL;
-	input = readline("BROKEN_SHELL: ");
+	input = readline("\033[32mBROKEN_SHELL: \033[0m");
 	if (!input)
 		return (0);
 	if (input[0])
@@ -38,6 +40,8 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 			clean_tokens(&head);
 			exit (1);
 		}
+		///
+		print_command(cmd_list);
 		clean_tokens(&head);
 		expander(cmd_list, env);
 		executor(cmd_list, env);

@@ -18,7 +18,7 @@ void	ft_exit(t_command *cmd, t_env *env)
 		else if (is_allnums(cmd->args[1]))
 		{
 			print_err(ft_get("SHELL", env->env),
-				"numeric argument required", cmd->args[1]);
+				"numeric argument required", NULL);
 			env->last_exit_status = 2;
 		}
 	}
@@ -38,9 +38,12 @@ int	is_allnums(char *str)
 	int	index;
 
 	index = -1;
+	if (str[0] == '+' || str[0] == '-')
+		index++;
 	while (str[++index])
 	{
-		if (str[index] < '1' || str[index] > '9')
+		printf("%d| %c\n", index, str[index]);
+		if (str[index] < '0' || str[index] > '9')
 			return (1);
 	}
 	return (0);
@@ -50,10 +53,18 @@ int	ft_atouc(char *str)
 {
 	unsigned char	result;
 	int				index;
+	int				sign;
 
 	result = 0;
 	index = -1;
+	sign = 1;
+	if (str[0] == '+' || str[0] == '-')
+	{
+		if (str[0] == '-')
+			sign = -1;
+		index++;
+	}
 	while (str[++index])
 		result = result * 10 + str[index] - '0';
-	return ((int) result);
+	return ((int) (sign * result));
 }

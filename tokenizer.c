@@ -2,7 +2,7 @@
 
 int	tokenizer(char *input, t_token **head, t_env *env)
 {
-	int i;
+	int		i;
 
 	i = 1;
 	while (i)
