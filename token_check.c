@@ -21,9 +21,13 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 		else if (token_lst->type == PIPE)
 			pipe_flag = 1;
 		else if (token_lst->type == CMD)
+		{
 			pipe_flag = 0;
+			printf("CMD arg: %s\n", token_lst->content);
+		}
 		token_lst = token_lst->next;
 	}
+	printf("%d | %d\n", rd_flag, pipe_flag);
 	if (rd_flag)
 	{
 		print_err(ft_get("SHELL", env->env),

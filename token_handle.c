@@ -69,12 +69,11 @@ int	pipe_handle(char *input_str, t_data *data, t_token **head)
 	t_token	*new_token;
 
 	if (input_str[data->index + 1] != ' ')
-		data->index++;
+		data->start = data->index + 1;
 	new_token = create_token(NULL, PIPE);
 	if (!new_token)
 		return (data->exit_flag = 1, 1);
 	append_token_lst(head, new_token);
-	data->start = data->index;
 	data->cmd_flag = 0;
 	return (0);
 }

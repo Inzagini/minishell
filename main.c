@@ -38,13 +38,13 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 			clean_tokens(&head);
 			exit (1);
 		}
-		t_command *temp = cmd_list;
-		while (cmd_list)
-		{
-			print_command(cmd_list);
-			cmd_list = cmd_list->next;
-		}
-		cmd_list = temp;
+		// t_command *temp = cmd_list;
+		// while (cmd_list)
+		// {
+		// 	print_command(cmd_list);
+		// 	cmd_list = cmd_list->next;
+		// }
+		// cmd_list = temp;
 		clean_tokens(&head);
 		expander(cmd_list, env);
 		executor(cmd_list, env);
