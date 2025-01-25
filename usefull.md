@@ -5,6 +5,7 @@ ls >
 ls | cat -e | echo '
 ls | cat -e |
 ls | cat -e >
+ls | cat -e | cat -e | cat -e
 
 VAR$=$VAR  ==> VAR$=cat
 $-
