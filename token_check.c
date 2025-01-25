@@ -13,7 +13,7 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	if (flags.rd_flag)
 	{
 		print_err(ft_get("SHELL", env->env),
-			"syntax error near unexpected token" , "newline");
+			"syntax error near unexpected token" , NULL);
 		env->last_exit_status = 2;
 		return (2);
 	}

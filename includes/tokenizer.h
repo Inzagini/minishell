@@ -55,7 +55,7 @@ int		token_quotes(t_token **head, t_data *data, t_token_type type);
 int		cmd_handle(char *input_str, t_data *data, t_token **head);
 int		arg_handle(char *input_str, t_data *data, t_token **head);
 int		sep_handle(char *input_str, t_data *data, t_token **head);
-int		pipe_handle(char *input_str, t_data *data, t_token **head);
+int		pipe_handle(t_data *data, t_token **head);
 
 int		rd_handle(char *input_str, t_data *data, t_token **head);
 int		rd_out_handle(char *input_str, t_data *data, t_token **head);

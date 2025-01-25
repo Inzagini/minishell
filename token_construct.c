@@ -45,7 +45,7 @@ int	meta_char(char *input_str, t_data *data, t_token **head)
 		if(sep_handle(input_str, data, head))
 			return (0);
 	if (input_str[data->index] == '|')
-		pipe_handle(input_str, data, head);
+		pipe_handle(data, head);
 	else if (input_str[data->index] == '\'')
 		squote_handle(input_str, data, head);
 	else if (input_str[data->index] == '"')
