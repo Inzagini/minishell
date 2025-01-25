@@ -42,7 +42,7 @@ typedef struct s_parser
 }	t_parser;
 
 // parser.c
-t_command	*parser(t_token *token_list);
+t_command	*parser(t_token *token_list, t_env *env);
 void		initialize_parser(t_parser *parser, t_token *token_list);
 void		reset_parser(t_parser *parser);
 int			add_argument_token(t_parser *parser);
@@ -56,7 +56,7 @@ int			handle_pipes(t_parser *parser);
 void		update_arg_id_deltas(t_token *input);
 
 // parser_redirects_quotes.c
-int			handle_redirects(t_parser *parser);
+int			handle_redirects(t_parser *parser, t_env *env);
 int			set_redirects_single(t_parser *parser, t_token_type type);
 int			set_redirects_double(t_parser *parser, t_token_type type);
 

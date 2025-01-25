@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_command	*parser(t_token *token_list)
+t_command	*parser(t_token *token_list, t_env *env)
 {
 	t_parser	parser;
 
@@ -14,7 +14,7 @@ t_command	*parser(t_token *token_list)
 		}
 		else if (parser.token->type == SEP)
 			parser.arg_group_id++;
-		else if (handle_redirects(&parser) == 1)
+		else if (handle_redirects(&parser, env) == 1)
 			return (NULL);
 		else if (parser.token->type == PIPE || parser.token->type == NEW_LINE)
 		{
