@@ -41,6 +41,7 @@ typedef struct s_token_data
 	int	start;
 	int	cmd_flag;
 	int	rd_flag;
+	int	pipe_flag;
 	int	exit_flag;
 }	t_data;
 

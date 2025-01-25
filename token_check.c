@@ -2,49 +2,50 @@
 
 static int	rd_type(t_token_type type);
 char	*ending_pipe_handle();
+void	flag_count(t_token *token_lst, t_data *data);
 
 int	check_tokens(char **input, t_token *token_lst, t_env *env)
 {
-	t_token	*head;
+	t_data	flags;
 
-	head = token_lst;
-
-	int rd_flag = 0;
-	int	pipe_flag = 0;
-	print_tokens(head);
-	while (token_lst)
-	{
-		if (rd_type(token_lst->type))
-			rd_flag = 1;
-		else if (token_lst->type == ARG)
-			rd_flag = 0;
-		else if (token_lst->type == PIPE)
-			pipe_flag = 1;
-		else if (token_lst->type == CMD)
-		{
-			pipe_flag = 0;
-			printf("CMD arg: %s\n", token_lst->content);
-		}
-		token_lst = token_lst->next;
-	}
-	printf("%d | %d\n", rd_flag, pipe_flag);
-	if (rd_flag)
+	flag_count(token_lst, &flags);
+	if (flags.rd_flag)
 	{
 		print_err(ft_get("SHELL", env->env),
 			"syntax error near unexpected token" , "newline");
 		env->last_exit_status = 2;
 		return (2);
 	}
-	else if (pipe_flag)
+	else if (flags.pipe_flag)
 	{
 		char *new_input = ending_pipe_handle();
-		token_lst = head;
 		*input = new_input;
 		return (1);
 	}
-
-	token_lst = head;
 	return (0);
+}
+
+void	flag_count(t_token *token_lst, t_data *data)
+{
+	t_token	*head;
+
+	data->rd_flag = 0;
+	data->pipe_flag = 0;
+
+	head = token_lst;
+	while (token_lst)
+	{
+		if (rd_type(token_lst->type))
+			data->rd_flag = 1;
+		else if (token_lst->type == ARG)
+			data->rd_flag = 0;
+		else if (token_lst->type == PIPE)
+			data->pipe_flag = 1;
+		else if (token_lst->type == CMD)
+			data->pipe_flag = 0;
+		token_lst = token_lst->next;
+	}
+	token_lst = head;
 }
 
 static int	rd_type(t_token_type type)

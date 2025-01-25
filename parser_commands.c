@@ -45,7 +45,6 @@ void	handle_pipe_flags(t_parser *parser)
 {
 	if (parser->pipe_flag_in == 1)
 	{
-		printf("HERE\n");
 		if (parser->redir_in == 0)
 		{
 			parser->redir_in = 3;

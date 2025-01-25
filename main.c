@@ -12,7 +12,7 @@ int	main(int argc, char **argv, char **envp)
 	cmd_list = NULL;
 	head = NULL;
 	input = NULL;
-	signal_setup();
+	// signal_setup();
 	env = init_env(envp);
 	while (main_loop(head, input, cmd_list, env))
 		continue ;
