@@ -13,7 +13,6 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 		if (env->child_pid == 0)
 		{
 			pre_handle((*cmd_lst), &data);
-			close_child_pipes(*cmd_lst, data.pipefd);
 			if ((*cmd_lst)->builtin_flag)
 				invoke_builtin((*cmd_lst), env);
 			else
