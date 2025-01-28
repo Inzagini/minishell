@@ -27,12 +27,17 @@ int	handle_redirects(t_parser *parser, t_env *env)
 
 int	set_redirects_single(t_parser *parser, t_token_type type)
 {
+	int	fd;
+
 	if (type == RD_OUT)
 	{
 		parser->redir_file_out = ft_strdup(parser->token->content);
 		if (!parser->redir_file_out)
 			return (clean_parser(parser), 1);
 		parser->redir_out = 1;
+		fd = open(parser->redir_file_out, O_TRUNC
+			| O_CREAT | O_WRONLY, 0644);
+		close (fd);
 	}
 	else if (type == RD_IN && parser->invalid_redirect == 0)
 	{
@@ -57,6 +62,9 @@ int	set_redirects_double(t_parser *parser, t_token_type type)
 		if (!parser->redir_file_out)
 			return (clean_parser(parser), 1);
 		parser->redir_out = 2;
+		fd = open(parser->redir_file_out, O_TRUNC
+			| O_CREAT | O_WRONLY, 0644);
+		close (fd);
 	}
 	else if (type == RD_HEREDOC)
 	{
