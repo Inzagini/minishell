@@ -45,10 +45,15 @@ void	call_execve(t_command *data, t_env *env)
 	else
 	{
 		status = execve(data->args[0], data->args, env->env);
-		if (status == -1)
+		if (errno == 2)
 		{
 			print_err(ft_get("SHELL", env->env), "command not found", data->args[0]);
 			exit(127);
+		}
+		else if (errno == 13)
+		{
+			print_err(ft_get("SHELL", env->env), "Is a directory", data->args[0]);
+			exit (126);
 		}
 	}
 }
