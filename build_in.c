@@ -9,7 +9,11 @@ void	execute_build_in(t_command *cmd, t_env *env)
 	origin_in = dup(STDIN_FILENO);
 	origin_out = dup(STDOUT_FILENO);
 	executor_init(&data);
-	pre_handle(cmd, &data, env);
+	if (pre_handle(cmd, &data, env))
+	{
+		env->last_exit_status = 1;
+		return ;
+	}
 	call_builtin(cmd, env);
 	close(data.pipefd[1 - ((cmd->id + 1) % 2)][1]);
 	if (origin_in != -1)

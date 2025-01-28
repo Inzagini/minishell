@@ -10,7 +10,8 @@ int	redirect_in_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 {
 	if (cmd_node->redir_in == 1 || cmd_node->redir_in == 2)
 	{
-		open_infile_handle(cmd_node, data, env);
+		if (open_infile_handle(cmd_node, data, env))
+			return (1);
 	}
 	else if (cmd_node->redir_in == 3)
 	{
@@ -34,7 +35,8 @@ int	redirect_out_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 {
 	if (cmd_node->redir_out == 1 || cmd_node->redir_out == 2)
 	{
-		open_outfile_handle(cmd_node, data, env);
+		if (open_outfile_handle(cmd_node, data, env))
+			return (1);
 	}
 	else if (cmd_node->redir_out == 3)
 	{
@@ -98,7 +100,7 @@ int	open_outfile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 	{
 		print_err(ft_get("SHELL", env->env),
 			strerror(errno), cmd_node->redir_file_out);
-		exit(1);
+		return (env->last_exit_status = 1, 1);
 	}
 	return (0);
 }

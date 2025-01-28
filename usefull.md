@@ -7,12 +7,19 @@ ls | cat -e |
 ls | cat -e >
 ls | cat -e | cat -e | cat -e
 env | sort | grep -v SHLVL | grep -v ^_
+
+echo hi > out1 > no_perm | echo bye // and after exit
+
+
+echo as | cat << t // then ctrl+d to interupt
+echo as | cat << t // then ctrl+c to interupt
 VAR$=$VAR  ==> VAR$=cat
 $-
-echo $(cat $(echo "-e main.c")) == echo $($VAR $(echo "-e main.c") | $(cat -e))
-echo eabc$VAR"$VAR"$VAR'abc'
 
 echo $(find . -name "*.c" | grep -v "libft" |sed 's/.\///')
+echo $(cat $(echo "-e main.c")) == echo $($VAR $(echo "-e main.c") | $(cat -e))
+
+echo eabc$VAR"$VAR"$VAR'abc'
 
 echo abc > |
 echo abs > &&

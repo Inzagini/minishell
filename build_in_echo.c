@@ -20,12 +20,12 @@ void	ft_echo(t_command *cmd, t_env *env)
 	}
 	while (cmd->args[index])
 	{
-		printf("%s", cmd->args[index++]);
+		ft_putstr_fd(cmd->args[index++], 1);
 		if (cmd->args[index])
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 	}
 	if (!n_flag)
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 	env->last_exit_status = 0;
 }
 
