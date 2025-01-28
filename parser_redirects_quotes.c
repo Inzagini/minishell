@@ -29,7 +29,7 @@ int	set_redirects_single(t_parser *parser, t_token_type type)
 {
 	int	fd;
 
-	if (type == RD_OUT)
+	if (type == RD_OUT && parser->invalid_redirect_out == 0)
 	{
 		parser->redir_file_out = ft_strdup(parser->token->content);
 		if (!parser->redir_file_out)
@@ -37,9 +37,11 @@ int	set_redirects_single(t_parser *parser, t_token_type type)
 		parser->redir_out = 1;
 		fd = open(parser->redir_file_out, O_TRUNC
 			| O_CREAT | O_WRONLY, 0644);
+		if (fd < 0)
+			parser->invalid_redirect_out = 1;
 		close (fd);
 	}
-	else if (type == RD_IN && parser->invalid_redirect == 0)
+	else if (type == RD_IN && parser->invalid_redirect_in == 0)
 	{
 		parser->redir_file_in = ft_strdup(parser->token->content);
 		if (!parser->redir_file_in)
@@ -48,7 +50,7 @@ int	set_redirects_single(t_parser *parser, t_token_type type)
 		if (access(parser->redir_file_in, F_OK) == -1
 			|| access(parser->redir_file_in, R_OK) == -1)
 		{
-			parser->invalid_redirect = 1;
+			parser->invalid_redirect_in = 1;
 		}
 	}
 	return (0);
@@ -58,7 +60,7 @@ int	set_redirects_double(t_parser *parser, t_token_type type)
 {
 	int	fd;
 
-	if (type == RD_APP)
+	if (type == RD_APP && parser->invalid_redirect_out == 0)
 	{
 		parser->redir_file_out = ft_strdup(parser->token->content);
 		if (!parser->redir_file_out)
@@ -66,6 +68,8 @@ int	set_redirects_double(t_parser *parser, t_token_type type)
 		parser->redir_out = 2;
 		fd = open(parser->redir_file_out, O_TRUNC
 			| O_CREAT | O_WRONLY, 0644);
+		if (fd < 0)
+			parser->invalid_redirect_out = 1;
 		close (fd);
 	}
 	else if (type == RD_HEREDOC)

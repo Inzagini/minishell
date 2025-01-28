@@ -39,7 +39,8 @@ typedef struct s_parser
 	int			pipe_flag_in;
 	int			pipe_flag_out;
 	int			pipe_found;
-	int			invalid_redirect;
+	int			invalid_redirect_in;
+	int			invalid_redirect_out;
 }	t_parser;
 
 // parser.c

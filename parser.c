@@ -46,7 +46,8 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	parser->pipe_flag_in = 0;
 	parser->pipe_flag_out = 0;
 	parser->pipe_found = 0;
-	parser->invalid_redirect = 0;
+	parser->invalid_redirect_in = 0;
+	parser->invalid_redirect_out = 0;
 }
 
 void	reset_parser(t_parser *parser)
@@ -60,7 +61,8 @@ void	reset_parser(t_parser *parser)
 	parser->redir_file_out = NULL;
 	parser->heredoc_separator = NULL;
 	parser->arg_tokens = NULL;
-	parser->invalid_redirect = 0;
+	parser->invalid_redirect_in = 0;
+	parser->invalid_redirect_out = 0;
 }
 
 int	add_argument_token(t_parser *parser)
