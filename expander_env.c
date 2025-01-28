@@ -11,8 +11,8 @@ t_env	*init_env(char **envp)
 	env->env = NULL;
 	env->exp = NULL;
 	env->full_path = NULL;
-	env->shell_name = "BROKEN_SHELL";
-	env->shell_var = "SHELL=BROKEN_SHELL";
+	env->shell_name = "/bin/zsh";
+	env->shell_var = "SHELL=/bin/zsh";
 	env->last_exit_status = 0;
 	env->env = copy_envp(envp, 0);
 	if (env->env == NULL)
