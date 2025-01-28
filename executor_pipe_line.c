@@ -18,16 +18,16 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 			else
 				call_execve((*cmd_lst), env);
 		}
-		waitpid(env->child_pid, NULL, 0);
 		close_parent_pipes((*cmd_lst), data.pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
 		if ((*cmd_lst))
-			if ((*cmd_lst)->redir_in == 0)
-				break ;
+		 	if ((*cmd_lst)->redir_in == 0)
+		 		break ;
 	}
 	close_all_pipes(data.pipefd);
 	return (0);
 }
+
 
 void	invoke_builtin(t_command *cmd, t_env *env)
 {
@@ -47,12 +47,9 @@ void	call_execve(t_command *data, t_env *env)
 		status = execve(data->args[0], data->args, env->env);
 		if (status == -1)
 		{
-			print_err(ft_get("SHELL", env->env),
-				"command not found", data->args[0]);
+			print_err(ft_get("SHELL", env->env), "command not found", data->args[0]);
 			exit(127);
 		}
-		else
-			exit(errno);
 	}
 }
 

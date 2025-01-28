@@ -23,7 +23,7 @@ void	signal_setup(void)
 	i = 0;
 	while (++i < NSIG)
 	{
-		if (i != SIGINT)
+		if (i != SIGINT && i != SIGCHLD)
 			signal(i, SIG_IGN);
 	}
 }

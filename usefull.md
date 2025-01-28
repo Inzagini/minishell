@@ -6,7 +6,7 @@ ls | cat -e | echo '
 ls | cat -e |
 ls | cat -e >
 ls | cat -e | cat -e | cat -e
-
+env | sort | grep -v SHLVL | grep -v ^_
 VAR$=$VAR  ==> VAR$=cat
 $-
 echo $(cat $(echo "-e main.c")) == echo $($VAR $(echo "-e main.c") | $(cat -e))

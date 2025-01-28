@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-int	is_pipes(t_command *cmd_list);
-
 void	executor(t_command *cmd_list, t_env *env)
 {
 	int	len;
@@ -19,24 +17,7 @@ void	executor(t_command *cmd_list, t_env *env)
 		{
 			call_pipe_line(&cmd_list, env);
 			env->last_exit_status = exit_check(len);
-			printf("%d\n", env->last_exit_status);
 		}
 	}
 }
 
-int	is_pipes(t_command *cmd_list)
-{
-	t_command	*head;
-
-	head = cmd_list;
-	while (cmd_list)
-	{
-		if (cmd_list->redir_out == 3)
-		{
-			cmd_list = head;
-			return (1);
-		}
-		cmd_list = cmd_list->next;
-	}
-	return (0);
-}
