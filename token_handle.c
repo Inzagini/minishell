@@ -74,5 +74,6 @@ int	pipe_handle(t_data *data, t_token **head)
 		return (data->exit_flag = 1, 1);
 	append_token_lst(head, new_token);
 	data->cmd_flag = 0;
+	data->rd_flag = 0;
 	return (0);
 }
