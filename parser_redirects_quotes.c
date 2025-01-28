@@ -56,6 +56,8 @@ int	set_redirects_single(t_parser *parser, t_token_type type)
 
 int	set_redirects_double(t_parser *parser, t_token_type type)
 {
+	int	fd;
+
 	if (type == RD_APP)
 	{
 		parser->redir_file_out = ft_strdup(parser->token->content);
