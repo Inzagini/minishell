@@ -1,8 +1,10 @@
 #include "minishell.h"
 
+volatile sig_atomic_t sigint_received = 0;
+
 int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env);
 int	open_outfile_handle(t_command *cmd_node, t_exdat *data, t_env *env);
-int	here_doc_handle(t_command *cmd_node);
+int	here_doc_handle(t_command *cmd_node, t_env *env);
 
 int	redirect_in_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 {
@@ -68,7 +70,7 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 	}
 	else if (cmd_node->redir_in == 2)
 	{
-		data->in_fd = here_doc_handle(cmd_node);
+		data->in_fd = here_doc_handle(cmd_node, env);
 	}
 	return (0);
 }
@@ -101,7 +103,7 @@ int	open_outfile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 	return (0);
 }
 
-int	here_doc_handle(t_command *cmd_node)
+int	here_doc_handle(t_command *cmd_node, t_env *env)
 {
 	char	*delimiter;
 	char	buffer[BUFFER_SIZE + 1];
@@ -118,6 +120,12 @@ int	here_doc_handle(t_command *cmd_node)
 		if (bytes_read == -1)
 			break ;
 		buffer[bytes_read] = 0;
+		if (bytes_read == 0)
+		{
+			write(2, "\n", 1);
+			print_err(ft_get("SHELL", env->env), "here-document at line 16 delimited by end-of-file", NULL);
+			break ;
+		}
 		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 10)
 			break ;
 		write(pipefd[1], buffer, bytes_read);
