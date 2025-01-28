@@ -38,7 +38,7 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 		if (!cmd_list)
 		{
 			clean_tokens(&head);
-			exit (1);
+			return (1);
 		}
 		clean_tokens(&head);
 		expander(cmd_list, env);

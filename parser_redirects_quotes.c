@@ -34,12 +34,17 @@ int	set_redirects_single(t_parser *parser, t_token_type type)
 			return (clean_parser(parser), 1);
 		parser->redir_out = 1;
 	}
-	else if (type == RD_IN)
+	else if (type == RD_IN && parser->invalid_redirect == 0)
 	{
 		parser->redir_file_in = ft_strdup(parser->token->content);
 		if (!parser->redir_file_in)
 			return (clean_parser(parser), 1);
 		parser->redir_in = 1;
+		if (access(parser->redir_file_in, F_OK) == -1
+			|| access(parser->redir_file_in, R_OK) == -1)
+		{
+			parser->invalid_redirect = 1;
+		}
 	}
 	return (0);
 }
