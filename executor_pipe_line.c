@@ -14,8 +14,7 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 		{
 			pre_handle((*cmd_lst), &data, env);
 			if ((*cmd_lst)->builtin_flag)
-				invoke_builtin((*cmd_lst), env);.....
-				
+				invoke_builtin((*cmd_lst), env);
 			else
 				call_execve((*cmd_lst), env);
 		}
