@@ -8,7 +8,7 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 		return (1);
 	split->split_tokens = ft_split(split->expanded, ' ');
 	free(split->expanded);
-	if (!split->split_tokens)
+	if (!split->split_tokens || !split->split_tokens[0])
 		return (1);
 	while (split->split_tokens[split->count_token])
 		split->count_token++;
@@ -102,12 +102,13 @@ int	split_argument(t_token **arg_list, t_token *arg, char **env, int arg_id)
 	t_split	split;
 	int		i;
 
-	init_split(&split, env, arg_list, arg);
+	if (init_split(&split, env, arg_list, arg) == 1)
+		return (arg->content = NULL, 0);
 	if (split.count_token == 1)
 		return (arg->content = ft_strdup(split.split_tokens[0]),
 			free_split(split.split_tokens), 0);
 	i = -1;
-	while (split.split_tokens[++i])
+	while (split.count_token > 0 && split.split_tokens[++i])
 	{
 		split.new_token = create_token_split(split.split_tokens[i], arg_id++);
 		if (!split.new_token)

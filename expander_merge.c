@@ -30,7 +30,11 @@ int	conduct_merge(t_token *arg, t_command *cmd, int *max)
 	i = 0;
 	while (arg)
 	{
-		content = ft_strdup(arg->content);
+
+		if (!arg->content)
+			content = ft_strdup("");
+		else
+			content = ft_strdup(arg->content);
 		if (!content)
 			return (1);
 		if (arg->arg_group_id == *max)
