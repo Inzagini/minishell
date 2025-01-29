@@ -5,6 +5,7 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 	t_exdat	data;
 
 	executor_init(&data);
+	int	status;
 	while ((*cmd_lst))
 	{
 		if ((*cmd_lst)->id != 0)
@@ -22,6 +23,8 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 			else
 				call_execve((*cmd_lst), env);
 		}
+		waitpid(env->child_pid, &status, 0);
+		env->last_exit_status = ft_wiexitstatus(status);
 		close_parent_pipes((*cmd_lst), data.pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
 		if ((*cmd_lst) && (*cmd_lst)->redir_in == 0)
@@ -73,9 +76,9 @@ void	executor_init(t_exdat *data)
 int	pre_handle(t_command *cmd, t_exdat *data, t_env *env)
 {
 	if (redirect_in_handle(cmd, data, env))
-		return (close_child_pipes(cmd, data->pipefd), exit(1), 1);
+		return (close_child_pipes(cmd, data->pipefd), 1);
 	if (redirect_out_handle(cmd, data, env))
-		return (close_child_pipes(cmd, data->pipefd), exit(1), 1);
+		return (close_child_pipes(cmd, data->pipefd), 1);
 	close_child_pipes(cmd, data->pipefd);
 	return (0);
 }
