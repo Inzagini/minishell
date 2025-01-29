@@ -26,6 +26,7 @@ typedef struct s_env
 	char	*shell_name;
 	char	*shell_var;
 	pid_t	child_pid;
+	pid_t	prev_pid;
 }	t_env;
 
 # include "tokenizer.h"

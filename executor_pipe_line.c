@@ -11,6 +11,10 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 		if ((*cmd_lst)->id != 0)
 			pipe(data.pipefd[((*cmd_lst)->id + 1) % 2]);
 		env->child_pid = fork();
+		if ((*cmd_lst)->id != 0)
+		{
+			waitpid(env->prev_pid, NULL, 0);
+		}
 		if (env->child_pid == 0)
 		{
 			if (pre_handle((*cmd_lst), &data, env))
@@ -23,7 +27,8 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 			else
 				call_execve((*cmd_lst), env);
 		}
-		waitpid(env->child_pid, &status, 0);
+		env->prev_pid = env->child_pid;
+		waitpid(env->child_pid, &status, 1);
 		env->last_exit_status = ft_wiexitstatus(status);
 		close_parent_pipes((*cmd_lst), data.pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
