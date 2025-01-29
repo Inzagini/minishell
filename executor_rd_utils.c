@@ -79,9 +79,7 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 
 int	open_outfile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 {
-	if (access(cmd_node->redir_file_out, F_OK) == -1)
-		data->out_fd = open(cmd_node->redir_file_out, O_WRONLY | O_CREAT, 0666);
-	else if (access(cmd_node->redir_file_out, W_OK) != -1)
+	if (access(cmd_node->redir_file_out, W_OK) != -1)
 	{
 		if (cmd_node->redir_out == 1)
 		{
