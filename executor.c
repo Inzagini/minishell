@@ -16,7 +16,7 @@ void	executor(t_command *cmd_list, t_env *env)
 		else
 		{
 			call_pipe_line(&cmd_list, env);
-			env->last_exit_status = exit_check(len);
+			env->last_exit_status = exit_check(len, env);
 		}
 	}
 }

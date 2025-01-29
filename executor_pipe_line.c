@@ -11,10 +11,8 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 		if ((*cmd_lst)->id != 0)
 			pipe(data.pipefd[((*cmd_lst)->id + 1) % 2]);
 		env->child_pid = fork();
-		// if ((*cmd_lst)->id != 0)
-		// {
-		// 	waitpid(env->prev_pid, NULL, 0);
-		// }
+		if ((*cmd_lst)->id != 0)
+			wait(NULL);
 		if (env->child_pid == 0)
 		{
 			if (pre_handle((*cmd_lst), &data, env))
@@ -42,10 +40,6 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 
 void	invoke_builtin(t_command *cmd, t_env *env)
 {
-	// if ((cmd)->id != 0)
-	// {
-	// 	waitpid(env->prev_pid, NULL, 0);
-	// }
 	call_builtin(cmd, env);
 	exit(env->last_exit_status);
 }
