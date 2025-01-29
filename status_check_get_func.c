@@ -34,17 +34,20 @@ int	exit_check(int n_cmd)
 	i = 0;
 	status = 0;
 	last_status = 0;
-	while (i < n_cmd)
-	{
-		wait(&status);
-		if (ft_wiexitstatus(status) != 0)
-		{
-			if (ft_wiexitstatus(status) > 0)
-				last_status = ft_wiexitstatus(status);
-		}
-		i++;
-	}
-	if (ft_wiexitstatus(status) != 0)
-		return (last_status);
+	ft_putstr_fd("here1\n", 2);
+	// while (i < n_cmd)
+	// {
+	// 	wait(&status);
+	// 	if (ft_wiexitstatus(status) != 0)
+	// 	{
+	// 		if (ft_wiexitstatus(status) > 0)
+	// 			last_status = ft_wiexitstatus(status);
+	// 	}
+	// 	i++;
+	// }
+	ft_putstr_fd("here2\n", 2);
+	// if (ft_wiexitstatus(status) != 0)
+	
+	// 	return (last_status);
 	return (0);
 }

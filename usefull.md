@@ -9,7 +9,7 @@ ls | cat -e | cat -e | cat -e
 env | sort | grep -v SHLVL | grep -v ^_
 
 echo hi > out1 > no_perm | echo bye // and after exit
-
+cat < ./TESTER/test_files/infile_big | echo a
 
 echo as | cat << t // then ctrl+d to interupt
 echo as | cat << t // then ctrl+c to interupt

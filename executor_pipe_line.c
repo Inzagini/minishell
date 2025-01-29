@@ -11,10 +11,10 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 		if ((*cmd_lst)->id != 0)
 			pipe(data.pipefd[((*cmd_lst)->id + 1) % 2]);
 		env->child_pid = fork();
-		if ((*cmd_lst)->id != 0)
-		{
-			waitpid(env->prev_pid, NULL, 0);
-		}
+		// if ((*cmd_lst)->id != 0)
+		// {
+		// 	waitpid(env->prev_pid, NULL, 0);
+		// }
 		if (env->child_pid == 0)
 		{
 			if (pre_handle((*cmd_lst), &data, env))
@@ -28,8 +28,8 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 				call_execve((*cmd_lst), env);
 		}
 		env->prev_pid = env->child_pid;
-		waitpid(env->child_pid, &status, 1);
-		env->last_exit_status = ft_wiexitstatus(status);
+		// waitpid(env->child_pid, &status, 1);
+		// env->last_exit_status = ft_wiexitstatus(status);
 		close_parent_pipes((*cmd_lst), data.pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
 		if ((*cmd_lst) && (*cmd_lst)->redir_in == 0)
@@ -42,6 +42,10 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 
 void	invoke_builtin(t_command *cmd, t_env *env)
 {
+	// if ((cmd)->id != 0)
+	// {
+	// 	waitpid(env->prev_pid, NULL, 0);
+	// }
 	call_builtin(cmd, env);
 	exit(env->last_exit_status);
 }
