@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-volatile sig_atomic_t sigint_received = 0;
-
 int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env);
 int	open_outfile_handle(t_command *cmd_node, t_exdat *data, t_env *env);
 int	here_doc_handle(t_command *cmd_node, t_env *env);
@@ -73,6 +71,8 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 	else if (cmd_node->redir_in == 2)
 	{
 		data->in_fd = here_doc_handle(cmd_node, env);
+		if (data->in_fd == -1)
+			return (1);
 	}
 	return (0);
 }
@@ -111,27 +111,41 @@ int	here_doc_handle(t_command *cmd_node, t_env *env)
 	char	buffer[BUFFER_SIZE + 1];
 	int		pipefd[2];
 	ssize_t	bytes_read;
+	struct sigaction	sa_old;
+	struct sigaction	sa_new;
 
 	bytes_read = 1;
 	delimiter = cmd_node->heredoc_separator;
 	pipe(pipefd);
+
+	sa_new.sa_handler = heredoc_signal_handler;
+	sa_new.sa_flags = 0;
+	sigemptyset(&sa_new.sa_mask);
+	sigaction(SIGINT, &sa_new, &sa_old);
+
 	while (bytes_read)
 	{
 		write(1, "> ", 2);
 		bytes_read = read(0, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 			break ;
-		buffer[bytes_read] = 0;
 		if (bytes_read == 0)
 		{
 			write(2, "\n", 1);
 			print_err(ft_get("SHELL", env->env), "here-document at line 16 delimited by end-of-file", NULL);
 			break ;
 		}
+		buffer[bytes_read] = 0;
 		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 10)
 			break ;
 		write(pipefd[1], buffer, bytes_read);
 	}
 	close(pipefd[1]);
+	sigaction(SIGINT, &sa_old, NULL);
+	if (g_heredoc_interrupted)
+	{
+		close(pipefd[0]);
+		exit(130);
+	}
 	return (pipefd[0]);
 }

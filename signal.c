@@ -1,10 +1,21 @@
 #include "minishell.h"
 
-void	signal_handle(int sig)
+volatile sig_atomic_t g_heredoc_interrupted = 0;
+
+void	heredoc_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		g_heredoc_interrupted = 1;
+		// write(1, "\n", 1);
+	}
+}
+
+void	signal_handle(int sig)
+{
+	if (sig == SIGINT && g_heredoc_interrupted != 1)
+	{
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
