@@ -60,6 +60,7 @@ void	call_execve(t_command *data, t_env *env)
 			exit (126);
 		}
 	}
+	exit(0);
 }
 
 void	executor_init(t_exdat *data)
