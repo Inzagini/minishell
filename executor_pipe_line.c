@@ -24,9 +24,8 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 		}
 		close_parent_pipes((*cmd_lst), data.pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
-		if ((*cmd_lst))
-		 	if ((*cmd_lst)->redir_in == 0)
-		 		break ;
+		if ((*cmd_lst) && (*cmd_lst)->redir_in == 0)
+		 	break ;
 	}
 	close_all_pipes(data.pipefd);
 	return (0);
@@ -60,6 +59,7 @@ void	call_execve(t_command *data, t_env *env)
 			exit (126);
 		}
 	}
+	exit(0);
 }
 
 void	executor_init(t_exdat *data)
