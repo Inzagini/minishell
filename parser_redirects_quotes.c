@@ -37,7 +37,7 @@ int	set_redirects_single(t_parser *parser, t_token_type type)
 		parser->redir_out = 1;
 		fd = open(parser->redir_file_out, O_TRUNC
 			| O_CREAT | O_WRONLY, 0644);
-		if (fd < 0)
+		if (access(parser->redir_file_out, F_OK) == -1)
 			parser->invalid_redirect_out = 1;
 		close (fd);
 	}
