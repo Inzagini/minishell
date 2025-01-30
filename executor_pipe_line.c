@@ -53,12 +53,12 @@ void	call_execve(t_command *data, t_env *env)
 	else if (data->args[0][0] != '\0')
 	{
 		status = execve(data->args[0], data->args, env->env);
-		if (errno == 2 || (errno == 13 && ft_strncmp("./", data->args[0], 2)))
+		if ((errno == 2 || errno == 13) && !ft_strchr(data->args[0], '/'))
 		{
 			print_err(ft_get("SHELL", env->env), "command not found", data->args[0]);
 			exit(127);
 		}
-		else if (errno == 13)
+		else if ((errno == 2 || errno == 13) && ft_strchr(data->args[0], '/'))
 		{
 			print_err(ft_get("SHELL", env->env), "Is a directory", data->args[0]);
 			exit (126);
