@@ -38,6 +38,8 @@ void remove_empty_arguments(t_command *cmd_list)
 			else
 				i++;
 		}
+		if (i == 0)
+			curr->args[i] = ft_strdup("");
 		curr = curr->next;
 	}
 }
