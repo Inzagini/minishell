@@ -25,7 +25,7 @@ char	*ft_get(char *name, char **env)
 	return (NULL);
 }
 
-int	exit_check(int n_cmd, t_env *env)
+int	exit_check(t_env *env)
 {
 	int	i;
 	int	last_status;
@@ -36,16 +36,6 @@ int	exit_check(int n_cmd, t_env *env)
 	last_status = 0;
 	waitpid(env->prev_pid, &status, 0);
 	last_status = ft_wiexitstatus(status);
-	// while (i < n_cmd)
-	// {
-	// 	wait(&status);
-	// 	if (ft_wiexitstatus(status) != 0)
-	// 	{
-	// 		if (ft_wiexitstatus(status) > 0)
-	// 			last_status = ft_wiexitstatus(status);
-	// 	}
-	// 	i++;
-	// }
 	if (ft_wiexitstatus(status) != 0)
 		return (last_status);
 	return (0);

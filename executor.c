@@ -2,9 +2,6 @@
 
 void	executor(t_command *cmd_list, t_env *env)
 {
-	int	len;
-
-	len = lst_len(cmd_list);
 	while (cmd_list)
 	{
 		if (cmd_list->builtin_flag && cmd_list->redir_out != 3
@@ -16,7 +13,7 @@ void	executor(t_command *cmd_list, t_env *env)
 		else
 		{
 			call_pipe_line(&cmd_list, env);
-			env->last_exit_status = exit_check(len, env);
+			env->last_exit_status = exit_check(env);
 		}
 	}
 }

@@ -5,7 +5,6 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 	t_exdat	data;
 
 	executor_init(&data);
-	int	status;
 	while ((*cmd_lst))
 	{
 		if ((*cmd_lst)->id != 0)
