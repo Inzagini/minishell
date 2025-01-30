@@ -25,8 +25,6 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 				call_execve((*cmd_lst), env);
 		}
 		env->prev_pid = env->child_pid;
-		// waitpid(env->child_pid, &status, 1);
-		// env->last_exit_status = ft_wiexitstatus(status);
 		close_parent_pipes((*cmd_lst), data.pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
 		if ((*cmd_lst) && (*cmd_lst)->redir_in == 0)

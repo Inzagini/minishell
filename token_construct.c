@@ -63,5 +63,6 @@ int	meta_char(char *input_str, t_data *data, t_token **head)
 int	is_symbol_char(char c)
 {
 	return (c == ' ' || c == '\0' || c == '\n'
-		|| c == '\'' || c == '"' || c == '|');
+		|| c == '\'' || c == '"' || c == '|'
+		|| c == '>' || c == '<');
 }

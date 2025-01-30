@@ -35,6 +35,11 @@ void	flag_count(t_token *token_lst, t_data *data)
 	data->pipe_flag = 0;
 
 	head = token_lst;
+	if (token_lst->type == PIPE)
+	{
+		data->rd_flag = 1;
+		return ;
+	}
 	while (token_lst)
 	{
 		if (rd_type(token_lst->type))
