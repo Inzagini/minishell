@@ -19,6 +19,7 @@ typedef struct s_split
 
 // expander.c
 t_command	*expander(t_command *cmd_list, t_env *env);
+void		remove_empty_arguments(t_command *cmd_list);
 void		check_builtins(t_command *cmd_list);
 
 // expander_cmds.c

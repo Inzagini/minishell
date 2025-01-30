@@ -9,6 +9,7 @@ void print_command(t_command *cmd)
 	t_command *head;
 
 	head = cmd;
+
 	while (cmd)
 	{
 		printf("Command ID: %d\n", cmd->id);
@@ -26,13 +27,13 @@ void print_command(t_command *cmd)
 			args = args->next;
 		}
 		int i = 0;
-		// printf("Arg Strings\n");
+		printf("Arg Strings\n");
 
-		// while (cmd->args[i])
-		// {
-		// 	printf("\t%s\n", cmd->args[i]);
-		// 	i++;
-		// }
+		while (cmd->args[i])
+		{
+			printf("\t%s\n", cmd->args[i]);
+			i++;
+		}
 		printf("Redirection In: %d\n", cmd->redir_in);
 		printf("Redirection Out: %d\n", cmd->redir_out);
 		if (cmd->redir_file_in)
