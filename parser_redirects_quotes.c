@@ -27,11 +27,16 @@ int	handle_redirects(t_parser *parser, t_env *env)
 
 int	set_redirects_single(t_parser *parser, t_token_type type)
 {
-	int	fd;
+	int		fd;
 
 	if (type == RD_OUT && parser->invalid_redirect_out == 0)
 	{
 		parser->redir_file_out = ft_strdup(parser->token->content);
+		while (parser->token->next && (parser->token->next->type == ARG || parser->token->next->type == DQUOTE || parser->token->next->type == SQUOTE))
+		{
+			parser->redir_file_out = ft_strjoin_gnl(parser->redir_file_out, parser->token->next->content);
+			parser->token = parser->token->next;
+		}
 		if (!parser->redir_file_out)
 			return (clean_parser(parser), 1);
 		parser->redir_out = 1;
@@ -44,6 +49,11 @@ int	set_redirects_single(t_parser *parser, t_token_type type)
 	else if (type == RD_IN && parser->invalid_redirect_in == 0)
 	{
 		parser->redir_file_in = ft_strdup(parser->token->content);
+		while (parser->token->next && (parser->token->next->type == ARG || parser->token->next->type == DQUOTE || parser->token->next->type == SQUOTE))
+		{
+			parser->redir_file_in = ft_strjoin_gnl(parser->redir_file_in, parser->token->next->content);
+			parser->token = parser->token->next;
+		}
 		if (!parser->redir_file_in)
 			return (clean_parser(parser), 1);
 		parser->redir_in = 1;
@@ -63,6 +73,11 @@ int	set_redirects_double(t_parser *parser, t_token_type type)
 	if (type == RD_APP && parser->invalid_redirect_out == 0)
 	{
 		parser->redir_file_out = ft_strdup(parser->token->content);
+		while (parser->token->next && (parser->token->next->type == ARG || parser->token->next->type == DQUOTE || parser->token->next->type == SQUOTE))
+		{
+			parser->redir_file_out = ft_strjoin_gnl(parser->redir_file_out, parser->token->next->content);
+			parser->token = parser->token->next;
+		}
 		if (!parser->redir_file_out)
 			return (clean_parser(parser), 1);
 		parser->redir_out = 2;
@@ -75,6 +90,11 @@ int	set_redirects_double(t_parser *parser, t_token_type type)
 	else if (type == RD_HEREDOC)
 	{
 		parser->heredoc_separator = ft_strdup(parser->token->content);
+		while (parser->token->next && (parser->token->next->type == ARG || parser->token->next->type == DQUOTE || parser->token->next->type == SQUOTE))
+		{
+			parser->heredoc_separator = ft_strjoin_gnl(parser->heredoc_separator, parser->token->next->content);
+			parser->token = parser->token->next;
+		}
 		if (!parser->heredoc_separator)
 			return (clean_parser(parser), 1);
 		parser->redir_in = 2;

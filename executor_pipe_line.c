@@ -95,9 +95,9 @@ void	executor_init(t_exdat *data)
 int	pre_handle(t_command *cmd, t_exdat *data, t_env *env)
 {
 	if (redirect_in_handle(cmd, data, env))
-		return (close_child_pipes(cmd, data->pipefd), 1);
+		return (close_child_pipes(cmd, data->pipefd), exit (1), 1);
 	if (redirect_out_handle(cmd, data, env))
-		return (close_child_pipes(cmd, data->pipefd), 1);
+		return (close_child_pipes(cmd, data->pipefd), exit (1), 1);
 	close_child_pipes(cmd, data->pipefd);
 	return (0);
 }

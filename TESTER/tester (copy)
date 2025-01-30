@@ -50,8 +50,6 @@ PROMPT=$(echo -e "\nexit\n" | $MINISHELL_PATH | head -n 1 | sed "s/\x1B\[[0-9;]\
 REMOVE_COLORS="sed s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g"
 REMOVE_EXIT="grep -v ^exit$"
 
-i=0
-
 for testfile in ${test_lists[*]}; do
 
 	printf $RED
@@ -59,11 +57,6 @@ for testfile in ${test_lists[*]}; do
 
 	while read teste; do
 		((i++))
-		
-		if [[ "$i" -eq 75 ]]; then
-      			printf "$YELLOW Skipping test 75\n$END"
-        		continue
-    		fi
 
 		rm -rf ./outfiles/*
 		rm -rf ./mini_outfiles/*
@@ -83,7 +76,6 @@ for testfile in ${test_lists[*]}; do
 
 		printf $YELLOW
 		printf "Test %3s: " $i
-		
 		if [[ "$MINI_OUTPUT" == "$BASH_OUTPUT" && "$MINI_EXIT_CODE" == "$BASH_EXIT_CODE" && -z "$OUTFILES_DIFF" ]]; then
 			printf ✅
 			((ok++))
