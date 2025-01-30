@@ -8,7 +8,7 @@ void	ft_exit(t_command *cmd, t_env *env)
 {
 	if (cmd->args[1] != NULL)
 	{
-		if (is_allnums(cmd->args[1]))
+		if (is_allnums(cmd->args[1]) || ft_atouc(cmd->args[1]) == -1)
 		{
 			print_err(ft_get("SHELL", env->env),
 				"numeric argument required", "exit");
@@ -47,9 +47,9 @@ int	is_allnums(char *str)
 
 int	ft_atouc(char *str)
 {
-	unsigned char	result;
-	int				index;
-	int				sign;
+	uint64_t	result;
+	int			index;
+	int		sign;
 
 	result = 0;
 	index = -1;
@@ -62,5 +62,10 @@ int	ft_atouc(char *str)
 	}
 	while (str[++index])
 		result = result * 10 + str[index] - '0';
+	if (sign == -1 && (unsigned) result == 0)
+		return (0);
+	if (result > INT64_MAX)
+		return (-1);
+	result = (unsigned char) result;
 	return ((int) (sign * result));
 }
