@@ -7,11 +7,9 @@ t_command	*expander(t_command *cmd_list, t_env *env)
 	expand_arguments_dquote(env, cmd_list);
 	expand_arguments_noquote(env, cmd_list);
 	merge_arguments(cmd_list);
-	print_command(cmd_list);
 	remove_empty_arguments(cmd_list);
 	check_builtins(cmd_list);
 	expand_commands(env, cmd_list);
-	print_command(cmd_list);
 	return (NULL);
 }
 
