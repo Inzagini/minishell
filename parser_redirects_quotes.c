@@ -29,7 +29,7 @@ int	set_redirects_single(t_parser *parser, t_token_type type)
 {
 	int		fd;
 
-	if (type == RD_OUT && parser->invalid_redirect_out == 0)
+	if (type == RD_OUT && parser->invalid_redirect_out == 0 && parser->invalid_redirect_in == 0)
 	{
 		parser->redir_file_out = ft_strdup(parser->token->content);
 		while (parser->token->next && (parser->token->next->type == ARG || parser->token->next->type == DQUOTE || parser->token->next->type == SQUOTE))
