@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env);
+
 int	call_pipe_line(t_command **cmd_lst, t_env *env)
 {
 	t_exdat	data;
@@ -90,7 +92,7 @@ void	executor_init(t_exdat *data)
 	data->out_fd = 1;
 }
 
-int	pre_handle(t_command *cmd, t_exdat *data, t_env *env)
+static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env)
 {
 	if (redirect_in_handle(cmd, data, env))
 		return (close_child_pipes(cmd, data->pipefd), exit (1), 1);

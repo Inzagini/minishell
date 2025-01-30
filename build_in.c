@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env);
+
 void	execute_build_in(t_command *cmd, t_env *env)
 {
 	t_exdat	data;
@@ -44,4 +46,14 @@ void	call_builtin(t_command *cmd, t_env *env)
 		ft_env(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "exit"))
 		ft_exit(cmd, env);
+}
+
+static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env)
+{
+	if (redirect_in_handle(cmd, data, env))
+		return (close_child_pipes(cmd, data->pipefd), 1);
+	if (redirect_out_handle(cmd, data, env))
+		return (close_child_pipes(cmd, data->pipefd), 1);
+	close_child_pipes(cmd, data->pipefd);
+	return (0);
 }
