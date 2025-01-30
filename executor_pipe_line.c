@@ -45,27 +45,44 @@ void	invoke_builtin(t_command *cmd, t_env *env)
 
 void	call_execve(t_command *data, t_env *env)
 {
-	int	status;
-
 	if (!data->args || !data->args[0])
-		print_err(ft_get("SHELL", env->env),
-			"command not found", NULL);
-	else if (data->args[0][0] != '\0')
 	{
-		status = execve(data->args[0], data->args, env->env);
-		if ((errno == 2 || errno == 13) && !ft_strchr(data->args[0], '/'))
+		print_err(ft_get("SHELL", env->env), "command not found", NULL);
+		exit(127);
+	}
+	if (!data->args[0][0])
+		exit(0);
+	execve(data->args[0], data->args, env->env);
+	if (ft_strchr(data->args[0], '/'))
+	{
+		if (errno == ENOENT)
 		{
-			print_err(ft_get("SHELL", env->env), "command not found", data->args[0]);
+			print_err(ft_get("SHELL", env->env), "No such file or directory", data->args[0]);
 			exit(127);
 		}
-		else if ((errno == 2 || errno == 13) && ft_strchr(data->args[0], '/'))
+		else if (errno == EISDIR)
 		{
 			print_err(ft_get("SHELL", env->env), "Is a directory", data->args[0]);
-			exit (126);
+			exit(126);
+		}
+		else if (errno == EACCES)
+		{
+			print_err(ft_get("SHELL", env->env), "Permission denied", data->args[0]);
+			exit(126);
+		}
+		else
+		{
+			print_err(ft_get("SHELL", env->env), strerror(errno), data->args[0]);
+			exit(1);
 		}
 	}
-	exit(0);
+	else
+	{
+		print_err(ft_get("SHELL", env->env), "command not found", data->args[0]);
+		exit(127);
+	}
 }
+
 
 void	executor_init(t_exdat *data)
 {
