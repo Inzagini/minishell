@@ -30,7 +30,7 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 		free (input);
 	input = readline("\033[1;32mBROKEN_SHELL: \033[0m");
 	if (!input)
-		return (0);
+		return (write(1, "exit\n", 5), 0);
 	if (input[0])
 	{
 		add_history(input);
