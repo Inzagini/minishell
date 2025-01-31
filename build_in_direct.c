@@ -12,14 +12,24 @@ void	ft_pwd(t_env *env)
 
 void	ft_cd(t_command *cmd, t_env *env)
 {
-	if (cmd->args[2] != NULL)
+	if (cmd->args[1] == NULL)
+	{
+		if (chdir(ft_get("HOME", env->env)) == -1)
+		{
+			print_err(ft_get("SHELL", env->env),
+				strerror(errno), cmd->args[1]);
+			env->last_exit_status = 1;
+			return ;
+		}
+	}
+	else if (cmd->args[2] != NULL)
 	{
 		print_err(ft_get("SHELL", env->env),
 			"too many arguments", "cd");
 		env->last_exit_status = 1;
 		return ;
 	}
-	if (chdir(cmd->args[1]) == -1)
+	else if (chdir(cmd->args[1]) == -1)
 	{
 		print_err(ft_get("SHELL", env->env),
 			strerror(errno), cmd->args[1]);
