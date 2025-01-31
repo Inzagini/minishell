@@ -24,3 +24,5 @@ echo eabc$VAR"$VAR"$VAR'abc'
 echo abc > |
 echo abs > &&
 echo abs > ;
+
+echo << (currently double free)

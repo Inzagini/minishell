@@ -74,12 +74,11 @@ int	rd_heredoc_handle(char *input_str, t_data *data, t_token **head)
 		data->start = data->index + 2;
 	else
 		data->start = data->index + 1;
-	data->index++;
+	data->index ++;
 	new_token = create_token(NULL, RD_HEREDOC);
 	if (!new_token)
 		return (data->exit_flag = 1, 1);
 	append_token_lst(head, new_token);
-	data->start = data->index;
 	data->rd_flag = 1;
 	return (0);
 }
