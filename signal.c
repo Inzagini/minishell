@@ -18,7 +18,8 @@ void	signal_handle(int sig)
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
+		if (!rl_done)
+			rl_redisplay();
 	}
 }
 
