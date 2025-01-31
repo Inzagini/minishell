@@ -7,13 +7,12 @@ void	heredoc_signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		g_heredoc_interrupted = 1;
-		// write(1, "\n", 1);
 	}
 }
 
 void	signal_handle(int sig)
 {
-	if (sig == SIGINT && g_heredoc_interrupted != 1)
+	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
@@ -33,9 +32,11 @@ void	signal_setup(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 	i = 0;
-	while (++i < NSIG)
-	{
-		if (i != SIGINT && i != SIGCHLD)
-			signal(i, SIG_IGN);
-	}
+	signal(SIGQUIT, SIG_IGN);
+
+	// while (++i < NSIG)
+	// {
+	// 	if (i != SIGINT && i != SIGCHLD)
+	// 		signal(i, SIG_IGN);
+	// }
 }

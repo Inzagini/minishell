@@ -9,9 +9,7 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	t_data	flags;
 	char	*new_input;
 
-	// print_tokens(token_lst);
 	flag_count(token_lst, &flags);
-	// printf("rd: %d pipe %d\n", flags.rd_flag, flags.pipe_flag);
 	if (flags.rd_flag || flags.pipe_flag > 1)
 	{
 		print_err(ft_get("SHELL", env->env),
