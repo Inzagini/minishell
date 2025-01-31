@@ -108,6 +108,7 @@ int	here_doc_handle(t_command *cmd_node, t_env *env)
 	char	*delimiter;
 	char	buffer[BUFFER_SIZE + 1];
 	int		pipefd[2];
+	char	*expanded;
 	ssize_t	bytes_read;
 	struct sigaction	sa_old;
 	struct sigaction	sa_new;
@@ -136,7 +137,14 @@ int	here_doc_handle(t_command *cmd_node, t_env *env)
 		buffer[bytes_read] = 0;
 		if (ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1) == 10)
 			break ;
-		write(pipefd[1], buffer, bytes_read);
+		if (ft_strchr(buffer, '$'))
+		{
+			expanded = expand_argument(buffer, env->env, expanded);
+			write(pipefd[1], expanded, ft_strlen(expanded));
+			free (expanded);
+		}
+		else
+			write(pipefd[1], buffer, bytes_read);
 	}
 	close(pipefd[1]);
 	sigaction(SIGINT, &sa_old, NULL);
