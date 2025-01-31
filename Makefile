@@ -49,3 +49,6 @@ t: $(LIBFT)
 leak: $(LIBFT)
 	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g
 	valgrind --leak-check=full ./a.out
+
+test:
+	cd TESTER && $(MAKE) -C .. && ./tester
