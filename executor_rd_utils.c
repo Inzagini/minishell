@@ -131,7 +131,7 @@ int	here_doc_handle(t_command *cmd_node, t_env *env)
 		if (bytes_read == 0)
 		{
 			write(2, "\n", 1);
-			print_err(ft_get("SHELL", env->env), "here-document at line 16 delimited by end-of-file", NULL);
+			print_err(ft_get("SHELL", env->env), "warning: here-document delimited by end-of-file", NULL);
 			break ;
 		}
 		buffer[bytes_read] = 0;
