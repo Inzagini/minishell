@@ -34,7 +34,10 @@ int	exit_check(t_env *env)
 	i = 0;
 	status = 0;
 	last_status = 0;
-	waitpid(env->prev_pid, &status, 0);
+	// printf("OUT| %d wait for %d\n", env->child_pid,wait(NULL));
+	if (env->child_pid != 0)
+		printf("OUT| %d wait for %d\n", env->child_pid,waitpid(env->prev_pid, NULL, 0));
+	// waitpid(env->prev_pid, &status, 0);
 	last_status = ft_wiexitstatus(status);
 	if (ft_wiexitstatus(status) != 0)
 		return (last_status);
