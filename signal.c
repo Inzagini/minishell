@@ -33,9 +33,9 @@ void	signal_setup(void)
 	sigaction(SIGINT, &sa, NULL);
 	i = 0;
 	signal(SIGQUIT, SIG_IGN);
-	// while (++i < NSIG)
-	// {
-	// 	if (i != SIGINT && i != SIGCHLD)
-	// 		signal(i, SIG_IGN);
-	// }
+	while (++i < NSIG)
+	{
+		if (i != SIGINT && i != SIGCHLD)
+			signal(i, SIG_IGN);
+	}
 }

@@ -25,6 +25,7 @@ void	call_builtin(t_command *cmd, t_env *env);
 void	ft_echo(t_command *cmd, t_env *env);
 void	ft_pwd(t_env *env);
 void	ft_cd(t_command *cmd, t_env *env);
+void	update_pwd(t_env *env);
 void	ft_export(t_command *cmd, t_env *env);
 void	ft_exit(t_command *cmd, t_env *env);
 void	ft_env(t_command *cmd, t_env *env);
