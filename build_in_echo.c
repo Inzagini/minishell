@@ -4,6 +4,7 @@ static int	contain_only(char *str, char c);
 
 void	ft_echo(t_command *cmd, t_env *env)
 {
+	print_command(cmd);
 	int	index;
 	int	n_flag;
 
@@ -13,6 +14,8 @@ void	ft_echo(t_command *cmd, t_env *env)
 	{
 		if (cmd->args[index][0] != '-')
 			break ;
+		if (cmd->args[index][1] == '\0')
+			break ;
 		if (contain_only(cmd->args[index], 'n'))
 			break ;
 		else
@@ -20,6 +23,8 @@ void	ft_echo(t_command *cmd, t_env *env)
 	}
 	while (cmd->args[index])
 	{
+		if (cmd->args[index][0] == '\0')
+			ft_putstr_fd(" ", 1);
 		ft_putstr_fd(cmd->args[index++], 1);
 		if (cmd->args[index])
 			ft_putstr_fd(" ", 1);
