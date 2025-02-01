@@ -14,7 +14,11 @@ int	merge_arguments(t_command *cmd_list)
 		cmd->args = malloc ((cmd->size + 1) * sizeof (char *));
 		if (!cmd->args)
 			return (1);
+		cmd->quotes = malloc ((cmd->size + 1) * sizeof (int));
+		if (!cmd->quotes)
+			return (free(cmd->args), 1);
 		cmd->args[cmd->size] = NULL;
+		cmd->quotes[cmd->size] = -1;
 		max = -1;
 		conduct_merge(arg, cmd, &max);
 		cmd = cmd->next;
@@ -50,6 +54,7 @@ int	conduct_merge(t_token *arg, t_command *cmd, int *max)
 			cmd->args[i++] = content;
 			*max = arg->arg_group_id;
 		}
+		cmd->quotes[i - 1] = arg->quote_identifier;
 		arg = arg->next;
 	}
 	return (0);

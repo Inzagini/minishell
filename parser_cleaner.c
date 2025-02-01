@@ -26,8 +26,10 @@ void	clean_commands(t_command *cmd_list)
 			free (curr_cmd->redir_file_out);
 		if (curr_cmd->heredoc_separator)
 			free (curr_cmd->heredoc_separator);
-		if (curr_cmd->args) //breaks here for empty variable
+		if (curr_cmd->args)
 			free_split(curr_cmd->args);
+		if (curr_cmd->quotes)
+			free (curr_cmd->quotes);
 		while (curr_cmd->arg_tokens)
 		{
 			temp = curr_cmd->arg_tokens;

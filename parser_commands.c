@@ -19,6 +19,7 @@ int	cmdnew(t_parser *parser)
 	new_cmd->env = NULL;
 	new_cmd->builtin_flag = 0;
 	new_cmd->next = NULL;
+	new_cmd->quotes = NULL;
 	parser->new_cmd = new_cmd;
 	cmdadd(&parser->cmd_list, parser->new_cmd);
 	return (reset_parser(parser), 0);

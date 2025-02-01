@@ -22,8 +22,6 @@ void	ft_echo(t_command *cmd, t_env *env)
 	}
 	while (cmd->args[index])
 	{
-		if (cmd->args[index][0] == '\0')
-			ft_putstr_fd(" ", 1);
 		ft_putstr_fd(cmd->args[index++], 1);
 		if (cmd->args[index])
 			ft_putstr_fd(" ", 1);

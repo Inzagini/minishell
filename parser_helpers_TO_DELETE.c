@@ -7,6 +7,7 @@ void print_command(t_command *cmd)
 {
 	t_token	*args;
 	t_command *head;
+	int i;
 
 	head = cmd;
 
@@ -26,12 +27,18 @@ void print_command(t_command *cmd)
 			printf("Arg ID: %d\n", args->arg_group_id);
 			args = args->next;
 		}
-		int i = 0;
+		i = 0;
 		printf("Arg Strings\n");
-
 		while (cmd->args[i])
 		{
-			printf("\t%s\n", cmd->args[i]);
+			printf("\t\"%s\"\n", cmd->args[i]);
+			i++;
+		}
+		i = 0;
+		printf("Arg Quotes\n");
+		while (cmd->quotes[i] != -1)
+		{
+			printf("\t%d\n", cmd->quotes[i]);
 			i++;
 		}
 		printf("Redirection In: %d\n", cmd->redir_in);

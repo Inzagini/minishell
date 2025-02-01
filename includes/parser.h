@@ -11,6 +11,7 @@ typedef struct s_command
 	int			id;
 	t_token		*arg_tokens;
 	char		**args;
+	int			*quotes;
 	int			redir_in;
 	int			redir_out;
 	char		*redir_file_in;

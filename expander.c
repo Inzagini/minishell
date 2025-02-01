@@ -25,7 +25,7 @@ void remove_empty_arguments(t_command *cmd_list)
 		i = 0;
 		while (curr->args[i])
 		{
-			if (!curr->args[i][0])
+			if (!curr->args[i][0] && curr->quotes[i] == 0)
 			{
 				j = i;
 				while (curr->args[j + 1])
@@ -38,7 +38,7 @@ void remove_empty_arguments(t_command *cmd_list)
 			else
 				i++;
 		}
-		if (i == 0)
+		if (i == 0 && curr->quotes[i] == 0)
 			curr->args[i] = ft_strdup("");
 		curr = curr->next;
 	}

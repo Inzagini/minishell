@@ -52,7 +52,7 @@ void	call_execve(t_command *data, t_env *env)
 		print_err(ft_get("SHELL", env->env), "command not found", NULL);
 		exit(127);
 	}
-	if (!data->args[0][0])
+	if (!data->args[0][0] && data->quotes[0] == 0)
 		exit(0);
 	execve(data->args[0], data->args, env->env);
 	if (ft_strchr(data->args[0], '/'))
