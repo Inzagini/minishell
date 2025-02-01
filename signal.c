@@ -32,11 +32,10 @@ void	signal_setup(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 	i = 0;
-	// signal(SIGQUIT, SIG_IGN);
-
-	while (++i < NSIG)
-	{
-		if (i != SIGINT && i != SIGCHLD)
-			signal(i, SIG_IGN);
-	}
+	signal(SIGQUIT, SIG_IGN);
+	// while (++i < NSIG)
+	// {
+	// 	if (i != SIGINT && i != SIGCHLD)
+	// 		signal(i, SIG_IGN);
+	// }
 }
