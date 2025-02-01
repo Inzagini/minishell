@@ -4,7 +4,6 @@ static int	contain_only(char *str, char c);
 
 void	ft_echo(t_command *cmd, t_env *env)
 {
-	print_command(cmd);
 	int	index;
 	int	n_flag;
 
