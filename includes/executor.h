@@ -13,6 +13,17 @@ typedef struct s_executor_data
 	int		status;
 }	t_exdat;
 
+typedef struct s_heredoc
+{
+	char	*delimiter;
+	char	buffer[BUFFER_SIZE + 1];
+	int		pipefd[2];
+	char	*expanded;
+	ssize_t	bytes_read;
+	struct sigaction	sa_old;
+	struct sigaction	sa_new;
+}	t_here_doc;
+
 void	executor_init(t_exdat *data);
 void	executor(t_command *cmd_list, t_env *env);
 int		call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data);
