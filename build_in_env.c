@@ -6,8 +6,8 @@ void	ft_env(t_command *cmd, t_env *env)
 {
 	if (cmd->args[1] != 0)
 	{
-		printf("%s: env: only supported without options/arguments\n",
-			ft_get("SHELL", env->env));
+		print_err(ft_get("SHELL", env->env),
+			"env: only supported without options/arguments\n", NULL);
 		env->last_exit_status = 1;
 	}
 	else
