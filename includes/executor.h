@@ -15,12 +15,11 @@ typedef struct s_executor_data
 
 void	executor_init(t_exdat *data);
 void	executor(t_command *cmd_list, t_env *env);
-int		call_pipe_line(t_command **cmd_lst, t_env *env);
+int		call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data);
 void	execute_build_in(t_command *cmd, t_env *env);
 
-void	call_execve(t_command *data, t_env *env);
-// int		pre_handle(t_command *cmd, t_exdat *data, t_env *env);
 void	invoke_builtin(t_command *cmd, t_env *env);
+void	call_execve(t_command *data, t_env *env);
 
 //build_in functions
 void	call_builtin(t_command *cmd, t_env *env);
