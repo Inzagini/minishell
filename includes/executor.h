@@ -9,6 +9,8 @@ typedef struct s_executor_data
 	pid_t	pid;
 	int		in_fd;
 	int		out_fd;
+	int		rd_in;
+	int		status;
 }	t_exdat;
 
 void	executor_init(t_exdat *data);

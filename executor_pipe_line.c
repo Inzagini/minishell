@@ -5,8 +5,6 @@ static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env);
 int	call_pipe_line(t_command **cmd_lst, t_env *env)
 {
 	t_exdat	data;
-	int status;
-	int	rd_in = 0;
 
 	executor_init(&data);
 	while ((*cmd_lst))
@@ -15,12 +13,7 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 			pipe(data.pipefd[((*cmd_lst)->id + 1) % 2]);
 		env->child_pid = fork();
 		if ((*cmd_lst)->id != 0)
-		{
-			printf("1 %d %d\n", env->child_pid, wait(&status));
-			// printf("1 %d\n",waitpid(env->prev_pid, &status, 0));
-			printf("%d\n", status);
-			printf("status1: %d %d\n", WIFEXITED(status), WEXITSTATUS(status));
-		}
+			wait(&(data.status));
 		if (env->child_pid == 0)
 		{
 			if (pre_handle((*cmd_lst), &data, env))
@@ -33,29 +26,22 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env)
 			else
 				call_execve((*cmd_lst), env);
 		}
-		if ((*cmd_lst)->redir_in == 2) //wait for here doc
-		{
-			printf("2 %d\n",waitpid(env->child_pid, &status, 0));
-			printf("status2: %d %d\n", WIFEXITED(status), WEXITSTATUS(status));
-		}
+		if ((*cmd_lst)->redir_in == 2)
+			waitpid(env->child_pid, &(data.status), 0);
 		if ((*cmd_lst)->redir_in == 1)
-			rd_in = 1;
+			data.rd_in = 1;
 		env->prev_pid = env->child_pid;
 		close_parent_pipes((*cmd_lst), data.pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
 		if ((*cmd_lst) && (*cmd_lst)->redir_in == 0)
 		 	break ;
 	}
-	// int i = wait(&status);
-	// if (i != -1)
-	// 	waitpid(env->prev_pid, &status, 0);
-	if (rd_in)
-		printf("3 %d %d\n", env->child_pid, waitpid(env->child_pid, &status, 0));
+	if (data.rd_in)
+		waitpid(env->child_pid, &(data.status), 0);
 	else
-		printf("4 %d\n",wait(&status));
-	printf("status3: %d %d\n", WIFEXITED(status), WEXITSTATUS(status));
+		wait(&(data.status));
 	close_all_pipes(data.pipefd);
-	return (0);
+	return (ft_wiexitstatus(data.status));
 }
 
 
@@ -112,6 +98,7 @@ void	executor_init(t_exdat *data)
 	pipe(data->pipefd[1]);
 	data->in_fd = 0;
 	data->out_fd = 1;
+	data->rd_in = 0;
 }
 
 static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env)
