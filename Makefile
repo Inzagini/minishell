@@ -14,7 +14,7 @@ SRCS =	build_in.c build_in_direct.c build_in_echo.c build_in_env.c \
 		expander_cmds.c expander_env.c expander_merge.c expander_special.c \
 		main.c parser.c parser_cleaner.c parser_commands.c \
 		parser_redirects_quotes.c parser_redirects_double.c \
-		signal_heredoc_EOF.c signal.c status_check_get_func.c \
+		signal.c status_check_get_func.c \
 		token_cleaner.c token_func.c tokenizer.c token_construct.c token_check.c \
 		token_handle.c token_handle_quote.c token_handle_rd.c
 
@@ -54,4 +54,7 @@ leak: $(LIBFT)
 test:
 	cd TESTER && $(MAKE) -C .. && ./tester
 
+norm:
+	@echo "norminette of *.c files" ; norminette -R CheckForbiddenSourceHeader *.c | grep -v "OK" ;  \
+	@echo "norminette of *.h files" ; norminette -R CheckDefine includes/*.h | grep -v "OK"
 

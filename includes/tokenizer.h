@@ -1,8 +1,7 @@
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
-
-typedef struct s_env		t_env;
+typedef struct s_env				t_env;
 typedef struct s_token_structure	t_token;
 
 typedef enum e_token_types

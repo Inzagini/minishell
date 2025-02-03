@@ -1,8 +1,8 @@
 #include "minishell.h"
 
 static int	rd_type(t_token_type type);
-char	*ending_pipe_handle();
-void	flag_count(t_token *token_lst, t_data *data);
+static char	*ending_pipe_handle(void);
+static int	flag_count(t_token *token_lst, t_data *data);
 
 int	check_tokens(char **input, t_token *token_lst, t_env *env)
 {
@@ -13,7 +13,7 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	if (flags.rd_flag || flags.pipe_flag > 1)
 	{
 		print_err(ft_get("SHELL", env->env),
-			"syntax error near unexpected token" , NULL);
+			"syntax error near unexpected token", NULL);
 		env->last_exit_status = 2;
 		return (2);
 	}
@@ -26,19 +26,15 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	return (0);
 }
 
-void	flag_count(t_token *token_lst, t_data *data)
+static int	flag_count(t_token *token_lst, t_data *data)
 {
 	t_token	*head;
 
 	data->rd_flag = 0;
 	data->pipe_flag = 0;
-
 	head = token_lst;
 	if (token_lst->type == PIPE)
-	{
-		data->rd_flag = 1;
-		return ;
-	}
+		return (data->rd_flag = 1, 1);
 	while (token_lst)
 	{
 		if (rd_type(token_lst->type))
@@ -55,6 +51,7 @@ void	flag_count(t_token *token_lst, t_data *data)
 		token_lst = token_lst->next;
 	}
 	token_lst = head;
+	return (0);
 }
 
 static int	rd_type(t_token_type type)
@@ -63,7 +60,7 @@ static int	rd_type(t_token_type type)
 		|| type == RD_APP || type == RD_HEREDOC);
 }
 
-char	*ending_pipe_handle()
+char	*ending_pipe_handle(void)
 {
 	char	buffer[BUFFER_SIZE + 1];
 	char	*line;
@@ -76,7 +73,6 @@ char	*ending_pipe_handle()
 	{
 		write(1, "> ", 2);
 		bytes_read = read(0, buffer, BUFFER_SIZE);
-
 		if (bytes_read == -1)
 			break ;
 		buffer[bytes_read + 1] = 0;
@@ -84,9 +80,8 @@ char	*ending_pipe_handle()
 		line = ft_strjoin(line, buffer);
 		free(tmp);
 		if (ft_strchr((const char *) buffer, '\n'))
-			break;
+			break ;
 	}
 	line[ft_strlen(line) - 1] = 0;
 	return (line);
 }
-

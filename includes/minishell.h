@@ -14,8 +14,13 @@
 # include <limits.h>
 # include <signal.h>
 # include <stdint.h>
-
 # include "libft.h"
+
+# include "tokenizer.h"
+# include "parser.h"
+# include "expander.h"
+# include "executor.h"
+# include "signals.h"
 
 typedef struct s_env
 {
@@ -29,12 +34,6 @@ typedef struct s_env
 	pid_t	child_pid;
 	pid_t	prev_pid;
 }	t_env;
-
-# include "tokenizer.h"
-# include "parser.h"
-# include "expander.h"
-# include "executor.h"
-# include "signals.h"
 
 int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env);
 

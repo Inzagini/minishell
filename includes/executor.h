@@ -15,10 +15,10 @@ typedef struct s_executor_data
 
 typedef struct s_heredoc
 {
-	char	*delimiter;
-	int		pipefd[2];
-	char	*line;
-	char	*expanded;
+	char				*delimiter;
+	int					pipefd[2];
+	char				*line;
+	char				*expanded;
 	struct sigaction	sa_old;
 	struct sigaction	sa_new;
 }	t_here_doc;
@@ -64,7 +64,6 @@ int		exit_check(t_env *env);
 //build-in export functions
 void	check_add_vars(t_command *cmd, t_env *env, int i);
 void	print_export(t_env	*env);
-void	sort_export(t_env *env);
 int		check_options(char **args);
 int		check_argument(char *arg);
 int		find_argument(char *var, char **env);

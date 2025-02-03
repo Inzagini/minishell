@@ -2,7 +2,6 @@
 # define EXPANDER_H
 
 // # include "minishell.h"
-
 typedef struct s_split
 {
 	char	*expanded;
@@ -73,7 +72,7 @@ void		merge_tokens(t_token *first, t_token *second);
 int			expand_tilde(t_env *env, t_command *cmd_list);
 char		*replace_tilde(const char *content, char **env);
 int			expand_special(t_env *env, t_command *cmd_list);
-char		*replace_special(char *content, int status, char* find);
+char		*replace_special(char *content, int status, char *find);
 char		*create_special(int new_len, char *special,
 				char *content, char *find);
 
