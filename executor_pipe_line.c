@@ -26,7 +26,7 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data)
 		close_parent_pipes((*cmd_lst), data->pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
 		if ((*cmd_lst) && (*cmd_lst)->redir_in == 0)
-		 	break ;
+			break ;
 	}
 	ending_process_handle(data, env);
 	return (ft_wiexitstatus(data->status));

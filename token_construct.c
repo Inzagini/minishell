@@ -42,7 +42,7 @@ static void	token_init(t_data *data)
 int	meta_char(char *input_str, t_data *data, t_token **head)
 {
 	if (input_str[data->index] == ' ')
-		if(sep_handle(input_str, data, head))
+		if (sep_handle(input_str, data, head))
 			return (0);
 	if (input_str[data->index] == '|')
 		pipe_handle(data, head);
