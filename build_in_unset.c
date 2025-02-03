@@ -12,9 +12,8 @@ void	ft_unset(t_command *cmd, t_env *env)
 	i = check_options_unset(cmd->args);
 	if (i > 0)
 	{
-		printf("%s: unset: %.2s: invalid option\n",
-			getenv("SHELL"), cmd->args[i]);
-		printf("unset: usage: unset [name ...]\n");
+		print_err(ft_get("SHELL", env->env), "unset", "invalid option");
+		print_err(NULL, "unset: usage: unset [name ...]", NULL);
 		env->last_exit_status = 2;
 		return ;
 	}

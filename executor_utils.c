@@ -33,7 +33,8 @@ void	print_err(char *prefix, char *msg, char *name)
 		write(2, prefix, ft_strlen(prefix));
 		write(2, ": ", 2);
 	}
-	write(2, msg, ft_strlen(msg));
+	if (msg)
+		write(2, msg, ft_strlen(msg));
 	if (name)
 	{
 		write(2, ": ", 2);
