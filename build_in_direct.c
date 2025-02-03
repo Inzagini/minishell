@@ -65,4 +65,3 @@ void	update_pwd(t_env *env)
 	export_to_env(old_pwd, env);
 	export_to_exp(old_pwd, env);
 }
-

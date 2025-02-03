@@ -48,7 +48,7 @@ int	ft_atouc(char *str)
 {
 	uint64_t	result;
 	int			index;
-	int		sign;
+	int			sign;
 
 	result = 0;
 	index = -1;
@@ -66,5 +66,5 @@ int	ft_atouc(char *str)
 	if (result > INT64_MAX)
 		return (-1);
 	result = (unsigned char) result;
-	return ((int) (sign * result));
+	return ((int)(sign * result));
 }
