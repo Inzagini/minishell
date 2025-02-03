@@ -42,7 +42,7 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	parser->redir_out = 0;
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
-	parser->heredoc_separator = NULL;
+	parser->heredoc_sep = NULL;
 	parser->pipe_flag_in = 0;
 	parser->pipe_flag_out = 0;
 	parser->pipe_found = 0;
@@ -59,7 +59,7 @@ void	reset_parser(t_parser *parser)
 	parser->redir_out = 0;
 	parser->redir_file_in = NULL;
 	parser->redir_file_out = NULL;
-	parser->heredoc_separator = NULL;
+	parser->heredoc_sep = NULL;
 	parser->arg_tokens = NULL;
 	parser->invalid_redirect_in = 0;
 	parser->invalid_redirect_out = 0;
@@ -108,4 +108,3 @@ void	set_quote_identifier(t_token *new_token, t_token *current)
 	else
 		new_token->quote_identifier = 0;
 }
-

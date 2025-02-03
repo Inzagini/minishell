@@ -77,7 +77,6 @@ int	expand_special(t_env *env, t_command *cmd_list)
 char	*replace_special(char *content, int status, char *find)
 {
 	char	*special;
-	char	*result;
 	int		new_len;
 
 	if (*(find + 1) == '?')

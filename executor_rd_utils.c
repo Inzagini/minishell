@@ -61,7 +61,7 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 		{
 			print_err(ft_get("SHELL", env->env),
 				strerror(errno), cmd_node->redir_file_in);
-			exit(1);
+			return (1);
 		}
 		else
 		{

@@ -8,8 +8,8 @@ void	clean_parser(t_parser *parser)
 		free (parser->redir_file_in);
 	if (parser->redir_file_out)
 		free (parser->redir_file_out);
-	if (parser->heredoc_separator)
-		free (parser->heredoc_separator);
+	if (parser->heredoc_sep)
+		free (parser->heredoc_sep);
 }
 
 void	clean_commands(t_command *cmd_list)
@@ -20,10 +20,8 @@ void	clean_commands(t_command *cmd_list)
 	curr_cmd = cmd_list;
 	while (curr_cmd)
 	{
-		if (curr_cmd->redir_file_in)
-			free (curr_cmd->redir_file_in);
-		if (curr_cmd->redir_file_out)
-			free (curr_cmd->redir_file_out);
+		free (curr_cmd->redir_file_in);
+		free (curr_cmd->redir_file_out);
 		if (curr_cmd->heredoc_separator)
 			free (curr_cmd->heredoc_separator);
 		if (curr_cmd->args)

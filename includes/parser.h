@@ -36,7 +36,7 @@ typedef struct s_parser
 	int			redir_out;
 	char		*redir_file_in;
 	char		*redir_file_out;
-	char		*heredoc_separator;
+	char		*heredoc_sep;
 	int			pipe_flag_in;
 	int			pipe_flag_out;
 	int			pipe_found;

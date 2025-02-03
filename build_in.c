@@ -14,6 +14,16 @@ void	execute_build_in(t_command *cmd, t_env *env)
 	if (pre_handle(cmd, &data, env))
 	{
 		env->last_exit_status = 1;
+		if (origin_in != -1)
+		{
+			dup2(origin_in, STDIN_FILENO);
+			close(origin_in);
+		}
+		if (origin_out != -1)
+		{
+			dup2(origin_out, STDOUT_FILENO);
+			close(origin_out);
+		}
 		return ;
 	}
 	call_builtin(cmd, env);

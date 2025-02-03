@@ -13,7 +13,7 @@ int	cmdnew(t_parser *parser)
 	new_cmd->redir_out = parser->redir_out;
 	new_cmd->redir_file_in = parser->redir_file_in;
 	new_cmd->redir_file_out = parser->redir_file_out;
-	new_cmd->heredoc_separator = parser->heredoc_separator;
+	new_cmd->heredoc_separator = parser->heredoc_sep;
 	new_cmd->size = parser->size;
 	new_cmd->arg_tokens = parser->arg_tokens;
 	new_cmd->env = NULL;

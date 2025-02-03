@@ -27,7 +27,9 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 	export_to_env(env->shell_var, env);
 	export_to_exp(env->shell_var, env);
 	if (input)
+	{
 		free (input);
+	}
 	input = readline("BROKEN_SHELL: ");
 	if (!input)
 		return (write(1, "exit\n", 5), 0);
