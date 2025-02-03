@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-volatile sig_atomic_t g_heredoc_interrupted = 0;
+volatile	sig_atomic_t g_heredoc_interrupted = 0;
 
 void	heredoc_signal_handler(int sig)
 {
@@ -32,9 +32,6 @@ void	signal_setup(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 	i = 0;
-	while (++i < NSIG)
-	{
-		if (i != SIGINT && i != SIGCHLD)
-			signal(i, SIG_IGN);
-	}
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGSTOP, SIG_IGN);
 }
