@@ -2,9 +2,10 @@
 
 void	executor(t_command *cmd_list, t_env *env)
 {
-	t_exdat	data;
+	t_exdat	*data;
 
-	executor_init(&data);
+	data = malloc(sizeof(t_exdat));
+	executor_init(data);
 	while (cmd_list)
 	{
 		if (cmd_list->builtin_flag && cmd_list->redir_out != 3
@@ -15,9 +16,11 @@ void	executor(t_command *cmd_list, t_env *env)
 		}
 		else
 		{
-			env->last_exit_status = call_pipe_line(&cmd_list, env, &data);
+			env->last_exit_status = call_pipe_line(&cmd_list, env, data);
 		}
 	}
+	free(data);
+	data = NULL;
 }
 
 void	executor_init(t_exdat *data)

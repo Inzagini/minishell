@@ -28,14 +28,7 @@ int	here_doc_handle(t_command *cmd_node, t_env *env)
 			break ;
 		write_pipe(&doc, env);
 	}
-	// term(&doc);
-	close(doc.pipefd[1]);
-	sigaction(SIGINT, &doc.sa_old, NULL);
-	if (g_heredoc_interrupted)
-	{
-		close(doc.pipefd[0]);
-		exit(130);
-	}
+	term(&doc);
 	return (doc.pipefd[0]);
 }
 
