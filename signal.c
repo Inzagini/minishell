@@ -1,12 +1,17 @@
 #include "minishell.h"
+#include <sys/ioctl.h>
 
 volatile	sig_atomic_t g_heredoc_interrupted = 0;
 
 void	heredoc_signal_handler(int sig)
 {
+	char	nl;
+
 	if (sig == SIGINT)
 	{
 		g_heredoc_interrupted = 1;
+		nl = '\n';
+		ioctl(STDIN_FILENO, TIOCSTI, &nl);
 	}
 }
 
