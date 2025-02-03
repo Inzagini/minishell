@@ -58,14 +58,12 @@ static void	init(t_command *cmd_node, t_here_doc *doc)
 	doc->sa_new.sa_flags = 0;
 	sigemptyset(&doc->sa_new.sa_mask);
 	sigaction(SIGINT, &doc->sa_new, &doc->sa_old);
-	disable_eof();
 }
 
 static void	term(t_here_doc *doc)
 {
 	close(doc->pipefd[1]);
 	sigaction(SIGINT, &doc->sa_old, NULL);
-	restore_terminal();
 	if (g_heredoc_interrupted)
 	{
 		close(doc->pipefd[0]);
