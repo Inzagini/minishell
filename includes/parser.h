@@ -61,7 +61,12 @@ void		update_arg_id_deltas(t_token *input);
 // parser_redirects_quotes.c
 int			handle_redirects(t_parser *parser, t_env *env);
 int			set_redirects_single(t_parser *parser, t_token_type type);
+int			set_redirect_in(t_parser *parser);
+int			set_redirect_out(t_parser *parser);
+
+// parser_redirects_double
 int			set_redirects_double(t_parser *parser, t_token_type type);
+int			set_redirect_append(t_parser *parser);
 
 // parser_cleaner.c
 void		clean_parser(t_parser *parser);
