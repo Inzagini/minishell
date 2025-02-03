@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include <sys/ioctl.h>
 
-volatile	sig_atomic_t g_heredoc_interrupted = 0;
+volatile sig_atomic_t	g_heredoc_interrupted;
 
 void	heredoc_signal_handler(int sig)
 {
