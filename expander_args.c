@@ -3,7 +3,7 @@
 char	*expand_argument(char *arg, char **env, char *result)
 {
 	char	*start;
-	char	*var_pos; //random comment
+	char	*var_pos;
 	size_t	len;
 
 	start = arg;

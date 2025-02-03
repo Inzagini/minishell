@@ -58,8 +58,7 @@ int	expand_special(t_env *env, t_command *cmd_list)
 		while (arg)
 		{
 			find = ft_strchr(arg->content, '$');
-			while (arg->quote_identifier != 1
-				&& find != NULL
+			while (arg->quote_identifier != 1 && find != NULL
 				&& (*(find + 1) == '?' || *(find + 1) == '-'))
 			{
 				arg->content = replace_special(arg->content,
@@ -79,8 +78,6 @@ char	*replace_special(char *content, int status, char *find)
 {
 	char	*special;
 	char	*result;
-	int		i;
-	int		j;
 	int		new_len;
 
 	if (*(find + 1) == '?')
@@ -98,12 +95,18 @@ char	*replace_special(char *content, int status, char *find)
 	else
 		return (content);
 	new_len = ft_strlen(content) - 2 + ft_strlen(special) + 1;
+	return (create_special(new_len, special, content, find));
+}
+
+char	*create_special(int new_len, char *special, char *content, char *find)
+{
+	int		i;
+	int		j;
+	char	*result;
+
 	result = malloc(new_len);
 	if (!result)
-	{
-		free(special);
-		return (NULL);
-	}
+		return (free (special), NULL);
 	i = 0;
 	while (content + i != find)
 	{

@@ -13,7 +13,7 @@ t_command	*expander(t_command *cmd_list, t_env *env)
 	return (NULL);
 }
 
-void remove_empty_arguments(t_command *cmd_list)
+void	remove_empty_arguments(t_command *cmd_list)
 {
 	t_command	*curr;
 	int			i;
@@ -27,12 +27,9 @@ void remove_empty_arguments(t_command *cmd_list)
 		{
 			if (!curr->args[i][0] && curr->quotes[i] == 0)
 			{
-				j = i;
-				while (curr->args[j + 1])
-				{
+				j = i - 1;
+				while (curr->args[++j + 1])
 					curr->args[j] = curr->args[j + 1];
-					j++;
-				}
 				curr->args[j] = NULL;
 			}
 			else
@@ -43,7 +40,6 @@ void remove_empty_arguments(t_command *cmd_list)
 		curr = curr->next;
 	}
 }
-
 
 void	check_builtins(t_command *cmd_list)
 {

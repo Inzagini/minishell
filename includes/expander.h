@@ -48,7 +48,7 @@ void		free_split(char **split_tokens);
 
 // expander_merge.c
 int			merge_arguments(t_command *cmd_list);
-int			conduct_merge(t_token *arg, t_command *cmd, int *max);
+void		conduct_merge(t_token *arg, t_command *cmd, int *max, int i);
 int			calculate_size(t_token *token);
 
 // expander_args_split.c
@@ -74,5 +74,7 @@ int			expand_tilde(t_env *env, t_command *cmd_list);
 char		*replace_tilde(const char *content, char **env);
 int			expand_special(t_env *env, t_command *cmd_list);
 char		*replace_special(char *content, int status, char* find);
+char		*create_special(int new_len, char *special,
+				char *content, char *find);
 
 #endif
