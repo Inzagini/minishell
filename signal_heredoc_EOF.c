@@ -1,11 +1,11 @@
 #include "minishell.h"
 #include <termios.h>
 
-static struct termios orig_termios;
+static struct	termios orig_termios;
 
-void disable_eof(void)
+void	disable_eof(void)
 {
-	struct termios new_termios;
+	struct termios	new_termios;
 
 	if (tcgetattr(STDIN_FILENO, &orig_termios) == -1)
 	{
@@ -21,7 +21,7 @@ void disable_eof(void)
 	}
 }
 
-void restore_terminal(void)
+void	restore_terminal(void)
 {
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios) == -1)
 		perror("tcsetattr");

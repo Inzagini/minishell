@@ -9,21 +9,22 @@ int	here_doc_handle(t_command *cmd_node, t_env *env)
 	t_here_doc	doc;
 
 	init(cmd_node, &doc);
-	while (doc.bytes_read)
+	while (1)
 	{
-		write(1, "> ", 2);
-		doc.bytes_read = read(0, doc.buffer, BUFFER_SIZE);
-		if (doc.bytes_read == -1)
-			break ;
-		if (doc.bytes_read == 0)
+		doc.line = readline("> ");
+		if (!doc.line)
 		{
-			write(2, "\n", 1);
 			print_err(ft_get("SHELL", env->env),
 				"warning: here-document delimited by end-of-file", NULL);
 			break ;
 		}
-		doc.buffer[doc.bytes_read] = 0;
-		if (ft_strncmp(doc.buffer, doc.delimiter, ft_strlen(doc.delimiter) + 1) == 10)
+		if (doc.line[0] == '\0')
+		{
+			free(doc.line);
+			break ;
+		}
+		if (ft_strncmp(doc.line, doc.delimiter,
+				ft_strlen(doc.delimiter) + 1) == 0)
 			break ;
 		write_pipe(&doc, env);
 	}
@@ -33,19 +34,24 @@ int	here_doc_handle(t_command *cmd_node, t_env *env)
 
 static void	write_pipe(t_here_doc *doc, t_env *env)
 {
-	if (ft_strchr(doc->buffer, '$'))
+	char	*tmp;
+
+	tmp = doc->line;
+	doc->line = ft_strjoin(doc->line, "\n");
+	free(tmp);
+	if (ft_strchr(doc->line, '$'))
 	{
-		doc->expanded = expand_argument(doc->buffer, env->env, doc->expanded);
+		doc->expanded = expand_argument(doc->line, env->env, doc->expanded);
 		write(doc->pipefd[1], doc->expanded, ft_strlen(doc->expanded));
 		free (doc->expanded);
 	}
 	else
-		write(doc->pipefd[1], doc->buffer, doc->bytes_read);
+		write(doc->pipefd[1], doc->line, ft_strlen(doc->line));
 }
 
 static void	init(t_command *cmd_node, t_here_doc *doc)
 {
-	doc->bytes_read = 1;
+	doc->line = NULL;
 	doc->delimiter = cmd_node->heredoc_separator;
 	pipe(doc->pipefd);
 	doc->sa_new.sa_handler = heredoc_signal_handler;

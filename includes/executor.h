@@ -16,10 +16,9 @@ typedef struct s_executor_data
 typedef struct s_heredoc
 {
 	char	*delimiter;
-	char	buffer[BUFFER_SIZE + 1];
 	int		pipefd[2];
+	char	*line;
 	char	*expanded;
-	ssize_t	bytes_read;
 	struct sigaction	sa_old;
 	struct sigaction	sa_new;
 }	t_here_doc;
