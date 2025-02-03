@@ -26,3 +26,6 @@ echo abs > &&
 echo abs > ;
 
 echo << (currently double free)
+
+norminette -R CheckForbiddenSourceHeader
+norminette -R CheckDefine
