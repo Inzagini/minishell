@@ -3,7 +3,6 @@
 int	is_allnums(char *str);
 int	ft_atouc(char *str);
 
-//exit don't clean yet
 void	ft_exit(t_command *cmd, t_env *env)
 {
 	if (cmd->args[1] != NULL)

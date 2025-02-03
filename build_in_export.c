@@ -9,7 +9,8 @@ void	ft_export(t_command *cmd, t_env *env)
 	i = check_options(cmd->args);
 	if (i > 0)
 	{
-		print_err_long(ft_get("SHELL", env->env), "export", cmd->args[i], "invalid option");
+		print_err_long(ft_get("SHELL", env->env),
+			"export", cmd->args[i], "invalid option");
 		print_err_long("export", "usage", "export [name[=value] ...]", NULL);
 		env->last_exit_status = 2;
 		return ;
@@ -23,7 +24,8 @@ void	check_add_vars(t_command *cmd, t_env *env, int i)
 	{
 		if (check_argument(cmd->args[i]) == 1)
 		{
-			print_err_long(ft_get("SHELL", env->env), "export", cmd->args[i], "not a valid identifier");
+			print_err_long(ft_get("SHELL", env->env),
+				"export", cmd->args[i], "not a valid identifier");
 			env->last_exit_status = 1;
 		}
 		else
