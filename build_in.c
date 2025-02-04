@@ -11,7 +11,13 @@ void	execute_build_in(t_command *cmd, t_env *env)
 
 	origin_in = dup(STDIN_FILENO);
 	origin_out = dup(STDOUT_FILENO);
-	executor_init(&data);
+	if (executor_init(&data))
+		return ;
+	if (pipe(data.pipefd[1]) == -1)
+	{
+		close(*(data.pipefd)[0]);
+		return ;
+	}
 	if (pre_handle(cmd, &data, env))
 	{
 		env->last_exit_status = 1;
@@ -55,12 +61,14 @@ static void	reset_fds(int origin_in, int origin_out)
 {
 	if (origin_in != -1)
 	{
-		dup2(origin_in, STDIN_FILENO);
+		if (dup2(origin_in, STDIN_FILENO) == -1)
+			perror("dup2:");
 		close(origin_in);
 	}
 	if (origin_out != -1)
 	{
-		dup2(origin_out, STDOUT_FILENO);
+		if (dup2(origin_out, STDOUT_FILENO) == -1)
+			perror("dup2:");
 		close(origin_out);
 	}
 }

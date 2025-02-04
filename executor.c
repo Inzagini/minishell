@@ -5,7 +5,12 @@ void	executor(t_command *cmd_list, t_env *env)
 	t_exdat	*data;
 
 	data = malloc(sizeof(t_exdat));
-	executor_init(data);
+	if (!data || executor_init(data) == -1)
+	{
+		free(data);
+		data = NULL;
+		return ;
+	}
 	while (cmd_list)
 	{
 		if (cmd_list->builtin_flag && cmd_list->redir_out != 3
@@ -23,10 +28,12 @@ void	executor(t_command *cmd_list, t_env *env)
 	data = NULL;
 }
 
-void	executor_init(t_exdat *data)
+int	executor_init(t_exdat *data)
 {
-	pipe(data->pipefd[0]);
+	if (pipe(data->pipefd[0]))
+		return (-1);
 	data->in_fd = 0;
 	data->out_fd = 1;
 	data->rd_in = 0;
+	return (0);
 }

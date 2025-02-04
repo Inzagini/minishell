@@ -66,6 +66,8 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 		else
 		{
 			data->in_fd = open(cmd_node->redir_file_in, O_RDONLY);
+			if (data->in_fd < 0)
+				return (perror("Open infile:"), 1);
 		}
 	}
 	else if (cmd_node->redir_in == 2)

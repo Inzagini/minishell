@@ -2,7 +2,7 @@
 
 static void	init(t_command *cmd_node, t_here_doc *doc);
 static void	term(t_here_doc *doc);
-static void	write_pipe(t_here_doc *doc, t_env *env);
+static int	write_pipe(t_here_doc *doc, t_env *env);
 
 int	here_doc_handle(t_command *cmd_node, t_env *env)
 {
@@ -26,19 +26,26 @@ int	here_doc_handle(t_command *cmd_node, t_env *env)
 		if (ft_strncmp(doc.line, doc.delimiter,
 				ft_strlen(doc.delimiter) + 1) == 0)
 			break ;
-		write_pipe(&doc, env);
+		if (write_pipe(&doc, env) == -1)
+			break ;
 	}
 	term(&doc);
 	return (doc.pipefd[0]);
 }
 
-static void	write_pipe(t_here_doc *doc, t_env *env)
+static int	write_pipe(t_here_doc *doc, t_env *env)
 {
 	char	*tmp;
 
 	tmp = doc->line;
 	doc->line = ft_strjoin(doc->line, "\n");
 	free(tmp);
+	if (!doc->line)
+	{
+		doc->error = -1;
+		perror("Here doc malloc:");
+		return (-1);
+	}
 	if (ft_strchr(doc->line, '$'))
 	{
 		doc->expanded = expand_argument(doc->line, env->env, doc->expanded);
@@ -47,13 +54,19 @@ static void	write_pipe(t_here_doc *doc, t_env *env)
 	}
 	else
 		write(doc->pipefd[1], doc->line, ft_strlen(doc->line));
+	return (0);
 }
 
 static void	init(t_command *cmd_node, t_here_doc *doc)
 {
 	doc->line = NULL;
 	doc->delimiter = cmd_node->heredoc_separator;
-	pipe(doc->pipefd);
+	doc->error = 0;
+	if (pipe(doc->pipefd) == -1)
+	{
+		perror ("BrokenPipeError:");
+		exit (32);
+	}
 	doc->sa_new.sa_handler = heredoc_signal_handler;
 	doc->sa_new.sa_flags = 0;
 	sigemptyset(&doc->sa_new.sa_mask);
@@ -64,6 +77,11 @@ static void	term(t_here_doc *doc)
 {
 	close(doc->pipefd[1]);
 	sigaction(SIGINT, &doc->sa_old, NULL);
+	if (doc->error == -1)
+	{
+		close(doc->pipefd[0]);
+		exit (EXIT_FAILURE);
+	}
 	if (g_heredoc_interrupted)
 	{
 		close(doc->pipefd[0]);

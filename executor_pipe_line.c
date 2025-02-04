@@ -1,7 +1,8 @@
 #include "minishell.h"
 
 static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env);
-static void	ending_process_handle(t_exdat *data, t_env *env);
+static void	end_line_handle(t_exdat *data, t_env *env);
+static void	invoke_builtin(t_command *cmd, t_env *env);
 
 int	call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data)
 {
@@ -28,11 +29,11 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data)
 		if ((*cmd_lst) && (*cmd_lst)->redir_in == 0)
 			break ;
 	}
-	ending_process_handle(data, env);
+	end_line_handle(data, env);
 	return (ft_wiexitstatus(data->status));
 }
 
-static void	ending_process_handle(t_exdat *data, t_env *env)
+static void	end_line_handle(t_exdat *data, t_env *env)
 {
 	if (data->rd_in)
 		waitpid(env->child_pid, &(data->status), 0);
@@ -41,7 +42,7 @@ static void	ending_process_handle(t_exdat *data, t_env *env)
 	close_all_pipes(data->pipefd);
 }
 
-void	invoke_builtin(t_command *cmd, t_env *env)
+static void	invoke_builtin(t_command *cmd, t_env *env)
 {
 	call_builtin(cmd, env);
 	exit(env->last_exit_status);

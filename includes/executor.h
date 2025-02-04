@@ -19,16 +19,16 @@ typedef struct s_heredoc
 	int					pipefd[2];
 	char				*line;
 	char				*expanded;
+	int					error;
 	struct sigaction	sa_old;
 	struct sigaction	sa_new;
 }	t_here_doc;
 
-void	executor_init(t_exdat *data);
+int		executor_init(t_exdat *data);
 void	executor(t_command *cmd_list, t_env *env);
 int		call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data);
 void	execute_build_in(t_command *cmd, t_env *env);
 
-void	invoke_builtin(t_command *cmd, t_env *env);
 void	call_execve(t_command *data, t_env *env);
 
 //build_in functions
