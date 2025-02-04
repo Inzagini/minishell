@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:08 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 14:51:14 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:40:35 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env);
 static void	end_line_handle(t_exdat *data, t_env *env);
+static void	end_process_wait(t_command *cmd_lst, t_env *env, t_exdat *data);
 static void	invoke_builtin(t_command *cmd, t_env *env, t_exdat *data,
 				t_command *head);
 
@@ -24,6 +25,8 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env,
 	{
 		pipe(data->pipefd[((*cmd_lst)->id + 1) % 2]);
 		env->child_pid = fork();
+		if (env->child_pid < 0)
+			return (perror("Fork:"), errno);
 		if ((*cmd_lst)->id != 0)
 			wait(&(data->status));
 		if (env->child_pid == 0)
@@ -34,10 +37,7 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env,
 			else
 				call_execve((*cmd_lst), env);
 		}
-		if ((*cmd_lst)->redir_in == 2)
-			waitpid(env->child_pid, &(data->status), 0);
-		if ((*cmd_lst)->redir_in == 1)
-			data->rd_in = 1;
+		end_process_wait(*cmd_lst, env, data);
 		close_parent_pipes((*cmd_lst), data->pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
 		if ((*cmd_lst) && (*cmd_lst)->redir_in == 0)
@@ -45,6 +45,14 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env,
 	}
 	end_line_handle(data, env);
 	return (ft_wiexitstatus(data->status));
+}
+
+static void	end_process_wait(t_command *cmd_lst, t_env *env, t_exdat *data)
+{
+	if (cmd_lst->redir_in == 2)
+		waitpid(env->child_pid, &(data->status), 0);
+	if (cmd_lst->redir_in == 1)
+		data->rd_in = 1;
 }
 
 static void	end_line_handle(t_exdat *data, t_env *env)
