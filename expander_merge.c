@@ -41,9 +41,8 @@ void	conduct_merge(t_token *arg, t_command *cmd, int *max, int i)
 		if (arg->arg_group_id == *max)
 		{
 			i--;
-			cmd->args[i] = ft_strjoin(cmd->args[i], content);
-			if (!cmd->args[i])
-				free (content);
+			cmd->args[i] = ft_strjoin_gnl(cmd->args[i], content);
+			free (content);
 		}
 		else
 		{

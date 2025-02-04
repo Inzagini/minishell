@@ -14,6 +14,8 @@ int	main(int argc, char **argv, char **envp)
 	input = NULL;
 	signal_setup();
 	env = init_env(envp);
+	export_to_env(env->shell_var, env);
+	export_to_exp(env->shell_var, env);
 	while (main_loop(head, input, cmd_list, env))
 		continue ;
 	clean_env(env);
@@ -24,8 +26,6 @@ int	main(int argc, char **argv, char **envp)
 int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 {
 	head = NULL;
-	export_to_env(env->shell_var, env);
-	export_to_exp(env->shell_var, env);
 	if (input)
 		free (input);
 	input = readline("BROKEN_SHELL: ");
@@ -38,14 +38,12 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 			return (1);
 		cmd_list = parser(head, env);
 		if (!cmd_list)
-		{
-			clean_tokens(&head);
-			return (1);
-		}
+			return (clean_tokens(&head), 1);
 		clean_tokens(&head);
 		expander(cmd_list, env);
 		executor(cmd_list, env);
 		clean_commands(cmd_list);
+		return (0);
 	}
 	return (1);
 }

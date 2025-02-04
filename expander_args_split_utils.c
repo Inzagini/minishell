@@ -19,7 +19,9 @@ void	remove_token(t_token **arg_list, t_token *token)
 			prev->next = token->next;
 	}
 	free(token->content);
+	token->content = NULL;
 	free(token);
+	token = NULL;
 }
 
 void	insert_token_after(t_token **arg_list, t_token *after, t_token *new)

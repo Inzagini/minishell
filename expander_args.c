@@ -4,24 +4,24 @@ char	*expand_argument(char *arg, char **env, char *result)
 {
 	char	*start;
 	char	*var_pos;
+	char	*to_add;
 	size_t	len;
 
 	start = arg;
 	result = ft_strdup("");
-	if (!result)
-		return (NULL);
 	len = 0;
 	var_pos = ft_strchr(start, '$');
 	while (var_pos)
 	{
-		result = append(result, ft_strndup(start, var_pos - start), &len);
+		to_add = ft_strndup(start, var_pos - start);
+		result = append(result, to_add, &len);
 		if (!result)
-			return (NULL);
+			return (free(to_add), NULL);
+		free (to_add);
 		start = var_pos + 1;
-		result = append(result, find_var(env,
-					ft_strndup(start, ft_strspn(start))), &len);
-		if (!result)
-			return (NULL);
+		to_add = ft_strndup(start, ft_strspn(start));
+		result = append(result, find_var(env, to_add), &len);
+		free (to_add);
 		start += ft_strspn(start);
 		var_pos = ft_strchr(start, '$');
 	}
@@ -37,18 +37,17 @@ char	*append(char *result, char *to_add, size_t *len)
 
 	add_len = ft_strlen(to_add);
 	total_len = *len + add_len;
-	temp = result;
-	result = malloc(total_len + 1);
-	if (!result)
+	temp = malloc(total_len + 1);
+	if (!temp)
 	{
-		free(temp);
+		free(result);
 		return (NULL);
 	}
-	ft_strlcpy(result, temp, total_len + 1);
-	ft_strlcat(result, to_add, total_len + 1);
+	ft_strlcpy(temp, result, total_len + 1);
+	ft_strlcat(temp, to_add, total_len + 1);
 	*len += add_len;
-	free(temp);
-	return (result);
+	free(result);
+	return (temp);
 }
 
 int	expand_arguments_dquote(t_env *env, t_command *cmd_list)

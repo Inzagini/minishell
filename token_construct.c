@@ -25,7 +25,6 @@ int	token_construct(char *input_str, t_token **head)
 		if (data.exit_flag)
 			return (1);
 	}
-	free(input_str);
 	input_str = NULL;
 	return (0);
 }

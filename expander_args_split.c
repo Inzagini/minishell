@@ -50,6 +50,7 @@ void	update_arg_ids(t_split *split, t_token *arg)
 int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 {
 	t_token	*arg;
+	t_token	*next_arg;
 
 	while (cmd_list)
 	{
@@ -57,6 +58,7 @@ int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 		update_arg_id_deltas(arg);
 		while (arg)
 		{
+			next_arg = arg->next;
 			if (arg->quote_identifier == 0
 				&& ft_strchr(arg->content, '$') != NULL)
 			{
@@ -64,7 +66,7 @@ int	expand_arguments_noquote(t_env *env, t_command *cmd_list)
 						env->env, arg->arg_group_id))
 					return (1);
 			}
-			arg = arg->next;
+			arg = next_arg;
 		}
 		cmd_list = cmd_list->next;
 	}

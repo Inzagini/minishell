@@ -8,7 +8,10 @@ void	print_tokens(t_token *token_list)
 	while (token_list)
 	{
 		if (token_list->type == CMD)
+		{
 			printf("[CMD]\n");
+			printf("%s\n", token_list->content);
+		}
 		else if (token_list->type == ARG)
 		{
 			printf("%s\n", token_list->content);

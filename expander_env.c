@@ -124,4 +124,5 @@ void	clean_env(t_env *env)
 			free(env->cmd_paths[i++]);
 		free(env->cmd_paths);
 	}
+	free (env);
 }
