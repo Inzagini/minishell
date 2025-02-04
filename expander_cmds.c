@@ -53,7 +53,8 @@ void	expand_commands(t_env *env, t_command *cmd_list)
 
 	while (cmd_list)
 	{
-		if (cmd_list->builtin_flag == 0 && cmd_list->args[0][0])
+		if (cmd_list->builtin_flag == 0 && cmd_list->args[0]
+			&& cmd_list->args[0][0])
 		{
 			command = get_cmd(env->cmd_paths, cmd_list->args[0]);
 			if (command)
