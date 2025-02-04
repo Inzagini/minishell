@@ -6,11 +6,13 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:42:26 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:42:27 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:41:22 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	export_free(char *pwd, char *old_pwd, t_env *env);
 
 void	ft_pwd(t_env *env)
 {
@@ -54,8 +56,11 @@ void	update_pwd(t_env *env)
 {
 	char	*pwd;
 	char	*old_pwd;
+	char	*get_cwd;
 
-	pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	get_cwd = getcwd(NULL, 0);
+	pwd = ft_strjoin("PWD=", get_cwd);
+	free (get_cwd);
 	if (!pwd)
 	{
 		print_err(ft_get("SHELL", env->env),
@@ -72,8 +77,15 @@ void	update_pwd(t_env *env)
 		free (pwd);
 		return ;
 	}
+	export_free(pwd, old_pwd, env);
+}
+
+static void	export_free(char *pwd, char *old_pwd, t_env *env)
+{
 	export_to_env(pwd, env);
 	export_to_exp(pwd, env);
 	export_to_env(old_pwd, env);
 	export_to_exp(old_pwd, env);
+	free (pwd);
+	free (old_pwd);
 }
