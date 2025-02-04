@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:23 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:46:24 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:06:31 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	}
 	else if (flags.pipe_flag)
 	{
+		char *tmp = *input;
 		new_input = ending_pipe_handle();
 		*input = new_input;
+		free(tmp);
 		return (1);
 	}
 	return (0);
@@ -87,7 +89,7 @@ char	*ending_pipe_handle(void)
 		bytes_read = read(0, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 			break ;
-		buffer[bytes_read + 1] = 0;
+		buffer[bytes_read] = 0;
 		tmp = line;
 		line = ft_strjoin(line, buffer);
 		free(tmp);

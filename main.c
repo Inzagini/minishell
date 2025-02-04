@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:46 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 13:14:41 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:15:40 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 		expander(cmd_list, env);
 		executor(cmd_list, env);
 		clean_commands(cmd_list);
+		return (0);
 	}
 	return (1);
 }
