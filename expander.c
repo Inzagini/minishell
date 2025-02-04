@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:43 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:43:44 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:09:05 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,24 @@ void	remove_empty_arguments(t_command *cmd_list)
 		{
 			if (!curr->args[i][0] && curr->quotes[i] == 0)
 			{
-				j = i - 1;
-				while (curr->args[++j + 1])
+				free(curr->args[i]);
+				j = i;
+				while (curr->args[j + 1])
+				{
 					curr->args[j] = curr->args[j + 1];
+					curr->quotes[j] = curr->quotes[j + 1];
+					j++;
+				}
 				curr->args[j] = NULL;
+				curr->quotes[j] = 0;
+				continue;
 			}
-			else
-				i++;
+			i++;
 		}
 		if (i == 0 && curr->quotes[i] == 0)
 			curr->args[i] = ft_strdup("");
+		else if (!curr->args[0][0] && curr->quotes[0] == 2)
+			curr->args[0] = NULL;
 		curr = curr->next;
 	}
 }
