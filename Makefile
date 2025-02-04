@@ -6,7 +6,7 @@
 #    By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/04 11:43:52 by pbuchter          #+#    #+#              #
-#    Updated: 2025/02/04 11:52:49 by pbuchter         ###   ########.fr        #
+#    Updated: 2025/02/04 11:59:12 by pbuchter         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,13 +55,5 @@ fclean: clean
 
 re: fclean all
 
-t: $(LIBFT)
-	clear
-	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g && ./a.out
-
-leak: $(LIBFT)
-	cc *.c -I${INCLUDES} -Ilibft -Llibft -lft -lreadline -g
-	valgrind --leak-check=full ./a.out
-
-.PHONY: clean fclean re all t leak
+.PHONY: clean fclean re all
 

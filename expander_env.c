@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:38 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:43:39 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:04:26 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_env	*init_env(char **envp)
 	env->env = NULL;
 	env->exp = NULL;
 	env->full_path = NULL;
-	env->shell_name = "/bin/zsh";
-	env->shell_var = "SHELL=/bin/zsh";
+	env->shell_name = "BROKEN_SHELL";
+	env->shell_var = "SHELL=BROKEN_SHELL";
 	env->last_exit_status = 0;
 	env->env = copy_envp(envp, 0);
 	if (env->env == NULL)
