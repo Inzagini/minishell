@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:03 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:43:04 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:51:55 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,34 @@
 static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env);
 static void	reset_fds(int origin_in, int origin_out);
 
-void	execute_build_in(t_command *cmd, t_env *env)
+void	execute_build_in(t_command *cmd, t_env *env,
+	t_exdat *data, t_command *head)
 {
-	t_exdat	data;
 	int		origin_in;
 	int		origin_out;
 
 	origin_in = dup(STDIN_FILENO);
 	origin_out = dup(STDOUT_FILENO);
-	if (executor_init(&data))
+	if (executor_init(data))
 		return ;
-	if (pipe(data.pipefd[1]) == -1)
+	if (pipe(data->pipefd[1]) == -1)
 	{
-		close(*(data.pipefd)[0]);
+		close(*(data->pipefd)[0]);
 		return ;
 	}
-	if (pre_handle(cmd, &data, env))
+	if (pre_handle(cmd, data, env))
 	{
 		env->last_exit_status = 1;
 		reset_fds(origin_in, origin_out);
 		return ;
 	}
-	call_builtin(cmd, env);
-	close(data.pipefd[1 - ((cmd->id + 1) % 2)][1]);
+	call_builtin(cmd, env, data, head);
+	close(data->pipefd[1 - ((cmd->id + 1) % 2)][1]);
 	reset_fds(origin_in, origin_out);
 }
 
-void	call_builtin(t_command *cmd, t_env *env)
+void	call_builtin(t_command *cmd, t_env *env,
+	t_exdat *data, t_command *head)
 {
 	if (!ft_strcmp(cmd->args[0], "cd"))
 		ft_cd(cmd, env);
@@ -56,7 +57,7 @@ void	call_builtin(t_command *cmd, t_env *env)
 	else if (!ft_strcmp(cmd->args[0], "env"))
 		ft_env(cmd, env);
 	else if (!ft_strcmp(cmd->args[0], "exit"))
-		ft_exit(cmd, env);
+		ft_exit(cmd, env, head, data);
 }
 
 static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env)

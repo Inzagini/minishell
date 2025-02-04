@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:41:30 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:41:33 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:44:40 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ typedef struct s_heredoc
 
 int		executor_init(t_exdat *data);
 void	executor(t_command *cmd_list, t_env *env);
-int		call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data);
-void	execute_build_in(t_command *cmd, t_env *env);
+int		call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data, t_command *head);
+void	execute_build_in(t_command *cmd, t_env *env, t_exdat *data, t_command *head);
 
 void	call_execve(t_command *data, t_env *env);
 
 //build_in functions
-void	call_builtin(t_command *cmd, t_env *env);
+void	call_builtin(t_command *cmd, t_env *env, t_exdat *data, t_command *head);
 void	ft_echo(t_command *cmd, t_env *env);
 void	ft_pwd(t_env *env);
 void	ft_cd(t_command *cmd, t_env *env);
 void	update_pwd(t_env *env);
 void	ft_export(t_command *cmd, t_env *env);
-void	ft_exit(t_command *cmd, t_env *env);
+void	ft_exit(t_command *cmd, t_env *env, t_command *head, t_exdat *data);
 void	ft_env(t_command *cmd, t_env *env);
 void	ft_unset(t_command *cmd, t_env *env);
 

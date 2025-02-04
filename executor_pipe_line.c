@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:08 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:43:09 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:51:14 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env);
 static void	end_line_handle(t_exdat *data, t_env *env);
-static void	invoke_builtin(t_command *cmd, t_env *env);
+static void	invoke_builtin(t_command *cmd, t_env *env, t_exdat *data,
+				t_command *head);
 
-int	call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data)
+int	call_pipe_line(t_command **cmd_lst, t_env *env,
+	t_exdat *data, t_command *head)
 {
 	while ((*cmd_lst))
 	{
@@ -28,7 +30,7 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env, t_exdat *data)
 		{
 			pre_handle((*cmd_lst), data, env);
 			if ((*cmd_lst)->builtin_flag)
-				invoke_builtin((*cmd_lst), env);
+				invoke_builtin((*cmd_lst), env, data, head);
 			else
 				call_execve((*cmd_lst), env);
 		}
@@ -54,9 +56,10 @@ static void	end_line_handle(t_exdat *data, t_env *env)
 	close_all_pipes(data->pipefd);
 }
 
-static void	invoke_builtin(t_command *cmd, t_env *env)
+static void	invoke_builtin(t_command *cmd, t_env *env,
+	t_exdat *data, t_command *head)
 {
-	call_builtin(cmd, env);
+	call_builtin(cmd, env, data, head);
 	exit(env->last_exit_status);
 }
 

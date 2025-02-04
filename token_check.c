@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:23 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 13:06:31 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:49:57 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 {
 	t_data	flags;
 	char	*new_input;
+	char	*tmp;
 
 	flag_count(token_lst, &flags);
 	if (flags.rd_flag || flags.pipe_flag > 1)
@@ -31,7 +32,7 @@ int	check_tokens(char **input, t_token *token_lst, t_env *env)
 	}
 	else if (flags.pipe_flag)
 	{
-		char *tmp = *input;
+		tmp = *input;
 		new_input = ending_pipe_handle();
 		*input = new_input;
 		free(tmp);

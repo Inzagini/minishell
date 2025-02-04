@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+         #
+#    By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/04 11:43:52 by pbuchter          #+#    #+#              #
-#    Updated: 2025/02/04 11:59:12 by pbuchter         ###   ########.fr        #
+#    Updated: 2025/02/04 14:52:55 by quannguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -g -Wall -Wextra -Werror
 INCLUDES = includes
 
 NAME = minishell

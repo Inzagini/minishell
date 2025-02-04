@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   build_in_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:42:44 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 13:10:07 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:48:27 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_allnums(char *str);
-int	ft_atouc(char *str);
+static int	is_allnums(char *str);
+static int	ft_atouc(char *str);
+static void	clean_b4_exit(t_env *env, t_command *head, t_exdat *data);
 
-void	ft_exit(t_command *cmd, t_env *env)
+void	ft_exit(t_command *cmd, t_env *env, t_command *head, t_exdat *data)
 {
 	int	exit_code;
 
@@ -38,13 +39,11 @@ void	ft_exit(t_command *cmd, t_env *env)
 	}
 	printf("exit\n");
 	exit_code = env->last_exit_status;
-	clean_env(env);
-	clean_commands(cmd);
-	rl_clear_history();
+	clean_b4_exit(env, head, data);
 	exit(exit_code);
 }
 
-int	is_allnums(char *str)
+static int	is_allnums(char *str)
 {
 	int	index;
 
@@ -59,7 +58,7 @@ int	is_allnums(char *str)
 	return (0);
 }
 
-int	ft_atouc(char *str)
+static int	ft_atouc(char *str)
 {
 	uint64_t	result;
 	int			index;
@@ -82,4 +81,12 @@ int	ft_atouc(char *str)
 		return (-1);
 	result = (unsigned char) result;
 	return ((int)(sign * result));
+}
+
+static	void	clean_b4_exit(t_env *env, t_command *head, t_exdat *data)
+{
+	clean_env(env);
+	clean_commands(head);
+	free(data);
+	rl_clear_history();
 }
