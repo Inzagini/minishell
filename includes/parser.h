@@ -73,6 +73,4 @@ void		clean_parser(t_parser *parser);
 void		clean_commands(t_command *cmd_list);
 void		clean_cmd_list(t_command **cmd_list);
 
-void print_command(t_command *cmd); //to delete
-
 #endif
