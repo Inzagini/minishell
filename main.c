@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:46 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:43:47 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:14:41 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ int	main(int argc, char **argv, char **envp)
 int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 {
 	head = NULL;
-	if (input)
-		free (input);
 	input = readline("BROKEN_SHELL: ");
 	if (!input)
 		return (write(1, "exit\n", 5), 0);

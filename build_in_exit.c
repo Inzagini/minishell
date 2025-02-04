@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:42:44 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:42:45 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:10:07 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_atouc(char *str);
 
 void	ft_exit(t_command *cmd, t_env *env)
 {
+	int	exit_code;
+
 	if (cmd->args[1] != NULL)
 	{
 		if (is_allnums(cmd->args[1]) || ft_atouc(cmd->args[1]) == -1)
@@ -35,10 +37,11 @@ void	ft_exit(t_command *cmd, t_env *env)
 			env->last_exit_status = ft_atouc(cmd->args[1]);
 	}
 	printf("exit\n");
+	exit_code = env->last_exit_status;
 	clean_env(env);
 	clean_commands(cmd);
 	rl_clear_history();
-	exit(env->last_exit_status);
+	exit(exit_code);
 }
 
 int	is_allnums(char *str)
