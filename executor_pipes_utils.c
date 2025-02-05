@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:11 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 15:53:49 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:57:41 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	close_child_pipes(t_command *lst_cmd, int pipefd[2][2])
 {
 	close(pipefd[1 - (lst_cmd->id + 1) % 2][0]);
 	close(pipefd[(lst_cmd->id + 1) % 2][1]);
+	close(pipefd[(lst_cmd->id + 1) % 2][0]);
 }
 
 void	close_parent_pipes(t_command *lst_cmd, int pipefd[2][2])
