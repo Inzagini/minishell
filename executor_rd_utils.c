@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:16 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 15:52:41 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:09:37 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 		else
 		{
 			data->in_fd = open(cmd_node->redir_file_in, O_RDONLY);
-			close(data->pipefd[1 - (cmd_node->id + 1) % 2][0]); // new
+			close(data->pipefd[1 - (cmd_node->id + 1) % 2][0]);
 			if (data->in_fd < 0)
 				return (perror("Open infile:"), 1);
 		}

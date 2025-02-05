@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:08 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 15:23:28 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:08:18 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env,
 				call_execve((*cmd_lst), env);
 		}
 		end_process_wait(*cmd_lst, env, data);
-		close_parent_pipes((*cmd_lst), data->pipefd);
 		(*cmd_lst) = (*cmd_lst)->next;
 		if ((*cmd_lst) && (*cmd_lst)->redir_in == 0)
 			break ;
@@ -55,6 +54,7 @@ static void	end_process_wait(t_command *cmd_lst, t_env *env, t_exdat *data)
 		waitpid(env->child_pid, &(data->status), 0);
 	if (cmd_lst->redir_in == 1)
 		data->rd_in = 1;
+	close_parent_pipes(cmd_lst, data->pipefd);
 }
 
 static void	end_line_handle(t_exdat *data, t_env *env)
