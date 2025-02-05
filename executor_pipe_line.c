@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:08 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 15:40:35 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:23:28 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env,
 			wait(&(data->status));
 		if (env->child_pid == 0)
 		{
+			if ((*cmd_lst)->id == 0)
+				close(data->pipefd[0][1]);
 			pre_handle((*cmd_lst), data, env);
 			if ((*cmd_lst)->builtin_flag)
 				invoke_builtin((*cmd_lst), env, data, head);
