@@ -6,11 +6,13 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:43 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 17:09:05 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/05 10:04:48 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static t_command	*set_empty_arg(t_command *cmd, int i);
 
 t_command	*expander(t_command *cmd_list, t_env *env)
 {
@@ -27,38 +29,41 @@ t_command	*expander(t_command *cmd_list, t_env *env)
 
 void	remove_empty_arguments(t_command *cmd_list)
 {
-	t_command	*curr;
 	int			i;
 	int			j;
 
-	curr = cmd_list;
-	while (curr)
+	while (cmd_list)
 	{
 		i = 0;
-		while (curr->args[i])
+		while (cmd_list->args[i])
 		{
-			if (!curr->args[i][0] && curr->quotes[i] == 0)
+			if (!cmd_list->args[i][0] && cmd_list->quotes[i] == 0)
 			{
-				free(curr->args[i]);
+				free(cmd_list->args[i]);
 				j = i;
-				while (curr->args[j + 1])
+				while (cmd_list->args[j + 1])
 				{
-					curr->args[j] = curr->args[j + 1];
-					curr->quotes[j] = curr->quotes[j + 1];
+					cmd_list->args[j] = cmd_list->args[j + 1];
+					cmd_list->quotes[j] = cmd_list->quotes[j + 1];
 					j++;
 				}
-				curr->args[j] = NULL;
-				curr->quotes[j] = 0;
-				continue;
+				cmd_list->args[j] = NULL;
+				continue ;
 			}
 			i++;
 		}
-		if (i == 0 && curr->quotes[i] == 0)
-			curr->args[i] = ft_strdup("");
-		else if (!curr->args[0][0] && curr->quotes[0] == 2)
-			curr->args[0] = NULL;
-		curr = curr->next;
+		cmd_list = set_empty_arg(cmd_list, i);
 	}
+}
+
+static t_command	*set_empty_arg(t_command *cmd, int i)
+{
+	if (i == 0 && cmd->quotes[0] == 0)
+		cmd->args[0] = ft_strdup("");
+	else if (!cmd->args[0][0] && cmd->quotes[0] == 2)
+		cmd->args[0] = NULL;
+	cmd = cmd->next;
+	return (cmd);
 }
 
 void	check_builtins(t_command *cmd_list)

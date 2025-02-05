@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:41:48 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 15:10:41 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/05 09:51:47 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,5 @@ typedef struct s_env
 }	t_env;
 
 int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env);
-
-void print_command(t_command *cmd);
-
 
 #endif
