@@ -29,3 +29,4 @@ echo << (currently double free)
 
 norminette -R CheckForbiddenSourceHeader
 norminette -R CheckDefine
+valgrind --track-fds=yes --track-origins=yes  ./minishell

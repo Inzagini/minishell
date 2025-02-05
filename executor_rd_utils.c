@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_rd_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:16 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 15:31:15 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:52:41 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	redirect_in_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 		perror("dup2 in");
 		return (1);
 	}
+	if (data->in_fd != STDIN_FILENO)
+		close(data->in_fd);
 	return (0);
 }
 
@@ -61,6 +63,8 @@ int	redirect_out_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 		perror("dup2 out");
 		return (1);
 	}
+	if (data->out_fd != STDOUT_FILENO)
+		close(data->out_fd);
 	return (0);
 }
 
