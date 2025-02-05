@@ -39,7 +39,9 @@ int	redirect_in_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 		return (1);
 	}
 	if (data->in_fd != STDIN_FILENO)
+	{
 		close(data->in_fd);
+	}
 	return (0);
 }
 
@@ -64,7 +66,9 @@ int	redirect_out_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 		return (1);
 	}
 	if (data->out_fd != STDOUT_FILENO)
+	{
 		close(data->out_fd);
+	}
 	return (0);
 }
 
@@ -82,7 +86,6 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 		else
 		{
 			data->in_fd = open(cmd_node->redir_file_in, O_RDONLY);
-			close(data->pipefd[1 - (cmd_node->id + 1) % 2][0]);
 			if (data->in_fd < 0)
 				return (perror("Open infile:"), 1);
 		}

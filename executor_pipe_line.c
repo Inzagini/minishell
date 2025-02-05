@@ -27,12 +27,10 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env,
 		env->child_pid = fork();
 		if (env->child_pid < 0)
 			return (perror("Fork:"), errno);
-		if ((*cmd_lst)->id != 0)
-			wait(&(data->status));
+		// if ((*cmd_lst)->id != 0)
+		// 	wait(&(data->status));
 		if (env->child_pid == 0)
 		{
-			if ((*cmd_lst)->id == 0)
-				close(data->pipefd[0][1]);
 			pre_handle((*cmd_lst), data, env);
 			if ((*cmd_lst)->builtin_flag)
 				invoke_builtin((*cmd_lst), env, data, head);
@@ -59,11 +57,17 @@ static void	end_process_wait(t_command *cmd_lst, t_env *env, t_exdat *data)
 
 static void	end_line_handle(t_exdat *data, t_env *env)
 {
-	if (data->rd_in)
-		waitpid(env->child_pid, &(data->status), 0);
-	else
-		wait(&(data->status));
 	close_all_pipes(data->pipefd);
+	pid_t	pd;
+	while ((pd = wait(&(data->status))) > 0)
+	{
+		if (pd == env->child_pid)
+			printf("%d\n",ft_wiexitstatus(data->status));
+	}
+	// if (data->rd_in)
+	// 	waitpid(env->child_pid, &(data->status), 0);
+	// else
+	// 	wait(&(data->status));
 }
 
 static void	invoke_builtin(t_command *cmd, t_env *env,
@@ -79,6 +83,7 @@ static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env)
 		return (close_child_pipes(cmd, data->pipefd), exit (1), 1);
 	if (redirect_out_handle(cmd, data, env))
 		return (close_child_pipes(cmd, data->pipefd), exit (1), 1);
-	close_child_pipes(cmd, data->pipefd);
+	// close_child_pipes(cmd, data->pipefd);
+	close_all_pipes(data->pipefd);
 	return (0);
 }

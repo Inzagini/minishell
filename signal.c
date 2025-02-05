@@ -42,13 +42,11 @@ void	signal_handle(int sig)
 void	signal_setup(void)
 {
 	struct sigaction	sa;
-	int					i;
 
 	sa.sa_handler = signal_handle;
 	sa.sa_flags = SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
-	i = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGSTOP, SIG_IGN);
 }
