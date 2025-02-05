@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:27 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 16:26:06 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:15:11 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 	split->expanded = expand_argument(arg->content, env, split->expanded);
 	if (!split->expanded)
 		return (1);
+	free(arg->content);
 	split->split_tokens = ft_split(split->expanded, ' ');
 	free(split->expanded);
 	if (!split->split_tokens || !split->split_tokens[0])
-		return (1);
+		return (free(split->split_tokens), 1);
 	while (split->split_tokens[split->count_token])
 		split->count_token++;
 	if (split->count_token == 1)

@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:43 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 10:04:48 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:38:20 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ static t_command	*set_empty_arg(t_command *cmd, int i)
 	if (i == 0 && cmd->quotes[0] == 0)
 		cmd->args[0] = ft_strdup("");
 	else if (!cmd->args[0][0] && cmd->quotes[0] == 2)
+	{
+		free (cmd->args[0]);
 		cmd->args[0] = NULL;
+	}
 	cmd = cmd->next;
 	return (cmd);
 }
