@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:41:30 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 09:53:02 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:01:20 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef struct s_executor_data
 	int		out_fd;
 	int		rd_in;
 	int		status;
+	int		origin_in;
+	int		origin_out;
 }	t_exdat;
 
 typedef struct s_heredoc

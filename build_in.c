@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:03 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 14:51:55 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:04:29 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ static void	reset_fds(int origin_in, int origin_out);
 void	execute_build_in(t_command *cmd, t_env *env,
 	t_exdat *data, t_command *head)
 {
-	int		origin_in;
-	int		origin_out;
-
-	origin_in = dup(STDIN_FILENO);
-	origin_out = dup(STDOUT_FILENO);
+	data->origin_in = dup(STDIN_FILENO);
+	data->origin_out = dup(STDOUT_FILENO);
 	if (executor_init(data))
 		return ;
 	if (pipe(data->pipefd[1]) == -1)
@@ -33,12 +30,12 @@ void	execute_build_in(t_command *cmd, t_env *env,
 	if (pre_handle(cmd, data, env))
 	{
 		env->last_exit_status = 1;
-		reset_fds(origin_in, origin_out);
+		reset_fds(data->origin_in, data->origin_out);
 		return ;
 	}
 	call_builtin(cmd, env, data, head);
 	close(data->pipefd[1 - ((cmd->id + 1) % 2)][1]);
-	reset_fds(origin_in, origin_out);
+	reset_fds(data->origin_in, data->origin_out);
 }
 
 void	call_builtin(t_command *cmd, t_env *env,
