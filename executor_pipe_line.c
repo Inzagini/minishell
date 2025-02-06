@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:08 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 16:08:18 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:28:36 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	call_pipe_line(t_command **cmd_lst, t_env *env,
 		env->child_pid = fork();
 		if (env->child_pid < 0)
 			return (perror("Fork:"), errno);
-		// if ((*cmd_lst)->id != 0)
-		// 	wait(&(data->status));
 		if (env->child_pid == 0)
 		{
 			pre_handle((*cmd_lst), data, env);
@@ -57,17 +55,18 @@ static void	end_process_wait(t_command *cmd_lst, t_env *env, t_exdat *data)
 
 static void	end_line_handle(t_exdat *data, t_env *env)
 {
+	pid_t	pid;
+	int		last_status;
+
+	pid = 1;
 	close_all_pipes(data->pipefd);
-	pid_t	pd;
-	while ((pd = wait(&(data->status))) > 0)
+	while (pid > 0)
 	{
-		if (pd == env->child_pid)
-			printf("%d\n",ft_wiexitstatus(data->status));
+		pid = wait(&(data->status));
+		if (pid == env->child_pid)
+			last_status = data->status;
 	}
-	// if (data->rd_in)
-	// 	waitpid(env->child_pid, &(data->status), 0);
-	// else
-	// 	wait(&(data->status));
+	data->status = last_status;
 }
 
 static void	invoke_builtin(t_command *cmd, t_env *env,
@@ -80,10 +79,9 @@ static void	invoke_builtin(t_command *cmd, t_env *env,
 static int	pre_handle(t_command *cmd, t_exdat *data, t_env *env)
 {
 	if (redirect_in_handle(cmd, data, env))
-		return (close_child_pipes(cmd, data->pipefd), exit (1), 1);
+		return (close_all_pipes(data->pipefd), exit (1), 1);
 	if (redirect_out_handle(cmd, data, env))
-		return (close_child_pipes(cmd, data->pipefd), exit (1), 1);
-	// close_child_pipes(cmd, data->pipefd);
+		return (close_all_pipes(data->pipefd), exit (1), 1);
 	close_all_pipes(data->pipefd);
 	return (0);
 }
