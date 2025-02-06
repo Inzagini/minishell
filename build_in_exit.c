@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:42:44 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 14:33:14 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:03:59 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	ft_exit(t_command *cmd, t_env *env, t_command *head, t_exdat *data)
 		else
 			env->last_exit_status = ft_atouc(cmd->args[1]);
 	}
-	printf("exit\n");
+	if (cmd->id == 0 && cmd->redir_out == 0 && cmd->redir_in < 2)
+		printf("exit\n");
 	exit_code = env->last_exit_status;
 	clean_b4_exit(env, head, data);
 	exit(exit_code);
