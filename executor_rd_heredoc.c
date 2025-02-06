@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   executor_rd_heredoc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:13 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:43:14 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:01:36 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	init(t_command *cmd_node, t_here_doc *doc);
-static void	term(t_here_doc *doc);
+static void	term(t_here_doc *doc, t_exdat *data);
 static int	write_pipe(t_here_doc *doc, t_env *env);
 
-int	here_doc_handle(t_command *cmd_node, t_env *env)
+int	here_doc_handle(t_command *cmd_node, t_env *env, t_exdat *data)
 {
 	t_here_doc	doc;
 
@@ -41,7 +41,7 @@ int	here_doc_handle(t_command *cmd_node, t_env *env)
 		if (write_pipe(&doc, env) == -1)
 			break ;
 	}
-	term(&doc);
+	term(&doc, data);
 	return (doc.pipefd[0]);
 }
 
@@ -85,7 +85,7 @@ static void	init(t_command *cmd_node, t_here_doc *doc)
 	sigaction(SIGINT, &doc->sa_new, &doc->sa_old);
 }
 
-static void	term(t_here_doc *doc)
+static void	term(t_here_doc *doc, t_exdat *data)
 {
 	close(doc->pipefd[1]);
 	sigaction(SIGINT, &doc->sa_old, NULL);
@@ -96,6 +96,7 @@ static void	term(t_here_doc *doc)
 	}
 	if (g_heredoc_interrupted)
 	{
+		close_all_pipes(data->pipefd);
 		close(doc->pipefd[0]);
 		exit(130);
 	}

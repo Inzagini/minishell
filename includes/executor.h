@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:41:30 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 14:01:20 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:21:57 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	print_err(char *prefix, char *msg, char *name);
 void	print_err_long(char *prefix, char *function, char *msg, char *attrib);
 char	*ft_get(char *name, char **env);
 int		ft_wiexitstatus(int status);
-int		exit_check(t_env *env);
 
 //build-in export functions
 void	check_add_vars(t_command *cmd, t_env *env, int i);

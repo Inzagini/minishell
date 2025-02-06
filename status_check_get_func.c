@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   status_check_get_func.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:11 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:46:12 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:21:36 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_wifexisted(int status)
-{
-	return ((status & 0xFF) == 0);
-}
 
 int	ft_wiexitstatus(int status)
 {
@@ -35,18 +30,4 @@ char	*ft_get(char *name, char **env)
 		env++;
 	}
 	return (NULL);
-}
-
-int	exit_check(t_env *env)
-{
-	int	last_status;
-	int	status;
-
-	status = 0;
-	last_status = 0;
-	waitpid(env->prev_pid, &status, 0);
-	last_status = ft_wiexitstatus(status);
-	if (ft_wiexitstatus(status) != 0)
-		return (last_status);
-	return (0);
 }

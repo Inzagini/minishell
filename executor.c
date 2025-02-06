@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:22 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 13:57:21 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:06:32 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ int	executor_init(t_exdat *data)
 	data->in_fd = 0;
 	data->out_fd = 1;
 	data->rd_in = 0;
+	data->status = 0;
 	return (0);
 }

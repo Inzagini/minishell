@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:16 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 16:09:37 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:59:48 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env);
 int	open_outfile_handle(t_command *cmd_node, t_exdat *data, t_env *env);
-int	here_doc_handle(t_command *cmd_node, t_env *env);
+int	here_doc_handle(t_command *cmd_node, t_env *env, t_exdat *data);
 
 int	redirect_in_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 {
@@ -92,7 +92,7 @@ int	open_infile_handle(t_command *cmd_node, t_exdat *data, t_env *env)
 	}
 	else if (cmd_node->redir_in == 2)
 	{
-		data->in_fd = here_doc_handle(cmd_node, env);
+		data->in_fd = here_doc_handle(cmd_node, env, data);
 		if (data->in_fd == -1)
 			return (1);
 	}

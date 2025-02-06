@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:08 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 09:47:58 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:27:43 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,18 @@ static void	end_line_handle(t_exdat *data, t_env *env)
 	int		last_status;
 
 	pid = 1;
+	last_status = -1;
 	close_all_pipes(data->pipefd);
 	while (pid > 0)
 	{
 		pid = wait(&(data->status));
 		if (pid == env->child_pid)
+		{
 			last_status = data->status;
+		}
 	}
-	data->status = last_status;
+	if (last_status != -1)
+		data->status = last_status;
 }
 
 static void	invoke_builtin(t_command *cmd, t_env *env,
