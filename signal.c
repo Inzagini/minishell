@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:09 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 15:22:17 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:29:15 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/ioctl.h>
 
-volatile sig_atomic_t	g_sigint;
+int	g_sigint;
 
 void	heredoc_signal_handler(int sig)
 {
@@ -30,7 +30,7 @@ void	heredoc_signal_handler(int sig)
 void	signal_handle(int sig)
 {
 	char	nl;
-	
+
 	if (sig == SIGINT)
 	{
 		g_sigint = 1;
