@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:41:48 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 12:43:50 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:46:32 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_env
 	int		last_exit_status;
 	char	*shell_name;
 	char	*shell_var;
+	char	*home_default;
 	pid_t	child_pid;
 }	t_env;
 

@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:42:26 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 13:41:22 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:35:56 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ void	ft_cd(t_command *cmd, t_env *env)
 	env->last_exit_status = 0;
 	if (cmd->args[1] == NULL)
 	{
-		if (chdir(ft_get("HOME", env->env)) == -1)
-		{
+		if (ft_get("HOME", env->env) == NULL)
 			print_err(ft_get("SHELL", env->env),
-				strerror(errno), cmd->args[1]);
-			env->last_exit_status = 1;
-		}
+				cmd->args[0], "HOME not set");
+		else
+			print_err(ft_get("SHELL", env->env),
+				ft_get("HOME", env->env), "No such file or directory");
+		env->last_exit_status = 1;
 	}
 	else if (cmd->args[2] != NULL)
 	{

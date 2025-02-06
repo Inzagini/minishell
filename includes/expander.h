@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:41:40 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:41:44 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:10:50 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void		merge_tokens(t_token *first, t_token *second);
 
 // expander_special.c
 int			expand_tilde(t_env *env, t_command *cmd_list);
-char		*replace_tilde(const char *content, char **env);
+char		*replace_tilde(char *content, t_env *env);
 int			expand_special(t_env *env, t_command *cmd_list);
 char		*replace_special(char *content, int status, char *find);
 char		*create_special(int new_len, char *special,

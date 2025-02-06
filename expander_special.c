@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:43 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:46:44 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:10:32 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	expand_tilde(t_env *env, t_command *cmd_list)
 		{
 			if (arg->quote_identifier == 0 && arg->content[0] == '~')
 			{
-				arg->content = replace_tilde(arg->content, env->env);
+				arg->content = replace_tilde(arg->content, env);
 				if (!arg->content)
 					return (1);
 			}
@@ -36,7 +36,7 @@ int	expand_tilde(t_env *env, t_command *cmd_list)
 	return (0);
 }
 
-char	*replace_tilde(const char *content, char **env)
+char	*replace_tilde(char *content, t_env *env)
 {
 	char	*home;
 	char	*result;
@@ -44,16 +44,17 @@ char	*replace_tilde(const char *content, char **env)
 
 	if (!content || (content[0] != '~')
 		|| (content[1] && content[1] != '/' && content[1] != '\0'))
-		return (ft_strdup(content));
-	home = find_var(env, "HOME");
-	if (!home)
-		return (ft_strdup(content));
+		return (content);
+	home = find_var(env->env, "HOME");
+	if (!home[0])
+		home = env->home_default;
 	result_len = ft_strlen(home) + ft_strlen(content);
 	result = malloc(result_len * sizeof(char));
 	if (!result)
 		return (NULL);
 	ft_strlcpy(result, home, result_len);
 	ft_strlcat(result, content + 1, result_len);
+	free (content);
 	return (result);
 }
 
