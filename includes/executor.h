@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:41:30 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 11:21:57 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:46:56 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXECUTOR_H
 
 # define PATH_MAX 4096
+# define HEREDOC_WARNING "warning: here-document delimited by end-of-file"
 
 typedef struct s_executor_data
 {
