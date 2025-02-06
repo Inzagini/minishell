@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:24 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:43:25 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:24:18 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	remove_token(t_token **arg_list, t_token *token)
 		if (prev)
 			prev->next = token->next;
 	}
-	free(token->content);
+	if (token->content)
+		free(token->content);
 	token->content = NULL;
 	free(token);
 	token = NULL;

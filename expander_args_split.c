@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:27 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 16:15:11 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:24:36 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 	split->expanded = expand_argument(arg->content, env, split->expanded);
 	if (!split->expanded)
 		return (1);
-	free(arg->content);
 	split->split_tokens = ft_split(split->expanded, ' ');
 	free(split->expanded);
 	if (!split->split_tokens || !split->split_tokens[0])
@@ -36,6 +35,8 @@ int	init_split(t_split *split, char **env, t_token **arg_list, t_token *arg)
 	split->merge_next = 0;
 	if (split->next && arg->arg_group_id == split->next->arg_group_id)
 		split->merge_next = 1;
+	free(arg->content);
+	arg->content = NULL;
 	update_arg_ids(split, arg);
 	return (0);
 }
