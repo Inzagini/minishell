@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirects_double.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:45:56 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:45:57 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:38:53 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	set_redirect_append(t_parser *parser)
 			| O_CREAT | O_WRONLY, 0644);
 	if (fd < 0)
 		parser->invalid_redirect_out = 1;
-	close (fd);
+	if (fd > 0)
+		close (fd);
 	return (0);
 }

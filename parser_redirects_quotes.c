@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirects_quotes.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:03 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:46:04 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:37:12 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	set_redirect_out(t_parser *parser)
 	if ((access(parser->redir_file_out, F_OK) == -1)
 		|| (access(parser->redir_file_out, W_OK) == -1))
 		parser->invalid_redirect_out = 1;
-	close (fd);
+	if (fd > 0)
+		close (fd);
 	return (0);
 }
