@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:46 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/05 14:03:55 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:37:37 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int	main_loop(t_token *head, char *input, t_command *cmd_list, t_env *env)
 {
 	head = NULL;
 	input = readline("BROKEN_SHELL: ");
+	if (g_sigint == 1)
+	{
+		env->last_exit_status = 130;
+		g_sigint = 0;
+	}
 	if (!input)
 		return (write(1, "exit\n", 5), 0);
 	if (input[0])

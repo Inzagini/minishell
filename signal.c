@@ -6,14 +6,14 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:09 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 10:50:02 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:37:46 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/ioctl.h>
 
-volatile sig_atomic_t	g_heredoc_interrupted;
+volatile sig_atomic_t	g_sigint;
 
 void	heredoc_signal_handler(int sig)
 {
@@ -21,7 +21,7 @@ void	heredoc_signal_handler(int sig)
 
 	if (sig == SIGINT)
 	{
-		g_heredoc_interrupted = 1;
+		g_sigint = 1;
 		nl = '\n';
 		ioctl(STDIN_FILENO, TIOCSTI, &nl);
 	}
@@ -29,13 +29,18 @@ void	heredoc_signal_handler(int sig)
 
 void	signal_handle(int sig)
 {
+	char	nl;
 	if (sig == SIGINT)
 	{
+		g_sigint = 1;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		if (!rl_done)
 			rl_redisplay();
+		rl_done = 1;
+		nl = 4;
+		ioctl(STDIN_FILENO, TIOCSTI, &nl);
 	}
 }
 

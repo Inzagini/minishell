@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_rd_heredoc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:13 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 11:48:21 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:38:05 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,11 @@ static void	term(t_here_doc *doc, t_exdat *data)
 		close(doc->pipefd[0]);
 		exit (EXIT_FAILURE);
 	}
-	if (g_heredoc_interrupted)
+	if (g_sigint)
 	{
 		close_all_pipes(data->pipefd);
 		close(doc->pipefd[0]);
+		g_sigint = 0;
 		exit(130);
 	}
 }
