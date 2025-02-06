@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   build_in_direct.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:42:26 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 14:35:56 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:59:39 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	export_free(char *pwd, char *old_pwd, t_env *env);
+static void	cd_error(t_env *env, char *msg1, char *msg2);
 
 void	ft_pwd(t_env *env)
 {
@@ -30,25 +31,15 @@ void	ft_cd(t_command *cmd, t_env *env)
 	if (cmd->args[1] == NULL)
 	{
 		if (ft_get("HOME", env->env) == NULL)
-			print_err(ft_get("SHELL", env->env),
-				cmd->args[0], "HOME not set");
-		else
-			print_err(ft_get("SHELL", env->env),
-				ft_get("HOME", env->env), "No such file or directory");
-		env->last_exit_status = 1;
+			cd_error(env, cmd->args[0], "HOME not set");
+		else if (chdir(ft_get("HOME", env->env)) == -1)
+			cd_error(env, ft_get("HOME", env->env),
+				"No such file or directory");
 	}
 	else if (cmd->args[2] != NULL)
-	{
-		print_err(ft_get("SHELL", env->env),
-			"too many arguments", "cd");
-		env->last_exit_status = 1;
-	}
+		cd_error(env, "too many arguments", "cd");
 	else if (chdir(cmd->args[1]) == -1)
-	{
-		print_err(ft_get("SHELL", env->env),
-			strerror(errno), cmd->args[1]);
-		env->last_exit_status = 1;
-	}
+		cd_error(env, strerror(errno), cmd->args[1]);
 	update_pwd(env);
 	return ;
 }
@@ -79,6 +70,12 @@ void	update_pwd(t_env *env)
 		return ;
 	}
 	export_free(pwd, old_pwd, env);
+}
+
+static void	cd_error(t_env *env, char *msg1, char *msg2)
+{
+	print_err(ft_get("SHELL", env->env), msg1, msg2);
+	env->last_exit_status = 1;
 }
 
 static void	export_free(char *pwd, char *old_pwd, t_env *env)
