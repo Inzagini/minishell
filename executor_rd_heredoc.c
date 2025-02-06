@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_rd_heredoc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:13 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 11:01:36 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:37:00 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ int	here_doc_handle(t_command *cmd_node, t_env *env, t_exdat *data)
 		}
 		if (ft_strncmp(doc.line, doc.delimiter,
 				ft_strlen(doc.delimiter) + 1) == 0)
+		{
+			free(doc.line);
 			break ;
+		}
 		if (write_pipe(&doc, env) == -1)
 			break ;
 	}
-	term(&doc, data);
-	return (doc.pipefd[0]);
+	return (term(&doc, data), doc.pipefd[0]);
 }
 
 static int	write_pipe(t_here_doc *doc, t_env *env)
@@ -66,6 +68,7 @@ static int	write_pipe(t_here_doc *doc, t_env *env)
 	}
 	else
 		write(doc->pipefd[1], doc->line, ft_strlen(doc->line));
+	free(doc->line);
 	return (0);
 }
 
