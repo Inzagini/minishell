@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:38 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 14:20:03 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:21:45 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ t_env	*init_env(char **envp)
 	env->cmd_paths = ft_split(env->full_path, ':');
 	if (!env->cmd_paths)
 		return (clean_env(env), free(env), NULL);
-	if(!ft_get("HOME", env->env))
-		env->home_default =  ft_strdup("");
+	if (!ft_get("HOME", env->env))
+		env->home_default = ft_strdup("");
 	else
 		env->home_default = ft_strdup(ft_get("HOME", env->env));
 	return (env);

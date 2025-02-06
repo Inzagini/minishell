@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:09 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 14:37:46 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:22:17 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	heredoc_signal_handler(int sig)
 void	signal_handle(int sig)
 {
 	char	nl;
+	
 	if (sig == SIGINT)
 	{
 		g_sigint = 1;
