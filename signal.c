@@ -6,7 +6,7 @@
 /*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:09 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 15:29:15 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:32:23 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ int	g_sigint;
 
 void	heredoc_signal_handler(int sig)
 {
-	char	nl;
+	char	eot;
 
 	if (sig == SIGINT)
 	{
 		g_sigint = 1;
-		nl = '\n';
-		ioctl(STDIN_FILENO, TIOCSTI, &nl);
+		eot = 4;
+		rl_done = 1;
+		ioctl(STDIN_FILENO, TIOCSTI, &eot);
 	}
 }
 
 void	signal_handle(int sig)
 {
-	char	nl;
+	char	eot;
 
 	if (sig == SIGINT)
 	{
@@ -40,8 +41,8 @@ void	signal_handle(int sig)
 		if (!rl_done)
 			rl_redisplay();
 		rl_done = 1;
-		nl = 4;
-		ioctl(STDIN_FILENO, TIOCSTI, &nl);
+		eot = 4;
+		ioctl(STDIN_FILENO, TIOCSTI, &eot);
 	}
 }
 
