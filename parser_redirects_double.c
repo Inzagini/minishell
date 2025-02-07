@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirects_double.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:45:56 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 09:38:53 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:23:48 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	set_redirect_append(t_parser *parser)
 	if (!parser->redir_file_out)
 		return (clean_parser(parser), 1);
 	parser->redir_out = 2;
-	fd = open(parser->redir_file_out, O_TRUNC
+	fd = open(parser->redir_file_out, O_APPEND
 			| O_CREAT | O_WRONLY, 0644);
 	if (fd < 0)
 		parser->invalid_redirect_out = 1;
