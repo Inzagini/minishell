@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_rd_heredoc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:13 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 14:38:05 by quannguy         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:47:04 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,14 @@ int	here_doc_handle(t_command *cmd_node, t_env *env, t_exdat *data)
 	while (1)
 	{
 		doc.line = readline("> ");
+		if (g_sigint)
+			term(&doc, data);
 		if (!doc.line)
-		{
 			print_err(ft_get("SHELL", env->env), HEREDOC_WARNING, NULL);
-			break ;
-		}
 		if (doc.line[0] == '\0')
 		{
 			free(doc.line);
-			break ;
+			continue ;
 		}
 		if (check_delim(&doc) == 0)
 		{

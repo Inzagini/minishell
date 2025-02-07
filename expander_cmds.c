@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:43:35 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/07 16:15:26 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:47:37 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*get_cmd(char **paths, char *cmd)
 void	expand_commands(t_env *env, t_command *cmd_list)
 {
 	char	*command;
-	char	*cmd_paths;
+	char	**cmd_paths;
 	char	*full_path;
 
 	full_path = find_path(env->env);
