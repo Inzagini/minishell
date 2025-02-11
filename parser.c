@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:06 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/06 10:26:31 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:55:31 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_command	*parser(t_token *token_list, t_env *env)
 			if (handle_pipes(&parser) == 1)
 				return (NULL);
 		}
+		handle_quote_flag(&parser, parser.token);
 		parser.token = parser.token->next;
 	}
 	if (parser.size > 0 && cmdnew(&parser) == 1)
@@ -60,6 +61,8 @@ void	initialize_parser(t_parser *parser, t_token *token_list)
 	parser->pipe_found = 0;
 	parser->invalid_redirect_in = 0;
 	parser->invalid_redirect_out = 0;
+	parser->open_dquote = 0;
+	parser->open_squote = 0;
 }
 
 void	reset_parser(t_parser *parser)
@@ -75,6 +78,8 @@ void	reset_parser(t_parser *parser)
 	parser->arg_tokens = NULL;
 	parser->invalid_redirect_in = 0;
 	parser->invalid_redirect_out = 0;
+	parser->open_dquote = 0;
+	parser->open_squote = 0;
 }
 
 int	add_argument_token(t_parser *parser)
@@ -88,7 +93,7 @@ int	add_argument_token(t_parser *parser)
 	new_token->content = ft_strdup(parser->token->content);
 	if (!new_token->content)
 		return (clean_parser(parser), free(new_token), 0);
-	set_quote_identifier(new_token, parser->token);
+	set_quote_identifier(new_token, parser->token, parser);
 	new_token->next = NULL;
 	new_token->arg_group_id = parser->arg_group_id;
 	new_token->arg_group_id_delta = 0;
@@ -105,18 +110,3 @@ int	add_argument_token(t_parser *parser)
 	return (1);
 }
 
-void	set_quote_identifier(t_token *new_token, t_token *current)
-{
-	if (current->previous && current->next)
-	{
-		if (current->previous->type == SQUOTE && current->next->type == SQUOTE)
-			new_token->quote_identifier = 1;
-		else if (current->previous->type
-			== DQUOTE && current->next->type == DQUOTE)
-			new_token->quote_identifier = 2;
-		else
-			new_token->quote_identifier = 0;
-	}
-	else
-		new_token->quote_identifier = 0;
-}

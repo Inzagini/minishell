@@ -6,7 +6,7 @@
 /*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:41:57 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/04 11:41:59 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:47:52 by pbuchter         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_parser
 	int			pipe_found;
 	int			invalid_redirect_in;
 	int			invalid_redirect_out;
+	int			open_squote;
+	int			open_dquote;
 }	t_parser;
 
 // parser.c
@@ -61,7 +63,10 @@ t_command	*parser(t_token *token_list, t_env *env);
 void		initialize_parser(t_parser *parser, t_token *token_list);
 void		reset_parser(t_parser *parser);
 int			add_argument_token(t_parser *parser);
-void		set_quote_identifier(t_token *new_token, t_token *current);
+
+// parser_quotes.c
+void		set_quote_identifier(t_token *new_token, t_token *current, t_parser *parser);
+void		handle_quote_flag(t_parser *parser, t_token *token);
 
 // parser_commands.c
 int			cmdnew(t_parser *parser);
