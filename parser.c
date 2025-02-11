@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:46:06 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/11 10:55:31 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:01:54 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,3 @@ int	add_argument_token(t_parser *parser)
 	parser->size++;
 	return (1);
 }
-

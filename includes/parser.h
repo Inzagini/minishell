@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:41:57 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/11 10:47:52 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:01:37 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void		reset_parser(t_parser *parser);
 int			add_argument_token(t_parser *parser);
 
 // parser_quotes.c
-void		set_quote_identifier(t_token *new_token, t_token *current, t_parser *parser);
+void		set_quote_identifier(t_token *new_token, t_token *current,
+				t_parser *parser);
 void		handle_quote_flag(t_parser *parser, t_token *token);
 
 // parser_commands.c

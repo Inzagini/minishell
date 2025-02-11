@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:54:08 by pbuchter          #+#    #+#             */
-/*   Updated: 2025/02/11 10:56:16 by pbuchter         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:01:15 by quannguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	handle_quote_flag(t_parser *parser, t_token *token)
 	}
 }
 
-void	set_quote_identifier(t_token *new_token, t_token *current, t_parser *parser)
+void	set_quote_identifier(t_token *new_token,
+	t_token *current, t_parser *parser)
 {
-	if (current->previous && current->next && (parser->open_squote == 1 || parser->open_dquote == 1))
+	if (current->previous && current->next
+		&& (parser->open_squote == 1 || parser->open_dquote == 1))
 	{
 		if (current->previous->type == SQUOTE && current->next->type == SQUOTE)
 			new_token->quote_identifier = 1;
@@ -45,5 +47,3 @@ void	set_quote_identifier(t_token *new_token, t_token *current, t_parser *parser
 	else
 		new_token->quote_identifier = 0;
 }
-
-
