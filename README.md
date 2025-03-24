@@ -23,7 +23,7 @@ The project focuses on understanding low-level **system calls**, **process contr
 
 ## ⚡ Installation
 
-Make sure you have `gcc` and `readline` installed on your system.
+Make sure you have `cc` and `readline` installed on your system.
 
 ```bash
 # Clone the repository
