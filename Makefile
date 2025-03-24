@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+         #
+#    By: quannguy <quannguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/04 11:43:52 by pbuchter          #+#    #+#              #
-#    Updated: 2025/02/17 16:50:38 by quannguy         ###   ########.fr        #
+#    Updated: 2025/03/24 14:05:20 by quannguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
+SRC_DIR = srcs
 SRCS =	build_in.c build_in_direct.c build_in_echo.c build_in_env.c \
 		build_in_exit.c build_in_export.c build_in_export_utils.c \
 		build_in_unset.c executor.c executor_call_execve.c \
@@ -32,7 +33,7 @@ SRCS =	build_in.c build_in_direct.c build_in_echo.c build_in_env.c \
 		token_cleaner.c token_func.c tokenizer.c token_construct.c \
 		token_check.c token_handle.c token_handle_quote.c token_handle_rd.c
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(SRCS:%.c=$(SRC_DIR)/%.o)
 
 all: $(LIBFT) $(NAME)
 
@@ -42,7 +43,7 @@ $(LIBFT):
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) -I. -I$(LIBFT_DIR) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 
-%.o: %.c
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -I$(INCLUDES) -Ilibft -c $< -o $@
 
 clean:
