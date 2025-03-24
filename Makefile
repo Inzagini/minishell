@@ -6,12 +6,12 @@
 #    By: pbuchter <pbuchter@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/04 11:43:52 by pbuchter          #+#    #+#              #
-#    Updated: 2025/02/11 10:56:05 by pbuchter         ###   ########.fr        #
+#    Updated: 2025/02/17 16:50:38 by quannguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 INCLUDES = includes
 
 NAME = minishell
