@@ -18,7 +18,7 @@ Make sure you have `gcc` and `readline` installed on your system.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/minishell.git
+git clone https://github.com/Inzagini/minishell.git
 cd minishell
 
 # Compile the shell
@@ -54,7 +54,7 @@ $ ls > output.txt
 | `env`    | Prints all environment variables |
 | `exit`   | Exits the shell |
 
-## 🎯 Signal Handling
+## 📶 Signal Handling
 
 | Shortcut  | Behavior |
 |-----------|----------|
@@ -69,7 +69,7 @@ minishell/
 │── src/          # Source code files
 │── include/      # Header files
 │── Makefile      # Compilation rules
-│── README.md     # This file!
+│── README.md
 ```
 
 ## 🛠 System Calls Used
@@ -81,7 +81,8 @@ minishell/
 
 ## 👨‍💻 Authors
 
-- **Your Name** - [GitHub Profile](https://github.com/yourusername)
+- [GitHub Profile](https://github.com/Inzagini)
+- [GitHub Profile](https://github.com/paul42b)
 
 ## 🌟 Acknowledgments
 
