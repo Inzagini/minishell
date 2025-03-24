@@ -11,7 +11,6 @@ A **minimalistic shell** inspired by **bash**, built in C! This project is part 
 ✅ Environment variable handling (e.g., `$HOME`, `$USER`)  
 ✅ **Signal handling** (Ctrl + C, Ctrl + D, Ctrl + \)  
 ✅ Built-in commands: `cd`, `echo`, `pwd`, `export`, `unset`, `env`, `exit`  
-✅ No memory leaks! 🧹
 
 ## ⚡ Installation
 
